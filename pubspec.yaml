@@ -50,6 +50,7 @@ flutter:
   assets:
      - assets/images/EducationCore.png
      - assets/images/ECore.png
+     - assets/images/ECore1.png
      - assets/images/SchoolManagement.png
      - assets/images/school.png
 
