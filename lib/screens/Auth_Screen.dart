@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-enum UserAuth { Login, SignUp, ForgotPassword }
+enum UserAuth { Login, SignUp }
+enum Gender {Male, Female, Others}
 
 class AuthScreen extends StatelessWidget {
   @override
@@ -10,13 +11,12 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ClipPath(
               clipper: WaveClipperOne(),
               child: Container(
-                height: 230,
+                height: MediaQuery.of(context).size.height / 3.4,
                 width: double.infinity,
                 color: Color.fromRGBO(255, 128, 0, 1.0),
                 child: Padding(
@@ -29,10 +29,8 @@ class AuthScreen extends StatelessWidget {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 220,
+              height: MediaQuery.of(context).size.height / 1.6,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
                     child: AuthCard(),
@@ -56,10 +54,11 @@ class _AuthCardState extends State<AuthCard>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _globalKey = GlobalKey();
   UserAuth _userAuth = UserAuth.Login;
+  Gender _gender = Gender.Male;
 
   Map<String, String> _userAuthData = {
     'username': '',
-    'mobileno': '',
+    'gender': '',
     'email': '',
     'password': '',
   };
@@ -167,6 +166,17 @@ class _AuthCardState extends State<AuthCard>
     });
   }
 
+  // String get currentGenderSelected {
+  //   switch (_gender) {
+  //     case Gender.female:
+  //       return "Female";
+  //     case Gender.male:
+  //       return "Male";
+  //     default:
+  //       return "Others";
+  //   }
+  // }
+
   void _switchAuthentication() {
     if (_userAuth == UserAuth.Login) {
       setState(() {
@@ -191,208 +201,281 @@ class _AuthCardState extends State<AuthCard>
           margin: EdgeInsets.symmetric(vertical: 20, horizontal: 22),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 _userAuth == UserAuth.SignUp
                     ? Column(
                         children: <Widget>[
-                          Material(
-                            borderRadius: BorderRadius.circular(34),
-                            color: Colors.grey[200],
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.supervised_user_circle,
-                                  color: Colors.orange,
+                          SizedBox(
+                            height: 54,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(34),
+                              color: Colors.grey[200],
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.supervised_user_circle,
+                                    color: Colors.orange,
+                                  ),
+                                  labelText: "User Name",
+                                  labelStyle: TextStyle(
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22,
+                                    color: Colors.orange,
+                                  ),
+                                  focusColor: Colors.red,
+                                  contentPadding:
+                                      EdgeInsets.only(bottom: 20, right: 20),
+                                  border: InputBorder.none,
                                 ),
-                                labelText: "User Name",
-                                labelStyle: TextStyle(
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                  color: Colors.orange,
-                                ),
-                                focusColor: Colors.red,
-                                contentPadding:
-                                    EdgeInsets.only(bottom: 20, right: 20),
-                                border: InputBorder.none,
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'User Name should not be empty!';
+                                  } else if (value.length < 4) {
+                                    return 'User Name should have at least 5 characters!';
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _userAuthData['username'] = value;
+                                },
                               ),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'User Name should not be empty!';
-                                } else if (value.length < 4) {
-                                  return 'User Name should have at least 5 characters!';
-                                }
-                              },
-                              onSaved: (value) {
-                                _userAuthData['username'] = value;
-                              },
                             ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          Material(
-                            borderRadius: BorderRadius.circular(34),
-                            color: Colors.grey[200],
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.contact_phone,
-                                  color: Colors.orange,
-                                ),
-                                labelText: "Mobile Number",
-                                labelStyle: TextStyle(
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                  color: Colors.orange,
-                                ),
-                                contentPadding:
-                                    EdgeInsets.only(bottom: 20, right: 20),
-                                border: InputBorder.none,
-                              ),
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Contact should not be empty!';
-                                } else if (value.length < 10 ||
-                                    value.length > 10) {
-                                  return 'Mobile number should be exactly 10 characters!';
-                                }
-                              },
-                              onSaved: (value) {
-                                _userAuthData['mobileno'] = value;
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          // SizedBox(
+                          //   height: 54,
+                          //   child: Material(
+                          //     borderRadius: BorderRadius.circular(34),
+                          //     color: Colors.grey[200],
+                          //     child: TextFormField(
+                          //       decoration: InputDecoration(
+                          //         prefixIcon: Icon(
+                          //           Icons.contact_phone,
+                          //           color: Colors.orange,
+                          //         ),
+                          //         labelText: "Gender",
+                          //         labelStyle: TextStyle(
+                          //           fontFamily: "font2",
+                          //           fontWeight: FontWeight.bold,
+                          //           fontSize: 22,
+                          //           color: Colors.orange,
+                          //         ),
+                          //         contentPadding:
+                          //             EdgeInsets.only(bottom: 20, right: 20),
+                          //         border: InputBorder.none,
+                          //       ),
+                          //       keyboardType: TextInputType.emailAddress,
+                          //       validator: (value) {
+                          //         // if (value.isEmpty) {
+                          //         //   return 'Gender should not be empty!';
+                          //         // } else if (value != "Male" ||
+                          //         //     value != "Female") {
+                          //         //   return 'Gender should be either male or female!';
+                          //         // }
+                          //       },
+                          //       onSaved: (value) {
+                          //         _userAuthData['gender'] = value;
+                          //       },
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
                         ],
                       )
                     : Container(
                         height: 2,
                       ),
-                _userAuth == UserAuth.ForgotPassword
-                    ? Material(
-                        borderRadius: BorderRadius.circular(34),
-                        color: Colors.grey[200],
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            prefix: Icon(
-                              Icons.mail,
-                              color: Colors.orange,
-                            ),
-                            labelText: "E-Mail",
-                            labelStyle: TextStyle(
-                              fontFamily: "font2",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Colors.orange,
-                            ),
-                            focusColor: Colors.red,
-                            contentPadding:
-                                EdgeInsets.only(bottom: 20, right: 20),
-                            border: InputBorder.none,
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'E-Mail should not be empty!';
-                            } else if (!value.contains('@') &&
-                                !value.contains('.com')) {
-                              return 'Invalid E-Mail';
-                            }
-                          },
-                          onSaved: (value) {
-                            _userAuthData['email'] = value;
-                          },
-                        ),
-                      )
-                    : Container(
-                        height: 2,
-                      ),
-                _userAuth != UserAuth.ForgotPassword
-                    ? Column(
+                // _userAuth == UserAuth.ForgotPassword
+                //     ? SizedBox(
+                //         height: 54,
+                //         child: Material(
+                //           borderRadius: BorderRadius.circular(34),
+                //           color: Colors.grey[200],
+                //           child: TextFormField(
+                //             decoration: InputDecoration(
+                //               prefix: Icon(
+                //                 Icons.mail,
+                //                 color: Colors.orange,
+                //               ),
+                //               labelText: "E-Mail",
+                //               labelStyle: TextStyle(
+                //                 fontFamily: "font2",
+                //                 fontWeight: FontWeight.bold,
+                //                 fontSize: 22,
+                //                 color: Colors.orange,
+                //               ),
+                //               focusColor: Colors.red,
+                //               contentPadding:
+                //                   EdgeInsets.only(bottom: 20, right: 20),
+                //               border: InputBorder.none,
+                //             ),
+                //             keyboardType: TextInputType.emailAddress,
+                //             validator: (value) {
+                //               if (value.isEmpty) {
+                //                 return 'E-Mail should not be empty!';
+                //               } else if (!value.contains('@') &&
+                //                   !value.contains('.com')) {
+                //                 return 'Invalid E-Mail';
+                //               }
+                //             },
+                //             onSaved: (value) {
+                //               _userAuthData['email'] = value;
+                //             },
+                //           ),
+                //         ),
+                //       )
+                //     : Container(
+                //         height: 2,
+                //       ),
+                Column(
                         children: <Widget>[
-                          Material(
-                            borderRadius: BorderRadius.circular(34),
-                            color: Colors.grey[200],
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.mail,
-                                  color: Colors.orange,
+                          SizedBox(
+                            height: 54,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(34),
+                              color: Colors.grey[200],
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.mail,
+                                    color: Colors.orange,
+                                  ),
+                                  labelText: "E-Mail",
+                                  labelStyle: TextStyle(
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.orange,
+                                  ),
+                                  focusColor: Colors.red,
+                                  contentPadding:
+                                      EdgeInsets.only(bottom: 20, right: 20),
+                                  border: InputBorder.none,
                                 ),
-                                labelText: "E-Mail",
-                                labelStyle: TextStyle(
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.orange,
-                                ),
-                                focusColor: Colors.red,
-                                contentPadding:
-                                    EdgeInsets.only(bottom: 20, right: 20),
-                                border: InputBorder.none,
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'E-Mail should not be empty!';
+                                  } else if (!value.contains('@') &&
+                                      !value.contains('.com')) {
+                                    return 'Invalid E-Mail';
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _userAuthData['email'] = value.trim();
+                                },
                               ),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'E-Mail should not be empty!';
-                                } else if (!value.contains('@') &&
-                                    !value.contains('.com')) {
-                                  return 'Invalid E-Mail';
-                                }
-                              },
-                              onSaved: (value) {
-                                _userAuthData['email'] = value.trim();
-                              },
                             ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          Material(
-                            borderRadius: BorderRadius.circular(34),
-                            color: Colors.grey[200],
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.security,
-                                  color: Colors.orange,
+                          SizedBox(
+                            height: 54,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(34),
+                              color: Colors.grey[200],
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.security,
+                                    color: Colors.orange,
+                                  ),
+                                  labelText: "Password",
+                                  labelStyle: TextStyle(
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.orange,
+                                  ),
+                                  contentPadding:
+                                      EdgeInsets.only(bottom: 20, right: 20),
+                                  border: InputBorder.none,
                                 ),
-                                labelText: "Password",
-                                labelStyle: TextStyle(
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.orange,
-                                ),
-                                contentPadding:
-                                    EdgeInsets.only(bottom: 20, right: 20),
-                                border: InputBorder.none,
+                                obscureText: true,
+                                controller: _pwController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Password should not be empty!';
+                                  } else if (value.length < 4) {
+                                    return 'Password should be at least 5 characters!';
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _userAuthData['password'] = value;
+                                },
                               ),
-                              obscureText: true,
-                              controller: _pwController,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Password should not be empty!';
-                                } else if (value.length < 4) {
-                                  return 'Password should be at least 5 characters!';
-                                }
-                              },
-                              onSaved: (value) {
-                                _userAuthData['password'] = value;
-                              },
                             ),
+                          ),
+                        ],
+                      ),
+                SizedBox(
+                  height: 10,
+                ),
+                _userAuth == UserAuth.SignUp
+                    ? Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 10,
+                                  top: 7,
+                                ),
+                                child: Text(
+                                  "Gender",
+                                  style: TextStyle(
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width - 60,
+                                child: Row(
+                                  children: [
+                                    Radio(
+                                      value: Gender.Male,
+                                      groupValue: _gender,
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) => {},
+                                    ),
+                                    Text("Male"),
+                                    Radio(
+                                      value: Gender.Female,
+                                      groupValue: _gender,
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) => {},
+                                    ),
+                                    Text("Female"),
+                                    Radio(
+                                      value: Gender.Others,
+                                      groupValue: _gender,
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) => {},
+                                    ),
+                                    Text("Others"),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       )
                     : Container(
-                        height: 1,
+                        height: 2,
                       ),
                 // AnimatedContainer(
                 //   constraints: BoxConstraints(
@@ -422,7 +505,7 @@ class _AuthCardState extends State<AuthCard>
                 //   ),
                 // ),
                 SizedBox(
-                  height: 20,
+                  height: 4,
                 ),
                 if (_isLoading)
                   CircularProgressIndicator()
@@ -449,25 +532,6 @@ class _AuthCardState extends State<AuthCard>
                     onPressed: _submit,
                   ),
                 ),
-                _userAuth == UserAuth.Login
-                    ? Column(
-                        children: [
-                          SizedBox(
-                            height: 22,
-                          ),
-                          RaisedButton(
-                            child: Text(
-                              " FORGOT PASSWORD ? ",
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontSize: 15,
-                              ),
-                            ),
-                            onPressed: _switchAuthentication,
-                          ),
-                        ],
-                      )
-                    : Container(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -475,7 +539,7 @@ class _AuthCardState extends State<AuthCard>
                         ? Column(
                             children: [
                               SizedBox(
-                                height: 10,
+                                height: 20,
                               ),
                               Text(
                                 "Don't have an Account yet ? ",
@@ -498,7 +562,7 @@ class _AuthCardState extends State<AuthCard>
                         ? Column(
                             children: [
                               SizedBox(
-                                height: 10,
+                                height: 20,
                               ),
                               RaisedButton(
                                 child: Text(
@@ -529,45 +593,44 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 _userAuth == UserAuth.Login
                     ? Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 30,
-                          ),
-                          ClipPath(
-                            clipper: MovieTicketBothSidesClipper(),
-                            child: Container(
-                              color: Colors.orange,
-                              height: 53,
-                              width: 230,
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: FaIcon(
-                                        FontAwesomeIcons.google,
-                                        color: Colors.white,
-                                        size: 25,
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                    Text(
-                                      "Login with Google",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 18),
-                                    ),
-                                  ],
+                  children: <Widget>[
+                    SizedBox(
+                      height: 40,
+                    ),
+                    ClipPath(
+                      clipper: MovieTicketBothSidesClipper(),
+                      child: Container(
+                        color: Colors.orange,
+                        height: 53,
+                        width: 230,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "WELCOME",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 18),
+                              ),
+                              IconButton(
+                                icon: FaIcon(
+                                  FontAwesomeIcons.solidSmile,
+                                  color: Colors.white,
+                                  size: 22,
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      )
-                    : Container(
-                        height: 2,
+                        ),
                       ),
+                    ),
+                  ],
+                )
+                    : Container(
+                  height: 2,
+                ),
               ],
             ),
           ),
