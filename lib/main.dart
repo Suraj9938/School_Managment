@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
+import 'package:school_management/screens/Event_DetailScreen.dart';
 import 'package:school_management/screens/Home_Screen.dart';
 import 'package:school_management/screens/School_Event_Screen.dart';
 import 'package:school_management/screens/StudentScreen.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.orange,
       ),
-      home: AuthScreen(),
+      home: EventDetailScreen(),
       routes: {
         StudentScreen.routeName: (ctx) => StudentScreen(),
       },
