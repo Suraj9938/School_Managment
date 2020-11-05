@@ -4,6 +4,7 @@ import 'package:school_management/screens/Calendar_Screen.dart';
 import 'package:school_management/screens/Event_DetailScreen.dart';
 import 'package:school_management/screens/Home_Screen.dart';
 import 'package:school_management/screens/School_Event_Screen.dart';
+import 'package:school_management/screens/StudentProfile.dart';
 import 'package:school_management/screens/StudentScreen.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.orange,
       ),
-      home: EventDetailScreen(),
+      home: StudentProfile(),
       routes: {
         StudentScreen.routeName: (ctx) => StudentScreen(),
       },
