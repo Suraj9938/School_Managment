@@ -299,16 +299,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Positioned(
-                                child: Text(
-                                  "Dance Competition",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              Text(
+                                "Dance Competition",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                top: 0,
-                                left: 10,
                               ),
                               SizedBox(
                                 height: 10,
@@ -382,16 +378,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Positioned(
-                                child: Text(
-                                  "Dance Competition",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              Text(
+                                "Dance Competition",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                top: 0,
-                                left: 10,
                               ),
                               SizedBox(
                                 height: 10,
@@ -465,16 +457,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Positioned(
-                                child: Text(
-                                  "Dance Competition",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              Text(
+                                "Dance Competition",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                top: 0,
-                                left: 10,
                               ),
                               SizedBox(
                                 height: 10,
@@ -548,16 +536,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Positioned(
-                                child: Text(
-                                  "Dance Competition",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              Text(
+                                "Dance Competition",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                top: 0,
-                                left: 10,
                               ),
                               SizedBox(
                                 height: 10,
@@ -631,16 +615,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Positioned(
-                                child: Text(
-                                  "Dance Competition",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              Text(
+                                "Dance Competition",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                top: 0,
-                                left: 10,
                               ),
                               SizedBox(
                                 height: 10,
@@ -714,16 +694,91 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Positioned(
-                                child: Text(
-                                  "Dance Competition",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              Text(
+                                "Dance Competition",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                top: 0,
-                                left: 10,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.date_range_rounded,
+                                    color: Colors.blue,
+                                    size: 22,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    "27th May, 2021",
+                                    style: TextStyle(
+                                      fontFamily: "font2",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 7,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_sharp,
+                                    color: Colors.orange,
+                                    size: 22,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    "THE CUTTING ROOM",
+                                    style: TextStyle(
+                                      fontFamily: "font2",
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 13,
+                    ),
+                    Row(
+                      children: [
+                        ClipRRect(
+                          child: Image.asset(
+                            "assets/images/event.png",
+                            height: 110,
+                            width: 80,
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Dance Competition",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               SizedBox(
                                 height: 10,

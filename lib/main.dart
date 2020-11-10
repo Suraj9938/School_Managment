@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_management/screens/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
 import 'package:school_management/screens/Event_DetailScreen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.orange,
       ),
-      home: StudentProfile(),
+      home: AssignmentViewScreen(),
       routes: {
         StudentScreen.routeName: (ctx) => StudentScreen(),
       },
