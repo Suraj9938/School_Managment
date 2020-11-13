@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "School Management",
       theme: ThemeData(
+        //primaryColor: Color.fromRGBO(239, 228, 176, 1.0),
         primaryColor: Colors.orange,
       ),
       home: PrincipalOverViewScreen(),

@@ -81,7 +81,7 @@ class _PrincipalOverViewScreenState extends State<PrincipalOverViewScreen> {
           data(Icons.account_circle, "Manage Staff", Colors.green[400]),
           data(Icons.calendar_today_outlined, "Calendar", Colors.blue),
           data(Icons.notifications_active, "Notifications", Colors.purpleAccent),
-          data(Icons.graphic_eq, "Add Events", Colors.red),
+          data(Icons.emoji_events_rounded, "Add Events", Colors.red),
         ],
         staggeredTiles: [
           StaggeredTile.extent(2, 160),
