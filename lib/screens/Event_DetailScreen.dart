@@ -43,7 +43,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               "Dance Competition",
               style: TextStyle(
                 fontSize: 26,
-                color: Colors.black,
+                color: Colors.orange,
                 fontWeight: FontWeight.bold,
                 fontFamily: "font1",
               ),
@@ -148,7 +148,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               "About",
               style: TextStyle(
                 fontSize: 24,
-                color: Colors.black,
+                color: Colors.orange,
                 fontWeight: FontWeight.bold,
                 fontFamily: "font1",
               ),
@@ -172,9 +172,11 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(

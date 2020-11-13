@@ -9,6 +9,7 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(239, 228, 176, 1.0).withOpacity(0.9),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -18,7 +19,8 @@ class AuthScreen extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height / 3.4,
                 width: double.infinity,
-                color: Color.fromRGBO(255, 128, 0, 1.0),
+                color: Color.fromRGBO(239, 228, 176, 1),
+                //color: Colors.white,
                 child: Padding(
                   padding: EdgeInsets.only(right: 18),
                   child: Image.asset(
@@ -214,14 +216,14 @@ class _AuthCardState extends State<AuthCard>
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.supervised_user_circle,
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                   ),
                                   labelText: "User Name",
                                   labelStyle: TextStyle(
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                   ),
                                   focusColor: Colors.red,
                                   contentPadding:
@@ -254,14 +256,14 @@ class _AuthCardState extends State<AuthCard>
                           //       decoration: InputDecoration(
                           //         prefixIcon: Icon(
                           //           Icons.contact_phone,
-                          //           color: Colors.orange,
+                          //           color: Colors.blueGrey,
                           //         ),
                           //         labelText: "Gender",
                           //         labelStyle: TextStyle(
                           //           fontFamily: "font2",
                           //           fontWeight: FontWeight.bold,
                           //           fontSize: 22,
-                          //           color: Colors.orange,
+                          //           color: Colors.blueGrey,
                           //         ),
                           //         contentPadding:
                           //             EdgeInsets.only(bottom: 20, right: 20),
@@ -300,14 +302,14 @@ class _AuthCardState extends State<AuthCard>
                 //             decoration: InputDecoration(
                 //               prefix: Icon(
                 //                 Icons.mail,
-                //                 color: Colors.orange,
+                //                 color: Colors.blueGrey,
                 //               ),
                 //               labelText: "E-Mail",
                 //               labelStyle: TextStyle(
                 //                 fontFamily: "font2",
                 //                 fontWeight: FontWeight.bold,
                 //                 fontSize: 22,
-                //                 color: Colors.orange,
+                //                 color: Colors.blueGrey,
                 //               ),
                 //               focusColor: Colors.red,
                 //               contentPadding:
@@ -343,14 +345,14 @@ class _AuthCardState extends State<AuthCard>
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.mail,
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                   ),
                                   labelText: "E-Mail",
                                   labelStyle: TextStyle(
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                   ),
                                   focusColor: Colors.red,
                                   contentPadding:
@@ -384,14 +386,14 @@ class _AuthCardState extends State<AuthCard>
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.security,
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                   ),
                                   labelText: "Password",
                                   labelStyle: TextStyle(
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                   ),
                                   contentPadding:
                                       EdgeInsets.only(bottom: 20, right: 20),
@@ -433,7 +435,7 @@ class _AuthCardState extends State<AuthCard>
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                   ),
                                 ),
                               ),
@@ -449,21 +451,21 @@ class _AuthCardState extends State<AuthCard>
                                     Radio(
                                       value: Gender.Male,
                                       groupValue: _gender,
-                                      activeColor: Colors.orange,
+                                      activeColor: Colors.blueGrey,
                                       onChanged: (value) => {},
                                     ),
                                     Text("Male"),
                                     Radio(
                                       value: Gender.Female,
                                       groupValue: _gender,
-                                      activeColor: Colors.orange,
+                                      activeColor: Colors.blueGrey,
                                       onChanged: (value) => {},
                                     ),
                                     Text("Female"),
                                     Radio(
                                       value: Gender.Others,
                                       groupValue: _gender,
-                                      activeColor: Colors.orange,
+                                      activeColor: Colors.blueGrey,
                                       onChanged: (value) => {},
                                     ),
                                     Text("Others"),
@@ -518,7 +520,7 @@ class _AuthCardState extends State<AuthCard>
                   height: 52,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Colors.deepOrange[400],
+                    color: Colors.blueGrey,
                   ),
                   child: FlatButton(
                     child: Text(
@@ -568,7 +570,7 @@ class _AuthCardState extends State<AuthCard>
                                 child: Text(
                                   "Sign Up",
                                   style: TextStyle(
-                                    color: Colors.orange,
+                                    color: Colors.blueGrey,
                                     fontSize: 15,
                                   ),
                                 ),
@@ -582,7 +584,7 @@ class _AuthCardState extends State<AuthCard>
                               child: Text(
                                 "Log In",
                                 style: TextStyle(
-                                  color: Colors.orange,
+                                  color: Colors.blueGrey,
                                   fontSize: 15,
                                 ),
                               ),
@@ -600,7 +602,7 @@ class _AuthCardState extends State<AuthCard>
                     ClipPath(
                       clipper: MovieTicketBothSidesClipper(),
                       child: Container(
-                        color: Colors.orange,
+                        color: Colors.blueGrey,
                         height: 53,
                         width: 230,
                         child: Center(

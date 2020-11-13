@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:intl/intl.dart';
 
 class AssignmentViewScreen extends StatefulWidget {
   @override
