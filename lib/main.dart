@@ -5,6 +5,7 @@ import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
 import 'package:school_management/screens/Event_DetailScreen.dart';
 import 'package:school_management/screens/Home_Screen.dart';
+import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/screens/School_Event_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         //primaryColor: Color.fromRGBO(239, 228, 176, 1.0),
         primaryColor: Colors.orange,
       ),
-      home: StudentOverViewScreen(),
+      home: ParentOverViewScreen(),
       routes: {
         StudentScreen.routeName: (ctx) => StudentScreen(),
       },
