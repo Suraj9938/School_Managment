@@ -9,6 +9,7 @@ import 'package:school_management/screens/Principal/Principal_OverViewScreen.dar
 import 'package:school_management/screens/School_Event_Screen.dart';
 import 'package:school_management/screens/StudentProfile.dart';
 import 'package:school_management/screens/StudentScreen.dart';
+import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         //primaryColor: Color.fromRGBO(239, 228, 176, 1.0),
         primaryColor: Colors.orange,
       ),
-      home: PrincipalOverViewScreen(),
+      home: TeacherOverViewScreen(),
       routes: {
         StudentScreen.routeName: (ctx) => StudentScreen(),
       },

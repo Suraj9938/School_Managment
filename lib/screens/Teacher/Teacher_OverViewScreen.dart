@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class PrincipalOverViewScreen extends StatefulWidget {
+class TeacherOverViewScreen extends StatefulWidget {
   @override
-  _PrincipalOverViewScreenState createState() =>
-      _PrincipalOverViewScreenState();
+  _TeacherOverViewScreenState createState() => _TeacherOverViewScreenState();
 }
 
-class _PrincipalOverViewScreenState extends State<PrincipalOverViewScreen> {
+class _TeacherOverViewScreenState extends State<TeacherOverViewScreen> {
   Material data(IconData icons, String title, Color colors) {
     return Material(
       color: Colors.white,
@@ -63,7 +62,7 @@ class _PrincipalOverViewScreenState extends State<PrincipalOverViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Principal Overview",
+          "Teacher Overview",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
@@ -81,11 +80,11 @@ class _PrincipalOverViewScreenState extends State<PrincipalOverViewScreen> {
           vertical: 14,
         ),
         children: [
-          data(Icons.account_circle, "Manage Staff Members", Colors.green[400]),
-          data(Icons.calendar_today_outlined, "Update Calendar", Colors.blue),
+          data(Icons.class_, "Add Class Information", Colors.green[400]),
+          data(Icons.grading, "Add Attendance", Colors.blue),
           data(
-              Icons.notifications_active, "Add Notifications", Colors.purpleAccent),
-          data(Icons.emoji_events_rounded, "Manage Events", Colors.red),
+              Icons.assignment, "Manage Assignment", Colors.purpleAccent),
+          data(Icons.calendar_today_outlined, "Manage Routine", Colors.red),
         ],
         staggeredTiles: [
           StaggeredTile.extent(2, 160),
