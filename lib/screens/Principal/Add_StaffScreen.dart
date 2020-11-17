@@ -8,9 +8,7 @@ class AddStaffScreen extends StatefulWidget {
 enum Gender { Male, Female, Others }
 
 class _AddStaffScreenState extends State<AddStaffScreen> {
-  final _staffName = FocusNode();
   final _staffAge = FocusNode();
-  final _staffGender = FocusNode();
   final _staffMobileNo = FocusNode();
   final _staffAddress = FocusNode();
   final _staffEmail = FocusNode();
@@ -20,6 +18,18 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
   Gender _gender = Gender.Male;
   var _staffType = ['Teacher', 'Librarian'];
   var _currentStaffSelected = 'Teacher';
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _staffAge.dispose();
+    _staffMobileNo.dispose();
+    _staffAddress.dispose();
+    _staffEmail.dispose();
+    _staffPassword.dispose();
+    _staffReEnterPassword.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,708 +44,716 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
             color: Colors.white,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            color: Colors.white,
+            onPressed: () {},
+          ),
+        ],
       ),
-      body: Form(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 13, bottom: 18),
-              child: Text(
-                "Staff Information",
-                style: TextStyle(
-                  fontFamily: "font2",
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+      body: SafeArea(
+        child: Form(
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 13, bottom: 18),
+                child: Text(
+                  "Staff Information",
+                  style: TextStyle(
+                    fontFamily: "font2",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width / 2 + 15,
-                          padding: EdgeInsets.only(left: 13),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: TextFormField(
-                              //initialValue: initValues['bookType'],
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.person_pin,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                  labelText: "Staff Name",
-                                  labelStyle: TextStyle(
-                                      fontSize: 19,
-                                      fontFamily: "font2",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.orange),
-                                  border: InputBorder.none),
-                              textInputAction: TextInputAction.next,
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context)
-                                    .requestFocus(_staffAddress);
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Staff Name must not be empty';
-                                }
-                                return null;
-                              },
-                              // onSaved: (value) {
-                              //   _editedBook = BookProvider(
-                              //     id: _editedBook.id,
-                              //     bookName: _editedBook.bookName,
-                              //     bookImage: _editedBook.bookImage,
-                              //     bookType: value.trimLeft().trim(),
-                              //     categoryId: _editedBook.categoryId,
-                              //     publisher: _editedBook.publisher,
-                              //     publishYear: _editedBook.publishYear,
-                              //     userRating: _editedBook.userRating,
-                              //     ratingNo: _editedBook.ratingNo,
-                              //     bookDescription: _editedBook.bookDescription,
-                              //     isTopGrossing: _editedBook.isTopGrossing,
-                              //   );
-                              // },
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width / 2 + 15,
+                            padding: EdgeInsets.only(left: 13),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(18),
+                              color: Colors.grey[300],
+                              child: TextFormField(
+                                //initialValue: initValues['bookType'],
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.person_pin,
+                                      color: Colors.orange,
+                                      size: 20,
+                                    ),
+                                    labelText: "Staff Name",
+                                    labelStyle: TextStyle(
+                                        fontSize: 19,
+                                        fontFamily: "font2",
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.orange),
+                                    border: InputBorder.none),
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_staffAddress);
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Staff Name must not be empty';
+                                  }
+                                  return null;
+                                },
+                                // onSaved: (value) {
+                                //   _editedBook = BookProvider(
+                                //     id: _editedBook.id,
+                                //     bookName: _editedBook.bookName,
+                                //     bookImage: _editedBook.bookImage,
+                                //     bookType: value.trimLeft().trim(),
+                                //     categoryId: _editedBook.categoryId,
+                                //     publisher: _editedBook.publisher,
+                                //     publishYear: _editedBook.publishYear,
+                                //     userRating: _editedBook.userRating,
+                                //     ratingNo: _editedBook.ratingNo,
+                                //     bookDescription: _editedBook.bookDescription,
+                                //     isTopGrossing: _editedBook.isTopGrossing,
+                                //   );
+                                // },
+                              ),
                             ),
                           ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Container(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width / 2 + 15,
+                            padding: EdgeInsets.only(left: 13),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(18),
+                              color: Colors.grey[300],
+                              child: TextFormField(
+                                //initialValue: initValues['bookType'],
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.location_on_sharp,
+                                      color: Colors.orange,
+                                      size: 20,
+                                    ),
+                                    labelText: "Staff Address",
+                                    labelStyle: TextStyle(
+                                        fontSize: 19,
+                                        fontFamily: "font2",
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.orange),
+                                    border: InputBorder.none),
+                                textInputAction: TextInputAction.done,
+                                focusNode: _staffAddress,
+                                // onFieldSubmitted: (_) {
+                                //   FocusScope.of(context).requestFocus(_categoryId);
+                                // },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Staff Address must not be empty';
+                                  }
+                                  return null;
+                                },
+                                // onSaved: (value) {
+                                //   _editedBook = BookProvider(
+                                //     id: _editedBook.id,
+                                //     bookName: _editedBook.bookName,
+                                //     bookImage: _editedBook.bookImage,
+                                //     bookType: value.trimLeft().trim(),
+                                //     categoryId: _editedBook.categoryId,
+                                //     publisher: _editedBook.publisher,
+                                //     publishYear: _editedBook.publishYear,
+                                //     userRating: _editedBook.userRating,
+                                //     ratingNo: _editedBook.ratingNo,
+                                //     bookDescription: _editedBook.bookDescription,
+                                //     isTopGrossing: _editedBook.isTopGrossing,
+                                //   );
+                                // },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Container(
+                          height: 132,
+                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          color: Colors.blueGrey[200],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.camera,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                "Choose an Image",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: "font2",
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Container(
+                    height: 30,
+                    width: MediaQuery.of(context).size.width - 28,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.wc_outlined,
+                          color: Colors.orange,
+                          size: 22,
                         ),
                         SizedBox(
-                          height: 12,
+                          width: 8,
+                        ),
+                        Text(
+                          "Staff Gender",
+                          style: TextStyle(
+                              fontSize: 19,
+                              fontFamily: "font2",
+                              fontWeight: FontWeight.w500,
+                              color: Colors.orange),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 4,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 25,
+                          width: MediaQuery.of(context).size.width - 60,
+                          child: Row(
+                            children: [
+                              Radio(
+                                value: Gender.Male,
+                                groupValue: _gender,
+                                activeColor: Colors.blueGrey,
+                                onChanged: (value) => {},
+                              ),
+                              Text("Male"),
+                              Radio(
+                                value: Gender.Female,
+                                groupValue: _gender,
+                                activeColor: Colors.blueGrey,
+                                onChanged: (value) => {},
+                              ),
+                              Text("Female"),
+                              Radio(
+                                value: Gender.Others,
+                                groupValue: _gender,
+                                activeColor: Colors.blueGrey,
+                                onChanged: (value) => {},
+                              ),
+                              Text("Others"),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 14,
+                  ),
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width - 28,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.supervised_user_circle_outlined,
+                          color: Colors.orange,
+                          size: 22,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "Select User Type",
+                          style: TextStyle(
+                              fontSize: 19,
+                              fontFamily: "font2",
+                              fontWeight: FontWeight.w500,
+                              color: Colors.orange),
+                        ),
+                        SizedBox(
+                          width: 15,
                         ),
                         Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width / 2 + 15,
-                          padding: EdgeInsets.only(left: 13),
                           child: Material(
                             borderRadius: BorderRadius.circular(18),
                             color: Colors.grey[300],
-                            child: TextFormField(
-                              //initialValue: initValues['bookType'],
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.location_on_sharp,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                  labelText: "Staff Address",
-                                  labelStyle: TextStyle(
-                                      fontSize: 19,
-                                      fontFamily: "font2",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.orange),
-                                  border: InputBorder.none),
-                              textInputAction: TextInputAction.done,
-                              focusNode: _staffAddress,
-                              // onFieldSubmitted: (_) {
-                              //   FocusScope.of(context).requestFocus(_categoryId);
-                              // },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Staff Address must not be empty';
-                                }
-                                return null;
-                              },
-                              // onSaved: (value) {
-                              //   _editedBook = BookProvider(
-                              //     id: _editedBook.id,
-                              //     bookName: _editedBook.bookName,
-                              //     bookImage: _editedBook.bookImage,
-                              //     bookType: value.trimLeft().trim(),
-                              //     categoryId: _editedBook.categoryId,
-                              //     publisher: _editedBook.publisher,
-                              //     publishYear: _editedBook.publishYear,
-                              //     userRating: _editedBook.userRating,
-                              //     ratingNo: _editedBook.ratingNo,
-                              //     bookDescription: _editedBook.bookDescription,
-                              //     isTopGrossing: _editedBook.isTopGrossing,
-                              //   );
-                              // },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              child: DropdownButton<String>(
+                                items:
+                                    _staffType.map((String dropDownStringItem) {
+                                  return DropdownMenuItem<String>(
+                                    value: dropDownStringItem,
+                                    child: Text(
+                                      dropDownStringItem,
+                                      style: TextStyle(color: Colors.orange),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (String newValueSelected) {
+                                  setState(() {
+                                    this._currentStaffSelected = newValueSelected;
+                                  });
+                                },
+                                value: _currentStaffSelected,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(18),
-                      child: Container(
-                        height: 132,
-                        width: MediaQuery.of(context).size.width / 2 - 40,
-                        color: Colors.blueGrey[200],
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.camera,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              "Choose an Image",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: "font2",
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-                Container(
-                  height: 30,
-                  width: MediaQuery.of(context).size.width - 28,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.wc_outlined,
-                        color: Colors.orange,
-                        size: 22,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Staff Gender",
-                        style: TextStyle(
-                            fontSize: 19,
-                            fontFamily: "font2",
-                            fontWeight: FontWeight.w500,
-                            color: Colors.orange),
-                      ),
-                    ],
                   ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  padding: EdgeInsets.only(
-                    left: 4,
+                  SizedBox(
+                    height: 18,
                   ),
-                  child: Row(
+                  Row(
                     children: [
                       Container(
-                        height: 25,
-                        width: MediaQuery.of(context).size.width - 60,
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: Gender.Male,
-                              groupValue: _gender,
-                              activeColor: Colors.blueGrey,
-                              onChanged: (value) => {},
-                            ),
-                            Text("Male"),
-                            Radio(
-                              value: Gender.Female,
-                              groupValue: _gender,
-                              activeColor: Colors.blueGrey,
-                              onChanged: (value) => {},
-                            ),
-                            Text("Female"),
-                            Radio(
-                              value: Gender.Others,
-                              groupValue: _gender,
-                              activeColor: Colors.blueGrey,
-                              onChanged: (value) => {},
-                            ),
-                            Text("Others"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 14,
-                ),
-                Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width - 28,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.supervised_user_circle_outlined,
-                        color: Colors.orange,
-                        size: 22,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Select User Type",
-                        style: TextStyle(
-                            fontSize: 19,
-                            fontFamily: "font2",
-                            fontWeight: FontWeight.w500,
-                            color: Colors.orange),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Container(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width / 2 - 35,
+                        padding: EdgeInsets.only(left: 13),
                         child: Material(
                           borderRadius: BorderRadius.circular(18),
                           color: Colors.grey[300],
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
-                            child: DropdownButton<String>(
-                              items:
-                                  _staffType.map((String dropDownStringItem) {
-                                return DropdownMenuItem<String>(
-                                  value: dropDownStringItem,
-                                  child: Text(
-                                    dropDownStringItem,
-                                    style: TextStyle(color: Colors.orange),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String newValueSelected) {
-                                setState(() {
-                                  this._currentStaffSelected = newValueSelected;
-                                });
-                              },
-                              value: _currentStaffSelected,
-                            ),
+                          child: TextFormField(
+                            //initialValue: initValues['bookType'],
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.date_range_outlined,
+                                  color: Colors.orange,
+                                  size: 20,
+                                ),
+                                labelText: "Staff Age",
+                                labelStyle: TextStyle(
+                                    fontSize: 19,
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.orange),
+                                border: InputBorder.none),
+                            textInputAction: TextInputAction.next,
+                            focusNode: _staffAge,
+                            keyboardType: TextInputType.phone,
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_staffMobileNo);
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Staff Address must not be empty';
+                              }
+                              return null;
+                            },
+                            // onSaved: (value) {
+                            //   _editedBook = BookProvider(
+                            //     id: _editedBook.id,
+                            //     bookName: _editedBook.bookName,
+                            //     bookImage: _editedBook.bookImage,
+                            //     bookType: value.trimLeft().trim(),
+                            //     categoryId: _editedBook.categoryId,
+                            //     publisher: _editedBook.publisher,
+                            //     publishYear: _editedBook.publishYear,
+                            //     userRating: _editedBook.userRating,
+                            //     ratingNo: _editedBook.ratingNo,
+                            //     bookDescription: _editedBook.bookDescription,
+                            //     isTopGrossing: _editedBook.isTopGrossing,
+                            //   );
+                            // },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width / 2 + 26,
+                        padding: EdgeInsets.only(left: 13),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(18),
+                          color: Colors.grey[300],
+                          child: TextFormField(
+                            //initialValue: initValues['bookType'],
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.mobile_friendly,
+                                  color: Colors.orange,
+                                  size: 20,
+                                ),
+                                labelText: "Mobile Number",
+                                labelStyle: TextStyle(
+                                    fontSize: 19,
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.orange),
+                                border: InputBorder.none),
+                            textInputAction: TextInputAction.next,
+                            focusNode: _staffMobileNo,
+                            keyboardType: TextInputType.phone,
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_staffEmail);
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Staff Address must not be empty';
+                              }
+                              return null;
+                            },
+                            // onSaved: (value) {
+                            //   _editedBook = BookProvider(
+                            //     id: _editedBook.id,
+                            //     bookName: _editedBook.bookName,
+                            //     bookImage: _editedBook.bookImage,
+                            //     bookType: value.trimLeft().trim(),
+                            //     categoryId: _editedBook.categoryId,
+                            //     publisher: _editedBook.publisher,
+                            //     publishYear: _editedBook.publishYear,
+                            //     userRating: _editedBook.userRating,
+                            //     ratingNo: _editedBook.ratingNo,
+                            //     bookDescription: _editedBook.bookDescription,
+                            //     isTopGrossing: _editedBook.isTopGrossing,
+                            //   );
+                            // },
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width / 2 - 35,
-                      padding: EdgeInsets.only(left: 13),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(18),
-                        color: Colors.grey[300],
-                        child: TextFormField(
-                          //initialValue: initValues['bookType'],
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.date_range_outlined,
-                                color: Colors.orange,
-                                size: 20,
-                              ),
-                              labelText: "Staff Age",
-                              labelStyle: TextStyle(
-                                  fontSize: 19,
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.orange),
-                              border: InputBorder.none),
-                          textInputAction: TextInputAction.next,
-                          focusNode: _staffAge,
-                          keyboardType: TextInputType.phone,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_staffMobileNo);
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Staff Address must not be empty';
-                            }
-                            return null;
-                          },
-                          // onSaved: (value) {
-                          //   _editedBook = BookProvider(
-                          //     id: _editedBook.id,
-                          //     bookName: _editedBook.bookName,
-                          //     bookImage: _editedBook.bookImage,
-                          //     bookType: value.trimLeft().trim(),
-                          //     categoryId: _editedBook.categoryId,
-                          //     publisher: _editedBook.publisher,
-                          //     publishYear: _editedBook.publishYear,
-                          //     userRating: _editedBook.userRating,
-                          //     ratingNo: _editedBook.ratingNo,
-                          //     bookDescription: _editedBook.bookDescription,
-                          //     isTopGrossing: _editedBook.isTopGrossing,
-                          //   );
-                          // },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width / 2 + 26,
-                      padding: EdgeInsets.only(left: 13),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(18),
-                        color: Colors.grey[300],
-                        child: TextFormField(
-                          //initialValue: initValues['bookType'],
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.mobile_friendly,
-                                color: Colors.orange,
-                                size: 20,
-                              ),
-                              labelText: "Mobile Number",
-                              labelStyle: TextStyle(
-                                  fontSize: 19,
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.orange),
-                              border: InputBorder.none),
-                          textInputAction: TextInputAction.next,
-                          focusNode: _staffMobileNo,
-                          keyboardType: TextInputType.phone,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_staffEmail);
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Staff Address must not be empty';
-                            }
-                            return null;
-                          },
-                          // onSaved: (value) {
-                          //   _editedBook = BookProvider(
-                          //     id: _editedBook.id,
-                          //     bookName: _editedBook.bookName,
-                          //     bookImage: _editedBook.bookImage,
-                          //     bookType: value.trimLeft().trim(),
-                          //     categoryId: _editedBook.categoryId,
-                          //     publisher: _editedBook.publisher,
-                          //     publishYear: _editedBook.publishYear,
-                          //     userRating: _editedBook.userRating,
-                          //     ratingNo: _editedBook.ratingNo,
-                          //     bookDescription: _editedBook.bookDescription,
-                          //     isTopGrossing: _editedBook.isTopGrossing,
-                          //   );
-                          // },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 13, bottom: 18),
-              child: Text(
-                "Staff Mailing Address",
-                style: TextStyle(
-                  fontFamily: "font2",
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 6,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width - 70,
-                    padding: EdgeInsets.only(left: 13),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.grey[300],
-                      child: TextFormField(
-                        //initialValue: initValues['bookType'],
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.quick_contacts_mail,
-                              color: Colors.orange,
-                              size: 20,
-                            ),
-                            labelText: "Staff Email",
-                            labelStyle: TextStyle(
-                                fontSize: 19,
-                                fontFamily: "font2",
-                                fontWeight: FontWeight.w500,
-                                color: Colors.orange),
-                            border: InputBorder.none),
-                        focusNode: _staffEmail,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_staffPassword);
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Staff Email must not be empty';
-                          }
-                          return null;
-                        },
-                        // onSaved: (value) {
-                        //   _editedBook = BookProvider(
-                        //     id: _editedBook.id,
-                        //     bookName: _editedBook.bookName,
-                        //     bookImage: _editedBook.bookImage,
-                        //     bookType: value.trimLeft().trim(),
-                        //     categoryId: _editedBook.categoryId,
-                        //     publisher: _editedBook.publisher,
-                        //     publishYear: _editedBook.publishYear,
-                        //     userRating: _editedBook.userRating,
-                        //     ratingNo: _editedBook.ratingNo,
-                        //     bookDescription: _editedBook.bookDescription,
-                        //     isTopGrossing: _editedBook.isTopGrossing,
-                        //   );
-                        // },
-                      ),
-                    ),
-                  ),
                   SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width - 70,
-                    padding: EdgeInsets.only(left: 13),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.grey[300],
-                      child: TextFormField(
-                        //initialValue: initValues['bookType'],
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.verified_user_rounded,
-                              color: Colors.orange,
-                              size: 20,
-                            ),
-                            labelText: "Password",
-                            labelStyle: TextStyle(
-                                fontSize: 19,
-                                fontFamily: "font2",
-                                fontWeight: FontWeight.w500,
-                                color: Colors.orange),
-                            border: InputBorder.none),
-                        textInputAction: TextInputAction.next,
-                        focusNode: _staffPassword,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_staffReEnterPassword);
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Password must not be empty';
-                          }
-                          return null;
-                        },
-                        // onSaved: (value) {
-                        //   _editedBook = BookProvider(
-                        //     id: _editedBook.id,
-                        //     bookName: _editedBook.bookName,
-                        //     bookImage: _editedBook.bookImage,
-                        //     bookType: value.trimLeft().trim(),
-                        //     categoryId: _editedBook.categoryId,
-                        //     publisher: _editedBook.publisher,
-                        //     publishYear: _editedBook.publishYear,
-                        //     userRating: _editedBook.userRating,
-                        //     ratingNo: _editedBook.ratingNo,
-                        //     bookDescription: _editedBook.bookDescription,
-                        //     isTopGrossing: _editedBook.isTopGrossing,
-                        //   );
-                        // },
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width - 70,
-                    padding: EdgeInsets.only(left: 13),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.grey[300],
-                      child: TextFormField(
-                        //initialValue: initValues['bookType'],
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.verified_user_rounded,
-                              color: Colors.orange,
-                              size: 20,
-                            ),
-                            labelText: "Re-enter Password",
-                            labelStyle: TextStyle(
-                                fontSize: 19,
-                                fontFamily: "font2",
-                                fontWeight: FontWeight.w500,
-                                color: Colors.orange),
-                            border: InputBorder.none),
-                        textInputAction: TextInputAction.done,
-                        focusNode: _staffReEnterPassword,
-                        // onFieldSubmitted: (_) {
-                        //   FocusScope.of(context).requestFocus(_staffAddress);
-                        // },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Staff Name must not be empty';
-                          }
-                          return null;
-                        },
-                        // onSaved: (value) {
-                        //   _editedBook = BookProvider(
-                        //     id: _editedBook.id,
-                        //     bookName: _editedBook.bookName,
-                        //     bookImage: _editedBook.bookImage,
-                        //     bookType: value.trimLeft().trim(),
-                        //     categoryId: _editedBook.categoryId,
-                        //     publisher: _editedBook.publisher,
-                        //     publishYear: _editedBook.publishYear,
-                        //     userRating: _editedBook.userRating,
-                        //     ratingNo: _editedBook.ratingNo,
-                        //     bookDescription: _editedBook.bookDescription,
-                        //     isTopGrossing: _editedBook.isTopGrossing,
-                        //   );
-                        // },
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
+                    height: 8,
                   ),
                 ],
               ),
-            ),
-            // SizedBox(
-            //   height: 12,
-            // ),
-            // Row(
-            //   children: <Widget>[
-            //     SizedBox(
-            //       width: 14,
-            //     ),
-            //     Container(
-            //       height: 60,
-            //       width: MediaQuery.of(context).size.width / 2 - 22,
-            //       child: Material(
-            //         borderRadius: BorderRadius.circular(18),
-            //         color: Colors.grey[300],
-            //         child: TextFormField(
-            //           decoration: InputDecoration(
-            //               prefixIcon: Icon(
-            //                 Icons.library_books,
-            //                 color: Colors.orange,
-            //                 size: 20,
-            //               ),
-            //               labelText: "Teacher Name",
-            //               labelStyle:
-            //                   TextStyle(fontSize: 20, color: Colors.orange),
-            //               border: InputBorder.none),
-            //           textInputAction: TextInputAction.next,
-            //           onFieldSubmitted: (_) {
-            //             //FocusScope.of(context).requestFocus(_bookType);
-            //           },
-            //           validator: (value) {
-            //             if (value.isEmpty) {
-            //               return 'Book Name must not be empty';
-            //             }
-            //             return null;
-            //           },
-            //           // onSaved: (value) {
-            //           //   _editedBook = BookProvider(
-            //           //     id: _editedBook.id,
-            //           //     bookName: value.trimLeft().trim(),
-            //           //     bookImage: _editedBook.bookImage,
-            //           //     bookType: _editedBook.bookType,
-            //           //     categoryId: _editedBook.categoryId,
-            //           //     publisher: _editedBook.publisher,
-            //           //     publishYear: _editedBook.publishYear,
-            //           //     userRating: _editedBook.userRating,
-            //           //     ratingNo: _editedBook.ratingNo,
-            //           //     bookDescription: _editedBook.bookDescription,
-            //           //     isTopGrossing: _editedBook.isTopGrossing,
-            //           //   );
-            //           // },
-            //         ),
-            //       ),
-            //     ),
-            //     SizedBox(
-            //       width: 20,
-            //     ),
-            //     Container(
-            //       height: 60,
-            //       width: MediaQuery.of(context).size.width / 2 - 28,
-            //       child: Material(
-            //         borderRadius: BorderRadius.circular(18),
-            //         color: Colors.grey[300],
-            //         child: TextFormField(
-            //           //initialValue: initValues['bookType'],
-            //           decoration: InputDecoration(
-            //               prefixIcon: Icon(
-            //                 Icons.book,
-            //                 color: Colors.orange,
-            //                 size: 20,
-            //               ),
-            //               labelText: "Book Type",
-            //               labelStyle:
-            //                   TextStyle(fontSize: 20, color: Colors.orange),
-            //               border: InputBorder.none),
-            //           textInputAction: TextInputAction.next,
-            //           //focusNode: _bookType,
-            //           onFieldSubmitted: (_) {
-            //             //FocusScope.of(context).requestFocus(_categoryId);
-            //           },
-            //           validator: (value) {
-            //             if (value.isEmpty) {
-            //               return 'Book Type must not be empty';
-            //             }
-            //             return null;
-            //           },
-            //           // onSaved: (value) {
-            //           //   _editedBook = BookProvider(
-            //           //     id: _editedBook.id,
-            //           //     bookName: _editedBook.bookName,
-            //           //     bookImage: _editedBook.bookImage,
-            //           //     bookType: value.trimLeft().trim(),
-            //           //     categoryId: _editedBook.categoryId,
-            //           //     publisher: _editedBook.publisher,
-            //           //     publishYear: _editedBook.publishYear,
-            //           //     userRating: _editedBook.userRating,
-            //           //     ratingNo: _editedBook.ratingNo,
-            //           //     bookDescription: _editedBook.bookDescription,
-            //           //     isTopGrossing: _editedBook.isTopGrossing,
-            //           //   );
-            //           // },
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 13, bottom: 18),
+                child: Text(
+                  "Staff Mailing Address",
+                  style: TextStyle(
+                    fontFamily: "font2",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 6,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width - 70,
+                      padding: EdgeInsets.only(left: 13),
+                      child: Material(
+                        borderRadius: BorderRadius.circular(18),
+                        color: Colors.grey[300],
+                        child: TextFormField(
+                          //initialValue: initValues['bookType'],
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.quick_contacts_mail,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              labelText: "Staff Email",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.orange),
+                              border: InputBorder.none),
+                          focusNode: _staffEmail,
+                          textInputAction: TextInputAction.next,
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context).requestFocus(_staffPassword);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Staff Email must not be empty';
+                            }
+                            return null;
+                          },
+                          // onSaved: (value) {
+                          //   _editedBook = BookProvider(
+                          //     id: _editedBook.id,
+                          //     bookName: _editedBook.bookName,
+                          //     bookImage: _editedBook.bookImage,
+                          //     bookType: value.trimLeft().trim(),
+                          //     categoryId: _editedBook.categoryId,
+                          //     publisher: _editedBook.publisher,
+                          //     publishYear: _editedBook.publishYear,
+                          //     userRating: _editedBook.userRating,
+                          //     ratingNo: _editedBook.ratingNo,
+                          //     bookDescription: _editedBook.bookDescription,
+                          //     isTopGrossing: _editedBook.isTopGrossing,
+                          //   );
+                          // },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width - 70,
+                      padding: EdgeInsets.only(left: 13),
+                      child: Material(
+                        borderRadius: BorderRadius.circular(18),
+                        color: Colors.grey[300],
+                        child: TextFormField(
+                          //initialValue: initValues['bookType'],
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.verified_user_rounded,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              labelText: "Password",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.orange),
+                              border: InputBorder.none),
+                          textInputAction: TextInputAction.next,
+                          focusNode: _staffPassword,
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context)
+                                .requestFocus(_staffReEnterPassword);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Password must not be empty';
+                            }
+                            return null;
+                          },
+                          // onSaved: (value) {
+                          //   _editedBook = BookProvider(
+                          //     id: _editedBook.id,
+                          //     bookName: _editedBook.bookName,
+                          //     bookImage: _editedBook.bookImage,
+                          //     bookType: value.trimLeft().trim(),
+                          //     categoryId: _editedBook.categoryId,
+                          //     publisher: _editedBook.publisher,
+                          //     publishYear: _editedBook.publishYear,
+                          //     userRating: _editedBook.userRating,
+                          //     ratingNo: _editedBook.ratingNo,
+                          //     bookDescription: _editedBook.bookDescription,
+                          //     isTopGrossing: _editedBook.isTopGrossing,
+                          //   );
+                          // },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width - 70,
+                      padding: EdgeInsets.only(left: 13),
+                      child: Material(
+                        borderRadius: BorderRadius.circular(18),
+                        color: Colors.grey[300],
+                        child: TextFormField(
+                          //initialValue: initValues['bookType'],
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.verified_user_rounded,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              labelText: "Re-enter Password",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.orange),
+                              border: InputBorder.none),
+                          textInputAction: TextInputAction.done,
+                          focusNode: _staffReEnterPassword,
+                          // onFieldSubmitted: (_) {
+                          //   FocusScope.of(context).requestFocus(_staffAddress);
+                          // },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Staff Name must not be empty';
+                            }
+                            return null;
+                          },
+                          // onSaved: (value) {
+                          //   _editedBook = BookProvider(
+                          //     id: _editedBook.id,
+                          //     bookName: _editedBook.bookName,
+                          //     bookImage: _editedBook.bookImage,
+                          //     bookType: value.trimLeft().trim(),
+                          //     categoryId: _editedBook.categoryId,
+                          //     publisher: _editedBook.publisher,
+                          //     publishYear: _editedBook.publishYear,
+                          //     userRating: _editedBook.userRating,
+                          //     ratingNo: _editedBook.ratingNo,
+                          //     bookDescription: _editedBook.bookDescription,
+                          //     isTopGrossing: _editedBook.isTopGrossing,
+                          //   );
+                          // },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                  ],
+                ),
+              ),
+              // SizedBox(
+              //   height: 12,
+              // ),
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(
+              //       width: 14,
+              //     ),
+              //     Container(
+              //       height: 60,
+              //       width: MediaQuery.of(context).size.width / 2 - 22,
+              //       child: Material(
+              //         borderRadius: BorderRadius.circular(18),
+              //         color: Colors.grey[300],
+              //         child: TextFormField(
+              //           decoration: InputDecoration(
+              //               prefixIcon: Icon(
+              //                 Icons.library_books,
+              //                 color: Colors.orange,
+              //                 size: 20,
+              //               ),
+              //               labelText: "Teacher Name",
+              //               labelStyle:
+              //                   TextStyle(fontSize: 20, color: Colors.orange),
+              //               border: InputBorder.none),
+              //           textInputAction: TextInputAction.next,
+              //           onFieldSubmitted: (_) {
+              //             //FocusScope.of(context).requestFocus(_bookType);
+              //           },
+              //           validator: (value) {
+              //             if (value.isEmpty) {
+              //               return 'Book Name must not be empty';
+              //             }
+              //             return null;
+              //           },
+              //           // onSaved: (value) {
+              //           //   _editedBook = BookProvider(
+              //           //     id: _editedBook.id,
+              //           //     bookName: value.trimLeft().trim(),
+              //           //     bookImage: _editedBook.bookImage,
+              //           //     bookType: _editedBook.bookType,
+              //           //     categoryId: _editedBook.categoryId,
+              //           //     publisher: _editedBook.publisher,
+              //           //     publishYear: _editedBook.publishYear,
+              //           //     userRating: _editedBook.userRating,
+              //           //     ratingNo: _editedBook.ratingNo,
+              //           //     bookDescription: _editedBook.bookDescription,
+              //           //     isTopGrossing: _editedBook.isTopGrossing,
+              //           //   );
+              //           // },
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 20,
+              //     ),
+              //     Container(
+              //       height: 60,
+              //       width: MediaQuery.of(context).size.width / 2 - 28,
+              //       child: Material(
+              //         borderRadius: BorderRadius.circular(18),
+              //         color: Colors.grey[300],
+              //         child: TextFormField(
+              //           //initialValue: initValues['bookType'],
+              //           decoration: InputDecoration(
+              //               prefixIcon: Icon(
+              //                 Icons.book,
+              //                 color: Colors.orange,
+              //                 size: 20,
+              //               ),
+              //               labelText: "Book Type",
+              //               labelStyle:
+              //                   TextStyle(fontSize: 20, color: Colors.orange),
+              //               border: InputBorder.none),
+              //           textInputAction: TextInputAction.next,
+              //           //focusNode: _bookType,
+              //           onFieldSubmitted: (_) {
+              //             //FocusScope.of(context).requestFocus(_categoryId);
+              //           },
+              //           validator: (value) {
+              //             if (value.isEmpty) {
+              //               return 'Book Type must not be empty';
+              //             }
+              //             return null;
+              //           },
+              //           // onSaved: (value) {
+              //           //   _editedBook = BookProvider(
+              //           //     id: _editedBook.id,
+              //           //     bookName: _editedBook.bookName,
+              //           //     bookImage: _editedBook.bookImage,
+              //           //     bookType: value.trimLeft().trim(),
+              //           //     categoryId: _editedBook.categoryId,
+              //           //     publisher: _editedBook.publisher,
+              //           //     publishYear: _editedBook.publishYear,
+              //           //     userRating: _editedBook.userRating,
+              //           //     ratingNo: _editedBook.ratingNo,
+              //           //     bookDescription: _editedBook.bookDescription,
+              //           //     isTopGrossing: _editedBook.isTopGrossing,
+              //           //   );
+              //           // },
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
 //             SizedBox(
 //               height: 20,
 //             ),
@@ -1221,7 +1239,8 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
 //                 ),
 //               ],
 //
-          ],
+            ],
+          ),
         ),
       ),
     );

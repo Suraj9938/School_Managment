@@ -39,14 +39,24 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Dance Competition",
-              style: TextStyle(
-                fontSize: 26,
-                color: Colors.orange,
-                fontWeight: FontWeight.bold,
-                fontFamily: "font1",
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Dance Competition",
+                  style: TextStyle(
+                    fontSize: 26,
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "font1",
+                  ),
+                ),
+                Icon(
+                  Icons.favorite_border,
+                  color: Colors.orange,
+                  size: 34,
+                ),
+              ],
             ),
             // Padding(
             //   padding: EdgeInsets.only(left: 10, top: 10),
@@ -129,7 +139,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         height: 2,
                       ),
                       Text(
-                        "10:00 - 12:00 pm",
+                        "10:00 am - 12:00 pm",
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           fontSize: 16,
@@ -171,7 +181,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -82,7 +82,7 @@ class _PrincipalOverViewScreenState extends State<PrincipalOverViewScreen> {
         ),
         children: [
           data(Icons.account_circle, "Manage Staff Members", Colors.green[400]),
-          data(Icons.calendar_today_outlined, "Update Calendar", Colors.blue),
+          data(Icons.calendar_today_outlined, "Manage Calendar", Colors.blue),
           data(
               Icons.notifications_active, "Add Notifications", Colors.purpleAccent),
           data(Icons.emoji_events_rounded, "Manage Events", Colors.red),
