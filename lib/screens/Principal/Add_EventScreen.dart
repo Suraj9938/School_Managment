@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AddEventScreen extends StatefulWidget {
+  static const routeName = 'AddEventScreen';
   @override
   _AddEventScreenState createState() => _AddEventScreenState();
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AddStaffScreen extends StatefulWidget {
+  static const routeName = 'addStaff';
+  
   @override
   _AddStaffScreenState createState() => _AddStaffScreenState();
 }
@@ -8,6 +10,7 @@ class AddStaffScreen extends StatefulWidget {
 enum Gender { Male, Female, Others }
 
 class _AddStaffScreenState extends State<AddStaffScreen> {
+
   final _staffAge = FocusNode();
   final _staffMobileNo = FocusNode();
   final _staffAddress = FocusNode();

@@ -33,6 +33,8 @@ dependencies:
   intl: ^0.16.1
   flutter_staggered_grid_view: ^0.3.2
   image_picker: ^0.6.7+14
+  http: ^0.12.2
+  provider: ^4.3.3
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +61,7 @@ flutter:
      - assets/images/EventImage.png
      - assets/images/event.png
      - assets/images/child.png
+     - assets/images/SchoolImage.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

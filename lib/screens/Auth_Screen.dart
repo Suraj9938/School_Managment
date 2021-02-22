@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
-enum UserAuth { Login, SignUp }
-enum Gender {Male, Female, Others}
+enum UserAuth { Login, ProceedToSignUp, SignUp }
+enum Gender { Male, Female, Others }
 
+//String authprovider = await Provider.of<Auth>(context, listen: false);
 class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class AuthScreen extends StatelessWidget {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 1.6,
+              height: MediaQuery.of(context).size.height / 1.45,
               child: Column(
                 children: [
                   Flexible(
@@ -59,8 +66,12 @@ class _AuthCardState extends State<AuthCard>
   Gender _gender = Gender.Male;
 
   Map<String, String> _userAuthData = {
-    'username': '',
+    'name': '',
+    'mobileNo': '',
     'gender': '',
+    'image': '',
+    'address': '',
+    'age': '',
     'email': '',
     'password': '',
   };
@@ -127,6 +138,10 @@ class _AuthCardState extends State<AuthCard>
     });
     try {
       if (_userAuth == UserAuth.Login) {
+        await Provider.of<Auth>(context, listen: false)
+            .login(_userAuthData['email'], _userAuthData['password']);
+        Navigator.of(context)
+            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
         //login user
         // String userType = await Provider.of<Auth>(context, listen: false)
         //     .login(_userAuthData['email'], _userAuthData['password']);
@@ -134,16 +149,24 @@ class _AuthCardState extends State<AuthCard>
         //   Navigator.of(context)
         //       .pushReplacementNamed(LibraryOverView.routeName);
         // }
-      } else {
+      } else if (_userAuth == UserAuth.ProceedToSignUp) {
+        setState(() {
+          _userAuth = UserAuth.SignUp;
+        });
+      } else if (_userAuth == UserAuth.SignUp) {
         //user sign up
-//        print(_userAuthData);
-//         String userType = await Provider.of<Auth>(context, listen: false)
-//             .signUp(_userAuthData['email'], _userAuthData['password']);
-//         print(userType);
-//         if(userType.toString()=="client"){
-//           Navigator.of(context)
-//               .pushReplacementNamed(LibraryOverView.routeName);
-//         }
+        await Provider.of<Auth>(context, listen: false).signup(
+          _userAuthData['name'],
+          _userAuthData['mobileNo'],
+          _userAuthData['gender'],
+          _userAuthData['image'],
+          _userAuthData['address'],
+          _userAuthData['age'],
+          _userAuthData['email'],
+          _userAuthData['password'],
+        );
+        Navigator.of(context)
+            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
       }
 //    } on HttpException catch (error) {
 //      var errorMessage = "Authenication failed";
@@ -168,28 +191,39 @@ class _AuthCardState extends State<AuthCard>
     });
   }
 
-  // String get currentGenderSelected {
-  //   switch (_gender) {
-  //     case Gender.female:
-  //       return "Female";
-  //     case Gender.male:
-  //       return "Male";
-  //     default:
-  //       return "Others";
-  //   }
-  // }
-
   void _switchAuthentication() {
     if (_userAuth == UserAuth.Login) {
       setState(() {
-        _userAuth = UserAuth.SignUp;
+        _userAuth = UserAuth.ProceedToSignUp;
       });
-    } else {
+    } else if (_userAuth == UserAuth.ProceedToSignUp) {
       setState(() {
         _userAuth = UserAuth.Login;
       });
+    } else if (_userAuth == UserAuth.SignUp) {
+      setState(() {
+        _userAuth = UserAuth.ProceedToSignUp;
+      });
     }
     _controller.forward();
+  }
+
+  File imagePath;
+  ImagePicker _selectedImage = ImagePicker();
+
+  Future<void> _getImage(ImageSource image) async {
+    try {
+      imagePath = File((await _selectedImage.getImage(source: image)).path);
+      setState(() {
+        if (imagePath != null) {
+          imagePath = File(imagePath.path);
+        } else {
+          print('No Image Selected!');
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   @override
@@ -204,9 +238,12 @@ class _AuthCardState extends State<AuthCard>
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                _userAuth == UserAuth.SignUp
+                _userAuth == UserAuth.ProceedToSignUp
                     ? Column(
                         children: <Widget>[
+                          SizedBox(
+                            height: 34,
+                          ),
                           SizedBox(
                             height: 54,
                             child: Material(
@@ -247,94 +284,194 @@ class _AuthCardState extends State<AuthCard>
                           SizedBox(
                             height: 20,
                           ),
-                          // SizedBox(
-                          //   height: 54,
-                          //   child: Material(
-                          //     borderRadius: BorderRadius.circular(34),
-                          //     color: Colors.grey[200],
-                          //     child: TextFormField(
-                          //       decoration: InputDecoration(
-                          //         prefixIcon: Icon(
-                          //           Icons.contact_phone,
-                          //           color: Colors.blueGrey,
-                          //         ),
-                          //         labelText: "Gender",
-                          //         labelStyle: TextStyle(
-                          //           fontFamily: "font2",
-                          //           fontWeight: FontWeight.bold,
-                          //           fontSize: 22,
-                          //           color: Colors.blueGrey,
-                          //         ),
-                          //         contentPadding:
-                          //             EdgeInsets.only(bottom: 20, right: 20),
-                          //         border: InputBorder.none,
-                          //       ),
-                          //       keyboardType: TextInputType.emailAddress,
-                          //       validator: (value) {
-                          //         // if (value.isEmpty) {
-                          //         //   return 'Gender should not be empty!';
-                          //         // } else if (value != "Male" ||
-                          //         //     value != "Female") {
-                          //         //   return 'Gender should be either male or female!';
-                          //         // }
-                          //       },
-                          //       onSaved: (value) {
-                          //         _userAuthData['gender'] = value;
-                          //       },
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 20,
-                          // ),
                         ],
                       )
                     : Container(
-                        height: 2,
+                        height: 12,
                       ),
-                // _userAuth == UserAuth.ForgotPassword
-                //     ? SizedBox(
-                //         height: 54,
-                //         child: Material(
-                //           borderRadius: BorderRadius.circular(34),
-                //           color: Colors.grey[200],
-                //           child: TextFormField(
-                //             decoration: InputDecoration(
-                //               prefix: Icon(
-                //                 Icons.mail,
-                //                 color: Colors.blueGrey,
-                //               ),
-                //               labelText: "E-Mail",
-                //               labelStyle: TextStyle(
-                //                 fontFamily: "font2",
-                //                 fontWeight: FontWeight.bold,
-                //                 fontSize: 22,
-                //                 color: Colors.blueGrey,
-                //               ),
-                //               focusColor: Colors.red,
-                //               contentPadding:
-                //                   EdgeInsets.only(bottom: 20, right: 20),
-                //               border: InputBorder.none,
-                //             ),
-                //             keyboardType: TextInputType.emailAddress,
-                //             validator: (value) {
-                //               if (value.isEmpty) {
-                //                 return 'E-Mail should not be empty!';
-                //               } else if (!value.contains('@') &&
-                //                   !value.contains('.com')) {
-                //                 return 'Invalid E-Mail';
-                //               }
-                //             },
-                //             onSaved: (value) {
-                //               _userAuthData['email'] = value;
-                //             },
-                //           ),
-                //         ),
-                //       )
-                //     : Container(
-                //         height: 2,
-                //       ),
-                Column(
+                _userAuth == UserAuth.ProceedToSignUp
+                    ? SizedBox(
+                        height: 54,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(34),
+                          color: Colors.grey[200],
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.supervised_user_circle,
+                                color: Colors.blueGrey,
+                              ),
+                              labelText: "Mobile Number",
+                              labelStyle: TextStyle(
+                                fontFamily: "font2",
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Colors.blueGrey,
+                              ),
+                              focusColor: Colors.red,
+                              contentPadding:
+                                  EdgeInsets.only(bottom: 20, right: 20),
+                              border: InputBorder.none,
+                            ),
+                            keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Mobile Number should not be empty!';
+                              } else if (value.length != 10) {
+                                return 'Mobile Number should be exactly 10 characters!';
+                              }
+                            },
+                            onSaved: (value) {
+                              _userAuthData['mobileNo'] = value;
+                            },
+                          ),
+                        ),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 10,
+                ),
+                _userAuth == UserAuth.SignUp
+                    ? Column(
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(18),
+                                child: Container(
+                                  height: 132,
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      60,
+                                  color: Colors.blueGrey[200],
+                                  child: RaisedButton(
+                                    child: imagePath == null
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.camera,
+                                                color: Colors.white,
+                                                size: 24,
+                                              ),
+                                              SizedBox(
+                                                height: 3,
+                                              ),
+                                              Text(
+                                                "Choose an Image",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: "font2",
+                                                  color: Colors.white,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          )
+                                        : Image.file(
+                                            imagePath,
+                                            fit: BoxFit.contain,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                          ),
+                                    onPressed: () {
+                                      _getImage(ImageSource.gallery);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 56,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 +
+                                            10,
+                                    padding: EdgeInsets.only(left: 13),
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(26),
+                                      color: Colors.grey[200],
+                                      child: TextFormField(
+                                        //initialValue: initValues['bookType'],
+                                        decoration: InputDecoration(
+                                            prefixIcon: Icon(
+                                              Icons.location_on_sharp,
+                                              color: Colors.blueGrey,
+                                            ),
+                                            labelText: "Address",
+                                            labelStyle: TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: "font2",
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blueGrey),
+                                            border: InputBorder.none),
+                                        keyboardType: TextInputType.text,
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Address should not be empty!';
+                                          }
+                                        },
+                                        onSaved: (value) {
+                                          _userAuthData['address'] =
+                                              value.trim();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  Container(
+                                    height: 56,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 +
+                                            10,
+                                    padding: EdgeInsets.only(left: 13),
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(26),
+                                      color: Colors.grey[200],
+                                      child: TextFormField(
+                                        //initialValue: initValues['bookType'],
+                                        decoration: InputDecoration(
+                                          prefixIcon: Icon(
+                                            Icons.date_range_outlined,
+                                            color: Colors.blueGrey,
+                                          ),
+                                          labelText: "Age",
+                                          labelStyle: TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "font2",
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blueGrey),
+                                          border: InputBorder.none,
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Age should not be empty!';
+                                          } else if (value.length > 3) {
+                                            return 'Please Input Valid Age and Try Again!';
+                                          }
+                                        },
+                                        onSaved: (value) {
+                                          _userAuthData['age'] = value.trim();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _userAuth != UserAuth.ProceedToSignUp
+                    ? Column(
                         children: <Widget>[
                           SizedBox(
                             height: 54,
@@ -375,7 +512,7 @@ class _AuthCardState extends State<AuthCard>
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
                           SizedBox(
                             height: 54,
@@ -415,11 +552,9 @@ class _AuthCardState extends State<AuthCard>
                             ),
                           ),
                         ],
-                      ),
-                SizedBox(
-                  height: 10,
-                ),
-                _userAuth == UserAuth.SignUp
+                      )
+                    : Container(),
+                _userAuth == UserAuth.ProceedToSignUp
                     ? Column(
                         children: [
                           Row(
@@ -479,33 +614,33 @@ class _AuthCardState extends State<AuthCard>
                     : Container(
                         height: 2,
                       ),
-                // AnimatedContainer(
-                //   constraints: BoxConstraints(
-                //     minHeight: _userAuth == UserAuth.Login ? 6 : 10,
-                //     maxHeight: _userAuth == UserAuth.Login ? 6 : 10,
-                //   ),
-                //   duration: Duration(milliseconds: 300),
-                //   curve: Curves.bounceInOut,
-                //   child: FadeTransition(
-                //     opacity: _slideAnimation,
-                //     child: SlideTransition(
-                //       position: _opacityAnimation,
-                //       child: TextFormField(
-                //         enabled: _userAuth == UserAuth.Login,
-                //         decoration:
-                //         InputDecoration(labelText: 'Confirm Password'),
-                //         obscureText: true,
-                //         validator: _userAuth == UserAuth.Login
-                //             ? (value) {
-                //           if (value != _pwController.text) {
-                //             return 'Passwords do not match!';
-                //           }
-                //         }
-                //             : null,
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                AnimatedContainer(
+                  constraints: BoxConstraints(
+                    minHeight: _userAuth == UserAuth.Login ? 6 : 10,
+                    maxHeight: _userAuth == UserAuth.Login ? 6 : 10,
+                  ),
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.bounceInOut,
+                  child: FadeTransition(
+                    opacity: _slideAnimation,
+                    child: SlideTransition(
+                      position: _opacityAnimation,
+                      child: TextFormField(
+                        enabled: _userAuth == UserAuth.Login,
+                        decoration:
+                            InputDecoration(labelText: 'Confirm Password'),
+                        obscureText: true,
+                        validator: _userAuth == UserAuth.Login
+                            ? (value) {
+                                if (value != _pwController.text) {
+                                  return 'Passwords do not match!';
+                                }
+                              }
+                            : null,
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 4,
                 ),
@@ -517,18 +652,18 @@ class _AuthCardState extends State<AuthCard>
                   ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 52,
+                  height: 54,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.blueGrey,
                   ),
                   child: FlatButton(
                     child: Text(
-                      _userAuth == UserAuth.SignUp
-                          ? 'Sign Up'
+                      _userAuth == UserAuth.ProceedToSignUp
+                          ? 'Proceed to Sign Up'
                           : _userAuth == UserAuth.Login
                               ? 'Log In'
-                              : 'Submit',
+                              : 'Sign Up',
                       style: TextStyle(color: Colors.white, fontSize: 26),
                     ),
                     onPressed: _submit,
@@ -538,51 +673,44 @@ class _AuthCardState extends State<AuthCard>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _userAuth == UserAuth.Login
-                        ? Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                "Don't have an Account yet ? ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              )
-                            ],
-                          )
-                        : Padding(
+                        ? Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: Text(
-                              "Already have an account ? ",
+                              "Don't have an account yet ? ",
                               style: TextStyle(
                                 fontSize: 16,
                               ),
                             ),
-                          ),
-                    _userAuth == UserAuth.Login
-                        ? Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              RaisedButton(
+                          )
+                        : _userAuth == UserAuth.ProceedToSignUp
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 20),
                                 child: Text(
-                                  "Sign Up",
+                                  "Already have an account ? ",
                                   style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontSize: 15,
+                                    fontSize: 16,
                                   ),
                                 ),
-                                onPressed: _switchAuthentication,
-                              ),
-                            ],
-                          )
-                        : Padding(
+                              )
+                            : _userAuth == UserAuth.SignUp
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: Text(
+                                      "Go Back ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    height: 2,
+                                  ),
+                    _userAuth == UserAuth.Login
+                        ? Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: RaisedButton(
                               child: Text(
-                                "Log In",
+                                "Sign Up",
                                 style: TextStyle(
                                   color: Colors.blueGrey,
                                   fontSize: 15,
@@ -590,49 +718,80 @@ class _AuthCardState extends State<AuthCard>
                               ),
                               onPressed: _switchAuthentication,
                             ),
-                          ),
+                          )
+                        : _userAuth == UserAuth.ProceedToSignUp
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: RaisedButton(
+                                  child: Text(
+                                    "Log In",
+                                    style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  onPressed: _switchAuthentication,
+                                ),
+                              )
+                            : _userAuth == UserAuth.SignUp
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: RaisedButton(
+                                      child: Text(
+                                        "Log In",
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      onPressed: _switchAuthentication,
+                                    ),
+                                  )
+                                : Container(
+                                    height: 2,
+                                  ),
                   ],
                 ),
                 _userAuth == UserAuth.Login
                     ? Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 40,
-                    ),
-                    ClipPath(
-                      clipper: MovieTicketBothSidesClipper(),
-                      child: Container(
-                        color: Colors.blueGrey,
-                        height: 53,
-                        width: 230,
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "WELCOME",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 18),
-                              ),
-                              IconButton(
-                                icon: FaIcon(
-                                  FontAwesomeIcons.solidSmile,
-                                  color: Colors.white,
-                                  size: 22,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 40,
+                          ),
+                          ClipPath(
+                            clipper: MovieTicketBothSidesClipper(),
+                            child: Container(
+                              color: Colors.blueGrey,
+                              height: 53,
+                              width: 230,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "WELCOME",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 18),
+                                    ),
+                                    IconButton(
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.solidSmile,
+                                        color: Colors.white,
+                                        size: 22,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                        ],
+                      )
                     : Container(
-                  height: 2,
-                ),
+                        height: 2,
+                      ),
               ],
             ),
           ),
