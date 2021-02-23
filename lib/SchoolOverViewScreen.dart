@@ -158,7 +158,7 @@ Widget _description() {
           vertical: 4,
         ),
         child: Container(
-          height: 240,
+          height: 200,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

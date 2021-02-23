@@ -4,6 +4,7 @@ import 'package:school_management/Library_OverViewScreen.dart';
 import 'package:school_management/ManageBills_Screen.dart';
 import 'package:school_management/SchoolOverViewScreen.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/screens/Add_School_Screen.dart';
 import 'package:school_management/screens/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.orange,
           accentColor: Colors.orangeAccent,
         ),
-        home: SchoolOverViewScreen(),
+        home: AddSchoolScreen(),
         routes: {
           PrincipalOverViewScreen.routeName: (ctx) => PrincipalOverViewScreen(),
           CalendarScreen.routeName: (ctx) => CalendarScreen(),
