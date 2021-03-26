@@ -30,6 +30,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     //DateTime selectedDate = _calendarController.selectedDay;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -53,9 +54,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 child: TableCalendar(
                   calendarController: _calendarController,
                   //events: _groupedEvents,
-                  onDaySelected: (date, events, holidays) {
-                    setState(() {});
-                  },
+                  // onDaySelected: (date, events, holidays) {
+                  //   setState(() {});
+                  // },
                   weekendDays: [6],
                   headerStyle: HeaderStyle(
                     decoration: BoxDecoration(
@@ -64,7 +65,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     headerMargin: const EdgeInsets.only(bottom: 8.0),
                     titleTextStyle: TextStyle(
                       color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: "font1",
+                      fontWeight: FontWeight.normal,
                     ),
+                    formatButtonVisible: false,
                     formatButtonDecoration: BoxDecoration(
                       border: Border.all(color: Colors.white),
                     ),
@@ -82,17 +87,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   builders: CalendarBuilders(),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 10.0, top: 15.0),
-              //   child: Text(
-              //     DateFormat('| EEEE | dd MMMM, yyyy |').format(selectedDate),
-              //     style: TextStyle(
-              //       color: Colors.black,
-              //       fontSize: 20,
-              //       fontFamily: "font2",
-              //     ),
-              //   ),
-              // ),
+              /*Padding(
+                padding: const EdgeInsets.only(left: 10.0, top: 15.0),
+                child: Text(
+                  DateFormat('| EEEE | dd MMMM, yyyy |').format(selectedDate),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontFamily: "font2",
+                  ),
+                ),
+              ),*/
             ],
           ),
         ),

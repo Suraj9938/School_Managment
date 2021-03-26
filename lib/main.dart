@@ -12,6 +12,7 @@ import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Add_StaffScreen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
+import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/screens/StudentProfile.dart';
 import 'package:school_management/screens/StudentScreen.dart';
 
@@ -35,8 +36,9 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.orange,
           accentColor: Colors.orangeAccent,
         ),
-        home: AddSchoolScreen(),
+        home: AuthScreen(),
         routes: {
+          SchoolOverViewScreen.routeName: (ctx) => SchoolOverViewScreen(),
           PrincipalOverViewScreen.routeName: (ctx) => PrincipalOverViewScreen(),
           CalendarScreen.routeName: (ctx) => CalendarScreen(),
           StudentScreen.routeName: (ctx) => StudentScreen(),

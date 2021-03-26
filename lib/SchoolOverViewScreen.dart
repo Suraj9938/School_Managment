@@ -207,6 +207,7 @@ Widget _description() {
 }
 
 class SchoolOverViewScreen extends StatefulWidget {
+  static const routeName = "/school_overview";
   @override
   _SchoolOverViewScreenState createState() => _SchoolOverViewScreenState();
 }

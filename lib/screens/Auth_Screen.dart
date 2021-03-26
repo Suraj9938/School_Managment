@@ -11,12 +11,10 @@ import 'package:school_management/screens/Principal/Principal_OverViewScreen.dar
 enum UserAuth { Login, ProceedToSignUp, SignUp }
 enum Gender { Male, Female, Others }
 
-//String authprovider = await Provider.of<Auth>(context, listen: false);
 class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(239, 228, 176, 1.0).withOpacity(0.9),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -26,12 +24,11 @@ class AuthScreen extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height / 3.4,
                 width: double.infinity,
-                color: Color.fromRGBO(239, 228, 176, 1),
-                //color: Colors.white,
+                color: Color.fromRGBO(255, 128, 64, 1),
                 child: Padding(
                   padding: EdgeInsets.only(right: 18),
                   child: Image.asset(
-                    "assets/images/ECore1.png",
+                    "assets/images/ECore.png",
                   ),
                 ),
               ),
@@ -64,6 +61,7 @@ class _AuthCardState extends State<AuthCard>
   final GlobalKey<FormState> _globalKey = GlobalKey();
   UserAuth _userAuth = UserAuth.Login;
   Gender _gender = Gender.Male;
+  var _selectedUser;
 
   Map<String, String> _userAuthData = {
     'name': '',
@@ -75,6 +73,23 @@ class _AuthCardState extends State<AuthCard>
     'email': '',
     'password': '',
   };
+
+  String get currentGender {
+    switch (_gender) {
+      case Gender.Male:
+        return "Male";
+      case Gender.Female:
+        return "Female";
+      default:
+        return "Others";
+    }
+  }
+
+  void _selectedGender(Gender value) {
+    setState(() {
+      _gender = value;
+    });
+  }
 
   var _isLoading = false;
   final _pwController = TextEditingController();
@@ -138,18 +153,46 @@ class _AuthCardState extends State<AuthCard>
     });
     try {
       if (_userAuth == UserAuth.Login) {
-        await Provider.of<Auth>(context, listen: false)
+        final response = await Provider.of<Auth>(context, listen: false)
             .login(_userAuthData['email'], _userAuthData['password']);
-        Navigator.of(context)
-            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
-        //login user
-        // String userType = await Provider.of<Auth>(context, listen: false)
-        //     .login(_userAuthData['email'], _userAuthData['password']);
-        // if(userType.toString()=="client"){
-        //   Navigator.of(context)
-        //       .pushReplacementNamed(LibraryOverView.routeName);
-        // }
-      } else if (_userAuth == UserAuth.ProceedToSignUp) {
+        if (response.statusCode == 200) {
+          Navigator.of(context)
+              .pushReplacementNamed(PrincipalOverViewScreen.routeName);
+        }
+        else if (response.statusCode >= 300 && response.statusCode < 400 || response.statusCode == 500) {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text('An Error Occurred!'),
+                content: Text("Something is wrong"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Okay'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                  )
+                ],
+              ));
+        }
+        else if (response.statusCode >= 400 && response.statusCode < 500) {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text('An Error Occurred!'),
+                content: Text("Provied Credentials does not match"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Okay'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                  )
+                ],
+              ));
+        }
+
+        } else if (_userAuth == UserAuth.ProceedToSignUp) {
         setState(() {
           _userAuth = UserAuth.SignUp;
         });
@@ -168,18 +211,6 @@ class _AuthCardState extends State<AuthCard>
         Navigator.of(context)
             .pushReplacementNamed(PrincipalOverViewScreen.routeName);
       }
-//    } on HttpException catch (error) {
-//      var errorMessage = "Authenication failed";
-//      if (error.toString().contains("EMAIL_EXITS")) {
-//        errorMessage = 'This email address is already in use.';
-//      } else if (error.toString().contains("INVALID_EMAIL")) {
-//        errorMessage = 'This is not a valid email address.';
-//      } else if (error.toString().contains("EMAIL_NOT_FOUND")) {
-//        errorMessage = 'Could not find a user with that email.';
-//      } else if (error.toString().contains("INVALID_PASSWORD")) {
-//        errorMessage = 'Invalid password.';
-//      }
-//      _showErrorDialog(errorMessage);
     } catch (error) {
       print(error);
       const errorMessage =
@@ -253,14 +284,14 @@ class _AuthCardState extends State<AuthCard>
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.supervised_user_circle,
-                                    color: Colors.blueGrey,
+                                    color: Colors.orange,
                                   ),
                                   labelText: "User Name",
                                   labelStyle: TextStyle(
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
-                                    color: Colors.blueGrey,
+                                    color: Colors.orange,
                                   ),
                                   focusColor: Colors.red,
                                   contentPadding:
@@ -299,21 +330,21 @@ class _AuthCardState extends State<AuthCard>
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.supervised_user_circle,
-                                color: Colors.blueGrey,
+                                color: Colors.orange,
                               ),
                               labelText: "Mobile Number",
                               labelStyle: TextStyle(
                                 fontFamily: "font2",
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Colors.blueGrey,
+                                color: Colors.orange,
                               ),
                               focusColor: Colors.red,
                               contentPadding:
                                   EdgeInsets.only(bottom: 20, right: 20),
                               border: InputBorder.none,
                             ),
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Mobile Number should not be empty!';
@@ -342,7 +373,7 @@ class _AuthCardState extends State<AuthCard>
                                   height: 132,
                                   width: MediaQuery.of(context).size.width / 2 -
                                       60,
-                                  color: Colors.blueGrey[200],
+                                  color: Colors.orange[200],
                                   child: RaisedButton(
                                     child: imagePath == null
                                         ? Column(
@@ -371,8 +402,8 @@ class _AuthCardState extends State<AuthCard>
                                         : Image.file(
                                             imagePath,
                                             fit: BoxFit.contain,
-                                      width: double.infinity,
-                                      height: double.infinity,
+                                            width: double.infinity,
+                                            height: double.infinity,
                                           ),
                                     onPressed: () {
                                       _getImage(ImageSource.gallery);
@@ -397,14 +428,14 @@ class _AuthCardState extends State<AuthCard>
                                         decoration: InputDecoration(
                                             prefixIcon: Icon(
                                               Icons.location_on_sharp,
-                                              color: Colors.blueGrey,
+                                              color: Colors.orange,
                                             ),
                                             labelText: "Address",
                                             labelStyle: TextStyle(
                                                 fontSize: 20,
                                                 fontFamily: "font2",
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.blueGrey),
+                                                color: Colors.orange),
                                             border: InputBorder.none),
                                         keyboardType: TextInputType.text,
                                         validator: (value) {
@@ -436,14 +467,14 @@ class _AuthCardState extends State<AuthCard>
                                         decoration: InputDecoration(
                                           prefixIcon: Icon(
                                             Icons.date_range_outlined,
-                                            color: Colors.blueGrey,
+                                            color: Colors.orange,
                                           ),
                                           labelText: "Age",
                                           labelStyle: TextStyle(
                                               fontSize: 20,
                                               fontFamily: "font2",
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.blueGrey),
+                                              color: Colors.orange),
                                           border: InputBorder.none,
                                         ),
                                         keyboardType: TextInputType.number,
@@ -482,14 +513,14 @@ class _AuthCardState extends State<AuthCard>
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.mail,
-                                    color: Colors.blueGrey,
+                                    color: Colors.orange,
                                   ),
                                   labelText: "E-Mail",
                                   labelStyle: TextStyle(
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
-                                    color: Colors.blueGrey,
+                                    color: Colors.orange,
                                   ),
                                   focusColor: Colors.red,
                                   contentPadding:
@@ -523,14 +554,14 @@ class _AuthCardState extends State<AuthCard>
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.security,
-                                    color: Colors.blueGrey,
+                                    color: Colors.orange,
                                   ),
                                   labelText: "Password",
                                   labelStyle: TextStyle(
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
-                                    color: Colors.blueGrey,
+                                    color: Colors.orange,
                                   ),
                                   contentPadding:
                                       EdgeInsets.only(bottom: 20, right: 20),
@@ -570,7 +601,7 @@ class _AuthCardState extends State<AuthCard>
                                     fontFamily: "font2",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
-                                    color: Colors.blueGrey,
+                                    color: Colors.orange,
                                   ),
                                 ),
                               ),
@@ -586,22 +617,25 @@ class _AuthCardState extends State<AuthCard>
                                     Radio(
                                       value: Gender.Male,
                                       groupValue: _gender,
-                                      activeColor: Colors.blueGrey,
-                                      onChanged: (value) => {},
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) =>
+                                          _selectedGender(value),
                                     ),
                                     Text("Male"),
                                     Radio(
                                       value: Gender.Female,
                                       groupValue: _gender,
-                                      activeColor: Colors.blueGrey,
-                                      onChanged: (value) => {},
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) =>
+                                          _selectedGender(value),
                                     ),
                                     Text("Female"),
                                     Radio(
                                       value: Gender.Others,
                                       groupValue: _gender,
-                                      activeColor: Colors.blueGrey,
-                                      onChanged: (value) => {},
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) =>
+                                          _selectedGender(value),
                                     ),
                                     Text("Others"),
                                   ],
@@ -614,35 +648,8 @@ class _AuthCardState extends State<AuthCard>
                     : Container(
                         height: 2,
                       ),
-                AnimatedContainer(
-                  constraints: BoxConstraints(
-                    minHeight: _userAuth == UserAuth.Login ? 6 : 10,
-                    maxHeight: _userAuth == UserAuth.Login ? 6 : 10,
-                  ),
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.bounceInOut,
-                  child: FadeTransition(
-                    opacity: _slideAnimation,
-                    child: SlideTransition(
-                      position: _opacityAnimation,
-                      child: TextFormField(
-                        enabled: _userAuth == UserAuth.Login,
-                        decoration:
-                            InputDecoration(labelText: 'Confirm Password'),
-                        obscureText: true,
-                        validator: _userAuth == UserAuth.Login
-                            ? (value) {
-                                if (value != _pwController.text) {
-                                  return 'Passwords do not match!';
-                                }
-                              }
-                            : null,
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(
-                  height: 4,
+                  height: 12,
                 ),
                 if (_isLoading)
                   CircularProgressIndicator()
@@ -650,12 +657,64 @@ class _AuthCardState extends State<AuthCard>
                   SizedBox(
                     height: 5,
                   ),
+                // _userAuth == UserAuth.SignUp
+                //     ? Row(
+                //         children: [
+                //           Text(
+                //             "User Type",
+                //             style: TextStyle(
+                //               fontFamily: "font2",
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 20,
+                //               color: Colors.orange,
+                //             ),
+                //           ),
+                //           SizedBox(
+                //             width: 20,
+                //           ),
+                //           Container(
+                //             child: Center(
+                //               child: DropdownButton<String>(
+                //                 value: _selectedUser,
+                //                 items: <String>[
+                //                   'Principal',
+                //                   'Teacher',
+                //                   'Librarian',
+                //                   'Student',
+                //                   'Parent'
+                //                 ].map<DropdownMenuItem<String>>((String value) {
+                //                   return DropdownMenuItem<String>(
+                //                     value: value,
+                //                     child: Text(value),
+                //                   );
+                //                 }).toList(),
+                //                 onChanged: (String value) {
+                //                   setState(() {
+                //                     _selectedUser = value;
+                //                   });
+                //                 },
+                //                 hint: Text("Select a User"),
+                //                 style: TextStyle(
+                //                   color: Colors.black,
+                //                   fontFamily: "font2",
+                //                   fontSize: 18,
+                //                   fontWeight: FontWeight.normal,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       )
+                //     : Container(),
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width - 20,
                   height: 54,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Colors.blueGrey,
+                    color: Colors.orange,
                   ),
                   child: FlatButton(
                     child: Text(
@@ -692,17 +751,7 @@ class _AuthCardState extends State<AuthCard>
                                   ),
                                 ),
                               )
-                            : _userAuth == UserAuth.SignUp
-                                ? Padding(
-                                    padding: const EdgeInsets.only(top: 20),
-                                    child: Text(
-                                      "Go Back ",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  )
-                                : Container(
+                            : Container(
                                     height: 2,
                                   ),
                     _userAuth == UserAuth.Login
@@ -712,7 +761,7 @@ class _AuthCardState extends State<AuthCard>
                               child: Text(
                                 "Sign Up",
                                 style: TextStyle(
-                                  color: Colors.blueGrey,
+                                  color: Colors.orange,
                                   fontSize: 15,
                                 ),
                               ),
@@ -726,28 +775,14 @@ class _AuthCardState extends State<AuthCard>
                                   child: Text(
                                     "Log In",
                                     style: TextStyle(
-                                      color: Colors.blueGrey,
+                                      color: Colors.orange,
                                       fontSize: 15,
                                     ),
                                   ),
                                   onPressed: _switchAuthentication,
                                 ),
                               )
-                            : _userAuth == UserAuth.SignUp
-                                ? Padding(
-                                    padding: const EdgeInsets.only(top: 20),
-                                    child: RaisedButton(
-                                      child: Text(
-                                        "Log In",
-                                        style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                      onPressed: _switchAuthentication,
-                                    ),
-                                  )
-                                : Container(
+                            : Container(
                                     height: 2,
                                   ),
                   ],
@@ -761,7 +796,7 @@ class _AuthCardState extends State<AuthCard>
                           ClipPath(
                             clipper: MovieTicketBothSidesClipper(),
                             child: Container(
-                              color: Colors.blueGrey,
+                              color: Colors.orange,
                               height: 53,
                               width: 230,
                               child: Center(

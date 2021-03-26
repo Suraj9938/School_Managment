@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as https;
+import 'package:http/http.dart';
 
 class Auth with ChangeNotifier {
-  Future<void> login(String email, String password) async {
-    final url = "http://192.168.6.69:8000/api/login/";
+  Future<Response> login(String email, String password) async {
+    final url = "http://192.168.137.1:8000/api/login/";
     try {
       final response = await https.post(
         url,
@@ -16,14 +17,15 @@ class Auth with ChangeNotifier {
         }),
         headers: {'Content-Type': 'application/json'},
       );
-      print(response.body);
+      // print(response.statusCode);
+      return response;
     } catch (error) {
       throw (error);
     }
   }
 
-  Future<void> signup(String username, String mobileNo, String gender, String image, String address, String age, String email, String password) async {
-    final url = "http://192.168.6.69:8000/api/create/";
+  Future<String> signup(String username, String mobileNo, String gender, String image, String address, String age, String email, String password) async {
+    final url = "http://192.168.137.1:8000/api/create/";
     try {
       final response = await https.post(
         url,
