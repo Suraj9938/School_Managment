@@ -75,13 +75,13 @@ class _PrincipalStaggeredViewState extends State<PrincipalStaggeredView> {
         vertical: 14,
       ),
       children: [
-        data(Icons.assignment, "Check Assignments", Colors.green[400], () {}),
-        data(Icons.grading, "Monitor Attendance", Colors.blue, () {}),
+        data(Icons.supervised_user_circle, "Manage Existing User", Colors.green[400], () {}),
+        data(Icons.calendar_today, "Manage Calendar", Colors.blue, () {}),
         data(
-            Icons.widgets_rounded, "Manage Your Bills", Colors.purpleAccent, () {
+            Icons.emoji_events_rounded, "Manage Events", Colors.purpleAccent, () {
           //Navigator.of(context).pushNamed(ManageBillsScreen.routeName);
         }),
-        data(Icons.calendar_today_outlined, "View Calendar", Colors.red, () {}),
+        data(Icons.notifications_active, "Add Notifications", Colors.red, () {}),
       ],
       staggeredTiles: [
         StaggeredTile.extent(2, 160),
