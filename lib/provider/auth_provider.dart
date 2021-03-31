@@ -3,29 +3,60 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as https;
-import 'package:http/http.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/model/auth.dart';
 
-class Auth with ChangeNotifier {
-  Future<Response> login(String email, String password) async {
-    final url = "http://192.168.137.1:8000/api/login/";
+class AuthProvider with ChangeNotifier {
+  List<Auth> _users = [];
+
+  Auth _loggedInUser;
+
+  Auth get LoggedInUser {
+    return _loggedInUser;
+  }
+
+  List<Auth> get users {
+    return [..._users];
+  }
+
+  Future<https.Response> login(String email, String password) async {
+    final url = "http://192.168.0.7:8000/api/login/";
     try {
       final response = await https.post(
         url,
         body: json.encode({
-          'email': email.trim(),
+          'email': email,
           'password': password,
         }),
         headers: {'Content-Type': 'application/json'},
       );
-      // print(response.statusCode);
+      print(response.body);
+      var res = json.decode(response.body)['user']; //code reusability
+      final user = Auth(
+        userId: res['id'].toString(),
+        email: res['email'],
+        name: res['name'],
+        address: res['address'],
+        age: res['age'],
+        image: res['image'].toString(),
+        mobileNo: res['mobileNo'],
+        gender: res['gender'],
+        isLibrarian: res['librarian'],
+        isParent: res['parent'],
+        isTeacher: res['teacher'],
+        isStudent: res['student'],
+        isAdmin: res['admin'],
+      );
+      _loggedInUser = user;
+      notifyListeners();
       return response;
     } catch (error) {
       throw (error);
     }
   }
 
-  Future<String> signup(String username, String mobileNo, String gender, String image, String address, String age, String email, String password) async {
-    final url = "http://192.168.137.1:8000/api/create/";
+  Future<https.Response> signup(String username, String mobileNo, String gender, String image, String address, String age, String email, String password) async {
+    final url = "http://192.168.0.7:8000/api/create/";
     try {
       final response = await https.post(
         url,

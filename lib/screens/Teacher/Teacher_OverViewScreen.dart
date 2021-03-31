@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:school_management/widget/Teacher_StaggeredView.dart';
+import 'file:///D:/FYP/school_management/lib/widget/Teacher/Teacher_StaggeredView.dart';
 
 class TeacherOverviewScreen extends StatelessWidget {
   @override

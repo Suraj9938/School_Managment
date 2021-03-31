@@ -5,8 +5,11 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/model/auth.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
+import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 
 enum UserAuth { Login, ProceedToSignUp, SignUp }
 enum Gender { Male, Female, Others }
@@ -61,7 +64,6 @@ class _AuthCardState extends State<AuthCard>
   final GlobalKey<FormState> _globalKey = GlobalKey();
   UserAuth _userAuth = UserAuth.Login;
   Gender _gender = Gender.Male;
-  var _selectedUser;
 
   Map<String, String> _userAuthData = {
     'name': '',
@@ -88,6 +90,9 @@ class _AuthCardState extends State<AuthCard>
   void _selectedGender(Gender value) {
     setState(() {
       _gender = value;
+      var gender = _gender;
+      _userAuthData['gender'] = gender.toString();
+      print(_userAuthData['gender']);
     });
   }
 
@@ -153,52 +158,64 @@ class _AuthCardState extends State<AuthCard>
     });
     try {
       if (_userAuth == UserAuth.Login) {
-        final response = await Provider.of<Auth>(context, listen: false)
+        final response = await Provider.of<AuthProvider>(context, listen: false)
             .login(_userAuthData['email'], _userAuthData['password']);
         if (response.statusCode == 200) {
-          Navigator.of(context)
-              .pushReplacementNamed(PrincipalOverViewScreen.routeName);
-        }
-        else if (response.statusCode >= 300 && response.statusCode < 400 || response.statusCode == 500) {
+          Auth user =
+              Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+          if (user.isAdmin) {
+            Navigator.of(context)
+                .pushReplacementNamed(PrincipalOverViewScreen.routeName);
+            print("Admin");
+          } else if (user.isStudent) {
+            Navigator.of(context)
+                .pushReplacementNamed(StudentOverViewScreen.routeName);
+            print("Student");
+          } else if (user.isLibrarian) {
+            Navigator.of(context)
+                .pushReplacementNamed(ParentOverViewScreen.routeName);
+            print("Librarian");
+          }
+        } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+            response.statusCode == 500) {
           showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
-                title: Text('An Error Occurred!'),
-                content: Text("Something is wrong"),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('Okay'),
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                  )
-                ],
-              ));
-        }
-        else if (response.statusCode >= 400 && response.statusCode < 500) {
+                    title: Text('An Error Occurred!'),
+                    content: Text("Something is wrong"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  ));
+        } else if (response.statusCode >= 400 && response.statusCode < 500) {
           showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
-                title: Text('An Error Occurred!'),
-                content: Text("Provied Credentials does not match"),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('Okay'),
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                  )
-                ],
-              ));
+                    title: Text('An Error Occurred!'),
+                    content: Text("Provied Credentials does not match"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  ));
         }
-
-        } else if (_userAuth == UserAuth.ProceedToSignUp) {
+      } else if (_userAuth == UserAuth.ProceedToSignUp) {
         setState(() {
           _userAuth = UserAuth.SignUp;
         });
       } else if (_userAuth == UserAuth.SignUp) {
         //user sign up
-        await Provider.of<Auth>(context, listen: false).signup(
+        final response =
+            await Provider.of<AuthProvider>(context, listen: false).signup(
           _userAuthData['name'],
           _userAuthData['mobileNo'],
           _userAuthData['gender'],
@@ -208,8 +225,42 @@ class _AuthCardState extends State<AuthCard>
           _userAuthData['email'],
           _userAuthData['password'],
         );
-        Navigator.of(context)
-            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
+        print("Name");
+        print(_userAuthData['name']);
+        print("Mobile Number");
+        print(_userAuthData['mobileNo']);
+        print("Gender");
+        print(_userAuthData['gender']);
+        print("Image");
+        print(_userAuthData['image']);
+        print("Address");
+        print(_userAuthData['address']);
+        print("Age");
+        print(_userAuthData['age']);
+        print("Email");
+        print(_userAuthData['email']);
+        print("Password");
+        print(_userAuthData['password']);
+
+        if (response.statusCode == 200) {
+          Navigator.of(context)
+              .pushReplacementNamed(PrincipalOverViewScreen.routeName);
+        } else {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text('An Error Occurred!'),
+                    content: Text("Provide valid credentials and try again"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  ));
+        }
       }
     } catch (error) {
       print(error);
@@ -307,7 +358,7 @@ class _AuthCardState extends State<AuthCard>
                                   }
                                 },
                                 onSaved: (value) {
-                                  _userAuthData['username'] = value;
+                                  _userAuthData['name'] = value;
                                 },
                               ),
                             ),
@@ -752,8 +803,8 @@ class _AuthCardState extends State<AuthCard>
                                 ),
                               )
                             : Container(
-                                    height: 2,
-                                  ),
+                                height: 2,
+                              ),
                     _userAuth == UserAuth.Login
                         ? Padding(
                             padding: const EdgeInsets.only(top: 20),
@@ -783,8 +834,8 @@ class _AuthCardState extends State<AuthCard>
                                 ),
                               )
                             : Container(
-                                    height: 2,
-                                  ),
+                                height: 2,
+                              ),
                   ],
                 ),
                 _userAuth == UserAuth.Login

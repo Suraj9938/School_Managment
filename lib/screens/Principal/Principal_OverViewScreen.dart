@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:school_management/widget/Principal_StaggeredView.dart';
+import 'file:///D:/FYP/school_management/lib/widget/Principal/Principal_App_Drawer.dart';
+import 'file:///D:/FYP/school_management/lib/widget/Principal/Principal_StaggeredView.dart';
 
 class PrincipalOverViewScreen extends StatelessWidget {
   static const routeName = "/principal_overview";
@@ -17,7 +18,11 @@ class PrincipalOverViewScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
+      drawer: PrincipalAppDrawer(),
       body: PrincipalStaggeredView(),
     );
   }

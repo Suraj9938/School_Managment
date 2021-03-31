@@ -81,7 +81,7 @@ class _PrincipalStaggeredViewState extends State<PrincipalStaggeredView> {
             Icons.emoji_events_rounded, "Manage Events", Colors.purpleAccent, () {
           //Navigator.of(context).pushNamed(ManageBillsScreen.routeName);
         }),
-        data(Icons.notifications_active, "Add Notifications", Colors.red, () {}),
+        data(Icons.notifications_active, "Add Notification", Colors.red, () {}),
       ],
       staggeredTiles: [
         StaggeredTile.extent(2, 160),

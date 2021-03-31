@@ -4,16 +4,14 @@ import 'package:school_management/Library_OverViewScreen.dart';
 import 'package:school_management/ManageBills_Screen.dart';
 import 'package:school_management/SchoolOverViewScreen.dart';
 import 'package:school_management/provider/auth_provider.dart';
-import 'package:school_management/screens/Add_School_Screen.dart';
-import 'package:school_management/screens/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
+import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Add_StaffScreen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
-import 'package:school_management/screens/StudentProfile.dart';
 import 'package:school_management/screens/StudentScreen.dart';
 
 void main() {
@@ -26,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => Auth()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -40,6 +38,8 @@ class MyApp extends StatelessWidget {
         routes: {
           SchoolOverViewScreen.routeName: (ctx) => SchoolOverViewScreen(),
           PrincipalOverViewScreen.routeName: (ctx) => PrincipalOverViewScreen(),
+          ParentOverViewScreen.routeName: (ctx) => ParentOverViewScreen(),
+          StudentOverViewScreen.routeName: (ctx) => StudentOverViewScreen(),
           CalendarScreen.routeName: (ctx) => CalendarScreen(),
           StudentScreen.routeName: (ctx) => StudentScreen(),
           AddStaffScreen.routeName: (ctx) => AddStaffScreen(),
