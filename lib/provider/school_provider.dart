@@ -13,7 +13,7 @@ class SchoolProvider with ChangeNotifier {
   }
 
   Future<void> addSchool(School school) async {
-    final url = "http://192.168.137.1:8000/api/addschool/";
+    final url = "http://192.168.0.8:8000/api/addschool/";
     try {
       final response = await https.post(
         url,

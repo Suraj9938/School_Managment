@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:school_management/screens/Principal/Add_School_Screen.dart';
 
 class PrincipalStaggeredView extends StatefulWidget {
   @override
@@ -75,7 +76,9 @@ class _PrincipalStaggeredViewState extends State<PrincipalStaggeredView> {
         vertical: 14,
       ),
       children: [
-        data(Icons.supervised_user_circle, "Manage Existing User", Colors.green[400], () {}),
+        data(Icons.supervised_user_circle, "Manage School Detail", Colors.green[400], () {
+          Navigator.of(context).pushNamed(AddSchoolScreen.routeName);
+        }),
         data(Icons.calendar_today, "Manage Calendar", Colors.blue, () {}),
         data(
             Icons.emoji_events_rounded, "Manage Events", Colors.purpleAccent, () {

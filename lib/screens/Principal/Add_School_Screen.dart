@@ -18,8 +18,10 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
   final _schoolDescription = FocusNode();
   final _form = GlobalKey<FormState>();
   bool _isLoading = false;
-  DateTime _finalStartTime = DateTime.now();
-  DateTime _finalEndTime = DateTime.now();
+  TimeOfDay _finalStartTime;
+  TimeOfDay _finalEndTime;
+  var _schoolStartTime;
+  var _schoolEndTime;
 
   var _schoolData = School(
     schoolName: "",
@@ -150,6 +152,9 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
             },
           ),
         ],
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: _isLoading
           ? (Center(
@@ -217,9 +222,11 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                                         _schoolData = School(
                                           schoolId: _schoolData.schoolId,
                                           schoolName: value.trimLeft().trim(),
-                                          schoolContact: _schoolData.schoolContact,
+                                          schoolContact:
+                                              _schoolData.schoolContact,
                                           schoolImage: _schoolData.schoolImage,
-                                          schoolDescription: _schoolData.schoolDescription,
+                                          schoolDescription:
+                                              _schoolData.schoolDescription,
                                           location: _schoolData.location,
                                           startTime: _schoolData.startTime,
                                           endTime: _schoolData.endTime,
@@ -265,9 +272,11 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                                         _schoolData = School(
                                           schoolId: _schoolData.schoolId,
                                           schoolName: _schoolData.schoolName,
-                                          schoolContact: value.trimLeft().trim(),
+                                          schoolContact:
+                                              value.trimLeft().trim(),
                                           schoolImage: _schoolData.schoolImage,
-                                          schoolDescription: _schoolData.schoolDescription,
+                                          schoolDescription:
+                                              _schoolData.schoolDescription,
                                           location: _schoolData.location,
                                           startTime: _schoolData.startTime,
                                           endTime: _schoolData.endTime,
@@ -358,18 +367,54 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                         SizedBox(
                           height: 12,
                         ),
-                        RaisedButton(
-                          color: Colors.orange,
-                          child: Text("Choose the start time"),
-                          onPressed: () async {
-                            final startDate = await _selectedStartTime(context);
-                            if (startDate == null) return;
-                            print(startDate);
-
-                            setState(() {
-
-                            });
-                          },
+                        Row(
+                          children: [
+                            RaisedButton(
+                              color: Colors.orange,
+                              child: Text(
+                                "Choose start time",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () async {
+                                final startDate =
+                                    await _selectedStartTime(context);
+                                print(startDate);
+                                setState(() {
+                                  _finalStartTime = startDate;
+                                  MaterialLocalizations localization =
+                                      MaterialLocalizations.of(context);
+                                  if (_finalStartTime != null) {
+                                    String formattedStartTime = localization
+                                        .formatTimeOfDay(_finalStartTime,
+                                            alwaysUse24HourFormat: false);
+                                    if(formattedStartTime != null) {
+                                      _schoolStartTime = formattedStartTime;
+                                      print("Formatted Start Time");
+                                      print(_schoolStartTime);
+                                    }
+                                  }
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Text(
+                              _schoolStartTime == null
+                                  ? "No time selected"
+                                  : _schoolStartTime,
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "font2",
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 24,
@@ -401,18 +446,54 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                         SizedBox(
                           height: 12,
                         ),
-                        RaisedButton(
-                          color: Colors.orange,
-                          child: Text("Choose the end time"),
-                          onPressed: () async {
-                            final endDate = await _selectedEndTime(context);
-                            if (endDate == null) return;
-                            print(endDate);
-
-                            setState(() {
-
-                            });
-                          },
+                        Row(
+                          children: [
+                            RaisedButton(
+                              color: Colors.orange,
+                              child: Text(
+                                "Choose end time",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () async {
+                                final endDate =
+                                await _selectedEndTime(context);
+                                print(endDate);
+                                setState(() {
+                                  _finalEndTime = endDate;
+                                  MaterialLocalizations localization =
+                                  MaterialLocalizations.of(context);
+                                  if (_finalEndTime != null) {
+                                    String formattedEndTime = localization
+                                        .formatTimeOfDay(_finalEndTime,
+                                        alwaysUse24HourFormat: false);
+                                    if(formattedEndTime != null) {
+                                      _schoolEndTime = formattedEndTime;
+                                      print("Formatted End Time");
+                                      print(_schoolEndTime);
+                                    }
+                                  }
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Text(
+                              _schoolEndTime == null
+                                  ? "No time selected"
+                                  : _schoolEndTime,
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "font2",
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 24,
@@ -452,7 +533,8 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                                   schoolName: _schoolData.schoolName,
                                   schoolContact: _schoolData.schoolContact,
                                   schoolImage: _schoolData.schoolImage,
-                                  schoolDescription: _schoolData.schoolDescription,
+                                  schoolDescription:
+                                      _schoolData.schoolDescription,
                                   location: value.trimLeft().trim(),
                                   startTime: _schoolData.startTime,
                                   endTime: _schoolData.endTime,

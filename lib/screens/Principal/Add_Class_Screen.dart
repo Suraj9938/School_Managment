@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class AddClassScreen extends StatefulWidget {
   static const routeName = 'addclass';
@@ -29,7 +30,7 @@ class _AddClassScreenState extends State<AddClassScreen> {
       body: Container(
         margin: EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 24,
+          vertical: 50,
         ),
         child: Column(
           children: [
@@ -41,10 +42,10 @@ class _AddClassScreenState extends State<AddClassScreen> {
                 child: TextFormField(
                   decoration: InputDecoration(
                     prefixIcon: Icon(
-                      Icons.widgets_rounded,
+                      Icons.class_,
                       color: Colors.blueGrey,
                     ),
-                    labelText: "Title",
+                    labelText: "Class Name",
                     labelStyle: TextStyle(
                       fontFamily: "font2",
                       fontWeight: FontWeight.bold,
@@ -65,6 +66,40 @@ class _AddClassScreenState extends State<AddClassScreen> {
           ],
         ),
       ),
+      // body: Padding(
+      //   padding: EdgeInsets.only(
+      //     top: 10,
+      //     bottom: 24,
+      //   ),
+      //   child: ListView.builder(
+      //     itemBuilder: (ctx, index) {
+      //       return Card(
+      //         elevation: 4,
+      //         margin: EdgeInsets.symmetric(
+      //           horizontal: 20,
+      //           vertical: 6,
+      //         ),
+      //         child: Container(
+      //           padding: EdgeInsets.only(
+      //             left: 20,
+      //             top: 20,
+      //           ),
+      //           height: 65,
+      //           child: Text(
+      //             "Class Seven",
+      //             style: TextStyle(
+      //               fontFamily: "font2",
+      //               fontWeight: FontWeight.w500,
+      //               color: Colors.orange,
+      //               fontSize: 22,
+      //             ),
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //     itemCount: 12,
+      //   ),
+      // ),
     );
   }
 }

@@ -20,7 +20,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> login(String email, String password) async {
-    final url = "http://192.168.0.7:8000/api/login/";
+    final url = "http://192.168.0.8:8000/api/login/";
     try {
       final response = await https.post(
         url,
@@ -56,7 +56,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> signup(String username, String mobileNo, String gender, String image, String address, String age, String email, String password) async {
-    final url = "http://192.168.0.7:8000/api/create/";
+    final url = "http://192.168.0.8:8000/api/create/";
     try {
       final response = await https.post(
         url,
