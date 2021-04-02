@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:school_management/ManageBills_Screen.dart';
-import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
-import 'package:school_management/widget/Parent/Parent_App_Drawer.dart';
-import 'file:///D:/FYP/school_management/lib/widget/Principal/Principal_StaggeredView.dart';
-import 'package:school_management/widget/Parent/Parent_StaggeredView.dart';
 
-class ParentOverViewScreen extends StatefulWidget {
-  static const routeName = "/parent_overview";
+class ParentStaggeredView extends StatefulWidget {
   @override
-  _ParentOverViewScreenState createState() => _ParentOverViewScreenState();
+  _ParentStaggeredViewState createState() => _ParentStaggeredViewState();
 }
 
-class _ParentOverViewScreenState extends State<ParentOverViewScreen> {
-  Material data(IconData icons, String title, Color colors, Function onPressed) {
+class _ParentStaggeredViewState extends State<ParentStaggeredView> {
+  Material data(
+      IconData icons, String title, Color colors, Function onPressed) {
     return Material(
       color: Colors.white,
       elevation: 12,
@@ -48,11 +43,14 @@ class _ParentOverViewScreenState extends State<ParentOverViewScreen> {
                       color: colors,
                       borderRadius: BorderRadius.circular(24),
                       child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Icon(
-                          icons,
-                          color: Colors.white,
-                          size: 28,
+                        padding: EdgeInsets.all(10),
+                        child: IconButton(
+                          padding: EdgeInsets.all(0),
+                          icon: Icon(
+                            icons,
+                            color: Colors.white,
+                            size: 28,
+                          ),
                         ),
                       ),
                     ),
@@ -68,23 +66,31 @@ class _ParentOverViewScreenState extends State<ParentOverViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Parent Overview",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
-            fontFamily: "font1",
-            color: Colors.white,
-          ),
-        ),
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
+    return StaggeredGridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 12,
+      mainAxisSpacing: 12,
+      padding: EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 14,
       ),
-      body: ParentStaggeredView(),
-      drawer: ParentAppDrawer(),
+      children: [
+        data(Icons.assignment, "Check Assignments", Colors.green[400], () {
+          //Navigator.of(context).pushNamed(AddSchoolScreen.routeName);
+        }),
+        data(Icons.assignment_ind, "Monitor Attendance", Colors.blue, () {}),
+        data(
+            Icons.widgets_rounded, "Manage Your Bills", Colors.purpleAccent, () {
+          //Navigator.of(context).pushNamed(AddEventScreen.routeName);
+        }),
+        data(Icons.calendar_today, "View Calendar", Colors.red, () {}),
+      ],
+      staggeredTiles: [
+        StaggeredTile.extent(2, 160),
+        StaggeredTile.extent(1, 170),
+        StaggeredTile.extent(1, 352),
+        StaggeredTile.extent(1, 170),
+      ],
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Add_School_Screen.dart';
 
 class PrincipalStaggeredView extends StatefulWidget {
@@ -82,7 +83,7 @@ class _PrincipalStaggeredViewState extends State<PrincipalStaggeredView> {
         data(Icons.calendar_today, "Manage Calendar", Colors.blue, () {}),
         data(
             Icons.emoji_events_rounded, "Manage Events", Colors.purpleAccent, () {
-          //Navigator.of(context).pushNamed(ManageBillsScreen.routeName);
+          Navigator.of(context).pushNamed(AddEventScreen.routeName);
         }),
         data(Icons.notifications_active, "Add Notification", Colors.red, () {}),
       ],

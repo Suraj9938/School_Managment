@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:school_management/screens/AssignmentView_Screen.dart';
+import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 
 class StudentStaggeredView extends StatefulWidget {
   @override
@@ -72,7 +74,9 @@ class _StudentStaggeredViewState extends State<StudentStaggeredView> {
         vertical: 14,
       ),
       children: [
-        data(Icons.assignment, "Check Assignments", Colors.green[400], () {}),
+        data(Icons.assignment, "Check Assignments", Colors.green[400], () {
+          Navigator.of(context).pushNamed(AssignmentViewScreen.routeName);
+        }),
         data(Icons.grading, "Monitor Attendance", Colors.blue, () {}),
         data(Icons.book_online, "Library Books", Colors.purpleAccent, () {
           //Navigator.of(context).pushNamed(LibraryOverViewScreen.routeName);

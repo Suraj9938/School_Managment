@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:school_management/screens/Auth_Screen.dart';
+import 'package:school_management/screens/Principal/Add_UserScreen.dart';
 
 class PrincipalAppDrawer extends StatelessWidget {
   @override
@@ -70,7 +72,7 @@ class PrincipalAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, AddUserScreen.routeName);
             },
           ),
           ListTile(
@@ -164,7 +166,7 @@ class PrincipalAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, AuthScreen.routeName);
             },
           ),
           Divider(

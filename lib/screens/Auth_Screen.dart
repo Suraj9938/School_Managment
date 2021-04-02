@@ -15,6 +15,7 @@ enum UserAuth { Login, ProceedToSignUp, SignUp }
 enum Gender { Male, Female, Others }
 
 class AuthScreen extends StatelessWidget {
+  static const routeName = "/auth";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

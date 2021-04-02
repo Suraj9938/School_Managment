@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddEventScreen extends StatefulWidget {
   static const routeName = 'AddEventScreen';
@@ -8,6 +11,10 @@ class AddEventScreen extends StatefulWidget {
 
 class _AddEventScreenState extends State<AddEventScreen> {
   final _eventDay = FocusNode();
+  TimeOfDay _finalStartTime;
+  TimeOfDay _finalEndTime;
+  var _schoolStartTime;
+  var _schoolEndTime;
 
   DateTime _dateTime = DateTime.now();
 
@@ -16,6 +23,24 @@ class _AddEventScreenState extends State<AddEventScreen> {
     // TODO: implement dispose
     super.dispose();
     _eventDay.dispose();
+  }
+
+  File imagePath;
+  ImagePicker _selectedImage = ImagePicker();
+
+  Future<void> _getImage(ImageSource image) async {
+    try {
+      imagePath = File((await _selectedImage.getImage(source: image)).path);
+      setState(() {
+        if (imagePath != null) {
+          imagePath = File(imagePath.path);
+        } else {
+          print('No Image Selected!');
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   void userSelectedDate(BuildContext context) {
@@ -31,171 +56,29 @@ class _AddEventScreenState extends State<AddEventScreen> {
     });
   }
 
-  var _startHourTimes = [
-    'HOUR',
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12'
-  ];
-  var _currentStartHourTime = 'HOUR';
-  var _startMinuteTimes = [
-    'MIN',
-    '00',
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23',
-    '24',
-    '25',
-    '26',
-    '27',
-    '28',
-    '29',
-    '30',
-    '31',
-    '32',
-    '33',
-    '34',
-    '35',
-    '36',
-    '37',
-    '38',
-    '39',
-    '40',
-    '41',
-    '42',
-    '43',
-    '44',
-    '45',
-    '46',
-    '47',
-    '48',
-    '49',
-    '50',
-    '51',
-    '52',
-    '53',
-    '54',
-    '55',
-    '56',
-    '57',
-    '58',
-    '59'
-  ];
-  var _currentStartMinuteTime = 'MIN';
-  var _startTime = ['am', 'pm'];
-  var _currentStartTime = 'am';
+  Future<TimeOfDay> _selectedStartTime(BuildContext context) {
+    final startTime = DateTime.now();
 
-  var _endHourTimes = [
-    'HOUR',
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12'
-  ];
-  var _currentEndHourTime = 'HOUR';
-  var _endMinuteTimes = [
-    'MIN',
-    '00',
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23',
-    '24',
-    '25',
-    '26',
-    '27',
-    '28',
-    '29',
-    '30',
-    '31',
-    '32',
-    '33',
-    '34',
-    '35',
-    '36',
-    '37',
-    '38',
-    '39',
-    '40',
-    '41',
-    '42',
-    '43',
-    '44',
-    '45',
-    '46',
-    '47',
-    '48',
-    '49',
-    '50',
-    '51',
-    '52',
-    '53',
-    '54',
-    '55',
-    '56',
-    '57',
-    '58',
-    '59'
-  ];
-  var _currentEndMinuteTime = 'MIN';
-  var _endTime = ['am', 'pm'];
-  var _currentEndTime = 'am';
+    return showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(
+        hour: startTime.hour,
+        minute: startTime.minute,
+      ),
+    );
+  }
+
+  Future<TimeOfDay> _selectedEndTime(BuildContext context) {
+    final endTime = DateTime.now();
+
+    return showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(
+        hour: endTime.hour,
+        minute: endTime.minute,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -217,6 +100,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
             onPressed: () {},
           ),
         ],
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: Form(
         child: ListView(
@@ -350,28 +236,44 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         borderRadius: BorderRadius.circular(18),
                         child: Container(
                           height: 132,
-                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          width:
+                          MediaQuery.of(context).size.width / 2 - 40,
                           color: Colors.blueGrey[200],
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.camera,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                "Choose an Image",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: "font2",
-                                  color: Colors.white,
+                          child: RaisedButton(
+                            child: imagePath == null
+                                ? Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.camera,
+                                  color: Colors.orange,
+                                  size: 24,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  "Choose an Image",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "font2",
+                                    color: Colors.orange,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            )
+                                : Image.file(
+                              imagePath,
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                            ),
+                            onPressed: () {
+                              _getImage(ImageSource.gallery);
+                            },
                           ),
                         ),
                       ),
@@ -407,110 +309,54 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   SizedBox(
                     height: 12,
                   ),
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Container(
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              child: DropdownButton<String>(
-                                items: _startHourTimes
-                                    .map((String dropDownStringItem) {
-                                  return DropdownMenuItem<String>(
-                                    value: dropDownStringItem,
-                                    child: Text(
-                                      dropDownStringItem,
-                                      style: TextStyle(color: Colors.orange),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (String newValueSelected) {
-                                  setState(() {
-                                    this._currentStartHourTime =
-                                        newValueSelected;
-                                  });
-                                },
-                                value: _currentStartHourTime,
-                              ),
-                            ),
+                  Row(
+                    children: [
+                      RaisedButton(
+                        color: Colors.orange,
+                        child: Text(
+                          "Choose start time",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "font2",
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
                         ),
-                        SizedBox(
-                          width: 12,
+                        onPressed: () async {
+                          final startDate =
+                          await _selectedStartTime(context);
+                          print(startDate);
+                          setState(() {
+                            _finalStartTime = startDate;
+                            MaterialLocalizations localization =
+                            MaterialLocalizations.of(context);
+                            if (_finalStartTime != null) {
+                              String formattedStartTime = localization
+                                  .formatTimeOfDay(_finalStartTime,
+                                  alwaysUse24HourFormat: false);
+                              if(formattedStartTime != null) {
+                                _schoolStartTime = formattedStartTime;
+                                print("Formatted Start Time");
+                                print(_schoolStartTime);
+                              }
+                            }
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        _schoolStartTime == null
+                            ? "No time selected"
+                            : _schoolStartTime,
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "font2",
                         ),
-                        Container(
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              child: DropdownButton<String>(
-                                items: _startMinuteTimes
-                                    .map((String dropDownStringItem) {
-                                  return DropdownMenuItem<String>(
-                                    value: dropDownStringItem,
-                                    child: Text(
-                                      dropDownStringItem,
-                                      style: TextStyle(color: Colors.orange),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (String newValueSelected) {
-                                  setState(() {
-                                    this._currentStartMinuteTime =
-                                        newValueSelected;
-                                  });
-                                },
-                                value: _currentStartMinuteTime,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Container(
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              child: DropdownButton<String>(
-                                items:
-                                    _startTime.map((String dropDownStringItem) {
-                                  return DropdownMenuItem<String>(
-                                    value: dropDownStringItem,
-                                    child: Text(
-                                      dropDownStringItem,
-                                      style: TextStyle(color: Colors.orange),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (String newValueSelected) {
-                                  setState(() {
-                                    this._currentStartTime = newValueSelected;
-                                  });
-                                },
-                                value: _currentStartTime,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 20,
@@ -542,109 +388,54 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   SizedBox(
                     height: 12,
                   ),
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Container(
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              child: DropdownButton<String>(
-                                items: _endHourTimes
-                                    .map((String dropDownStringItem) {
-                                  return DropdownMenuItem<String>(
-                                    value: dropDownStringItem,
-                                    child: Text(
-                                      dropDownStringItem,
-                                      style: TextStyle(color: Colors.orange),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (String newValueSelected) {
-                                  setState(() {
-                                    this._currentEndHourTime = newValueSelected;
-                                  });
-                                },
-                                value: _currentEndHourTime,
-                              ),
-                            ),
+                  Row(
+                    children: [
+                      RaisedButton(
+                        color: Colors.orange,
+                        child: Text(
+                          "Choose end time",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "font2",
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
                         ),
-                        SizedBox(
-                          width: 12,
+                        onPressed: () async {
+                          final endDate =
+                          await _selectedEndTime(context);
+                          print(endDate);
+                          setState(() {
+                            _finalEndTime = endDate;
+                            MaterialLocalizations localization =
+                            MaterialLocalizations.of(context);
+                            if (_finalEndTime != null) {
+                              String formattedEndTime = localization
+                                  .formatTimeOfDay(_finalEndTime,
+                                  alwaysUse24HourFormat: false);
+                              if(formattedEndTime != null) {
+                                _schoolEndTime = formattedEndTime;
+                                print("Formatted End Time");
+                                print(_schoolEndTime);
+                              }
+                            }
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        _schoolEndTime == null
+                            ? "No time selected"
+                            : _schoolEndTime,
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "font2",
                         ),
-                        Container(
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              child: DropdownButton<String>(
-                                items: _endMinuteTimes
-                                    .map((String dropDownStringItem) {
-                                  return DropdownMenuItem<String>(
-                                    value: dropDownStringItem,
-                                    child: Text(
-                                      dropDownStringItem,
-                                      style: TextStyle(color: Colors.orange),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (String newValueSelected) {
-                                  setState(() {
-                                    this._currentEndMinuteTime =
-                                        newValueSelected;
-                                  });
-                                },
-                                value: _currentEndMinuteTime,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Container(
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              child: DropdownButton<String>(
-                                items:
-                                    _endTime.map((String dropDownStringItem) {
-                                  return DropdownMenuItem<String>(
-                                    value: dropDownStringItem,
-                                    child: Text(
-                                      dropDownStringItem,
-                                      style: TextStyle(color: Colors.orange),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (String newValueSelected) {
-                                  setState(() {
-                                    this._currentEndTime = newValueSelected;
-                                  });
-                                },
-                                value: _currentEndTime,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 18,

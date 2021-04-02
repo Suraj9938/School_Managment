@@ -1,37 +1,78 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class AddStaffScreen extends StatefulWidget {
-  static const routeName = 'addStaff';
-  
-  @override
-  _AddStaffScreenState createState() => _AddStaffScreenState();
-}
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 enum Gender { Male, Female, Others }
 
-class _AddStaffScreenState extends State<AddStaffScreen> {
+class AddUserScreen extends StatefulWidget {
+  static const routeName = 'AddUser';
 
-  final _staffAge = FocusNode();
-  final _staffMobileNo = FocusNode();
-  final _staffAddress = FocusNode();
-  final _staffEmail = FocusNode();
-  final _staffPassword = FocusNode();
-  final _staffReEnterPassword = FocusNode();
+  @override
+  _AddUserScreenState createState() => _AddUserScreenState();
+}
+
+class _AddUserScreenState extends State<AddUserScreen> {
+  final _userAge = FocusNode();
+  final _userMobileNo = FocusNode();
+  final _userAddress = FocusNode();
+  final _userEmail = FocusNode();
+  final _userPassword = FocusNode();
+  final _userReEnterPassword = FocusNode();
 
   Gender _gender = Gender.Male;
-  var _staffType = ['Teacher', 'Librarian'];
-  var _currentStaffSelected = 'Teacher';
+
+  String get currentGender {
+    switch (_gender) {
+      case Gender.Male:
+        return "Male";
+      case Gender.Female:
+        return "Female";
+      default:
+        return "Others";
+    }
+  }
+
+  void _selectedGender(Gender value) {
+    setState(() {
+      _gender = value;
+      var gender = _gender;
+      //_userAuthData['gender'] = gender.toString();
+      //print(_userAuthData['gender']);
+    });
+  }
+
+  var _userType = ['Teacher', 'Librarian', 'Parent', 'Student'];
+  var _currentuserSelected = 'Teacher';
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _staffAge.dispose();
-    _staffMobileNo.dispose();
-    _staffAddress.dispose();
-    _staffEmail.dispose();
-    _staffPassword.dispose();
-    _staffReEnterPassword.dispose();
+    _userAge.dispose();
+    _userMobileNo.dispose();
+    _userAddress.dispose();
+    _userEmail.dispose();
+    _userPassword.dispose();
+    _userReEnterPassword.dispose();
+  }
+
+  File imagePath;
+  ImagePicker _selectedImage = ImagePicker();
+
+  Future<void> _getImage(ImageSource image) async {
+    try {
+      imagePath = File((await _selectedImage.getImage(source: image)).path);
+      setState(() {
+        if (imagePath != null) {
+          imagePath = File(imagePath.path);
+        } else {
+          print('No Image Selected!');
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   @override
@@ -39,7 +80,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add Staff",
+          "Add User",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
@@ -54,6 +95,9 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
             onPressed: () {},
           ),
         ],
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: SafeArea(
         child: Form(
@@ -65,7 +109,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 13, bottom: 18),
                 child: Text(
-                  "Staff Information",
+                  "User Information",
                   style: TextStyle(
                     fontFamily: "font2",
                     fontSize: 20,
@@ -95,7 +139,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                       color: Colors.orange,
                                       size: 20,
                                     ),
-                                    labelText: "Staff Name",
+                                    labelText: "User Name",
                                     labelStyle: TextStyle(
                                         fontSize: 19,
                                         fontFamily: "font2",
@@ -105,11 +149,11 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                 textInputAction: TextInputAction.next,
                                 onFieldSubmitted: (_) {
                                   FocusScope.of(context)
-                                      .requestFocus(_staffAddress);
+                                      .requestFocus(_userAddress);
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Staff Name must not be empty';
+                                    return 'User Name must not be empty';
                                   }
                                   return null;
                                 },
@@ -149,7 +193,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                       color: Colors.orange,
                                       size: 20,
                                     ),
-                                    labelText: "Staff Address",
+                                    labelText: "User Address",
                                     labelStyle: TextStyle(
                                         fontSize: 19,
                                         fontFamily: "font2",
@@ -157,13 +201,13 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                         color: Colors.orange),
                                     border: InputBorder.none),
                                 textInputAction: TextInputAction.done,
-                                focusNode: _staffAddress,
+                                focusNode: _userAddress,
                                 // onFieldSubmitted: (_) {
                                 //   FocusScope.of(context).requestFocus(_categoryId);
                                 // },
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Staff Address must not be empty';
+                                    return 'User Address must not be empty';
                                   }
                                   return null;
                                 },
@@ -196,26 +240,40 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                           height: 132,
                           width: MediaQuery.of(context).size.width / 2 - 40,
                           color: Colors.blueGrey[200],
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.camera,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                "Choose an Image",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: "font2",
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+                          child: RaisedButton(
+                            child: imagePath == null
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.camera,
+                                        color: Colors.orange,
+                                        size: 24,
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        "Choose an Image",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: "font2",
+                                          color: Colors.orange,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  )
+                                : Image.file(
+                                    imagePath,
+                                    fit: BoxFit.contain,
+                                    width: double.infinity,
+                                  ),
+                            onPressed: () {
+                              _getImage(ImageSource.gallery);
+                            },
                           ),
                         ),
                       ),
@@ -238,7 +296,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                           width: 8,
                         ),
                         Text(
-                          "Staff Gender",
+                          "User Gender",
                           style: TextStyle(
                               fontSize: 19,
                               fontFamily: "font2",
@@ -262,29 +320,43 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                           width: MediaQuery.of(context).size.width - 60,
                           child: Row(
                             children: [
-                              Radio(
-                                value: Gender.Male,
-                                groupValue: _gender,
-                                activeColor: Colors.blueGrey,
-                                onChanged: (value) => {},
+                              Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width - 60,
+                                child: Row(
+                                  children: [
+                                    Radio(
+                                      value: Gender.Male,
+                                      groupValue: _gender,
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) =>
+                                          _selectedGender(value),
+                                    ),
+                                    Text("Male"),
+                                    Radio(
+                                      value: Gender.Female,
+                                      groupValue: _gender,
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) =>
+                                          _selectedGender(value),
+                                    ),
+                                    Text("Female"),
+                                    Radio(
+                                      value: Gender.Others,
+                                      groupValue: _gender,
+                                      activeColor: Colors.orange,
+                                      onChanged: (value) =>
+                                          _selectedGender(value),
+                                    ),
+                                    Text("Others"),
+                                  ],
+                                ),
                               ),
-                              Text("Male"),
-                              Radio(
-                                value: Gender.Female,
-                                groupValue: _gender,
-                                activeColor: Colors.blueGrey,
-                                onChanged: (value) => {},
-                              ),
-                              Text("Female"),
-                              Radio(
-                                value: Gender.Others,
-                                groupValue: _gender,
-                                activeColor: Colors.blueGrey,
-                                onChanged: (value) => {},
-                              ),
-                              Text("Others"),
                             ],
                           ),
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                       ],
                     ),
@@ -327,7 +399,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                               ),
                               child: DropdownButton<String>(
                                 items:
-                                    _staffType.map((String dropDownStringItem) {
+                                    _userType.map((String dropDownStringItem) {
                                   return DropdownMenuItem<String>(
                                     value: dropDownStringItem,
                                     child: Text(
@@ -338,10 +410,11 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                 }).toList(),
                                 onChanged: (String newValueSelected) {
                                   setState(() {
-                                    this._currentStaffSelected = newValueSelected;
+                                    this._currentuserSelected =
+                                        newValueSelected;
                                   });
                                 },
-                                value: _currentStaffSelected,
+                                value: _currentuserSelected,
                               ),
                             ),
                           ),
@@ -369,7 +442,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                   color: Colors.orange,
                                   size: 20,
                                 ),
-                                labelText: "Staff Age",
+                                labelText: "User Age",
                                 labelStyle: TextStyle(
                                     fontSize: 19,
                                     fontFamily: "font2",
@@ -377,14 +450,15 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                     color: Colors.orange),
                                 border: InputBorder.none),
                             textInputAction: TextInputAction.next,
-                            focusNode: _staffAge,
+                            focusNode: _userAge,
                             keyboardType: TextInputType.phone,
                             onFieldSubmitted: (_) {
-                              FocusScope.of(context).requestFocus(_staffMobileNo);
+                              FocusScope.of(context)
+                                  .requestFocus(_userMobileNo);
                             },
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'Staff Address must not be empty';
+                                return 'User Age must not be empty';
                               }
                               return null;
                             },
@@ -429,14 +503,14 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                     color: Colors.orange),
                                 border: InputBorder.none),
                             textInputAction: TextInputAction.next,
-                            focusNode: _staffMobileNo,
+                            focusNode: _userMobileNo,
                             keyboardType: TextInputType.phone,
                             onFieldSubmitted: (_) {
-                              FocusScope.of(context).requestFocus(_staffEmail);
+                              FocusScope.of(context).requestFocus(_userEmail);
                             },
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'Staff Address must not be empty';
+                                return 'Mobile Number must not be empty';
                               }
                               return null;
                             },
@@ -471,7 +545,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 13, bottom: 18),
                 child: Text(
-                  "Staff Mailing Address",
+                  "User Mailing Address",
                   style: TextStyle(
                     fontFamily: "font2",
                     fontSize: 20,
@@ -501,21 +575,21 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                 color: Colors.orange,
                                 size: 20,
                               ),
-                              labelText: "Staff Email",
+                              labelText: "User Email",
                               labelStyle: TextStyle(
                                   fontSize: 19,
                                   fontFamily: "font2",
                                   fontWeight: FontWeight.w500,
                                   color: Colors.orange),
                               border: InputBorder.none),
-                          focusNode: _staffEmail,
+                          focusNode: _userEmail,
                           textInputAction: TextInputAction.next,
                           onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_staffPassword);
+                            FocusScope.of(context).requestFocus(_userPassword);
                           },
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Staff Email must not be empty';
+                              return 'User Email must not be empty';
                             }
                             return null;
                           },
@@ -562,12 +636,8 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                                   fontWeight: FontWeight.w500,
                                   color: Colors.orange),
                               border: InputBorder.none),
-                          textInputAction: TextInputAction.next,
-                          focusNode: _staffPassword,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context)
-                                .requestFocus(_staffReEnterPassword);
-                          },
+                          textInputAction: TextInputAction.done,
+                          focusNode: _userPassword,
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Password must not be empty';
@@ -594,60 +664,6 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
                     ),
                     SizedBox(
                       height: 15,
-                    ),
-                    Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width - 70,
-                      padding: EdgeInsets.only(left: 13),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(18),
-                        color: Colors.grey[300],
-                        child: TextFormField(
-                          //initialValue: initValues['bookType'],
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.verified_user_rounded,
-                                color: Colors.orange,
-                                size: 20,
-                              ),
-                              labelText: "Re-enter Password",
-                              labelStyle: TextStyle(
-                                  fontSize: 19,
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.orange),
-                              border: InputBorder.none),
-                          textInputAction: TextInputAction.done,
-                          focusNode: _staffReEnterPassword,
-                          // onFieldSubmitted: (_) {
-                          //   FocusScope.of(context).requestFocus(_staffAddress);
-                          // },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Staff Name must not be empty';
-                            }
-                            return null;
-                          },
-                          // onSaved: (value) {
-                          //   _editedBook = BookProvider(
-                          //     id: _editedBook.id,
-                          //     bookName: _editedBook.bookName,
-                          //     bookImage: _editedBook.bookImage,
-                          //     bookType: value.trimLeft().trim(),
-                          //     categoryId: _editedBook.categoryId,
-                          //     publisher: _editedBook.publisher,
-                          //     publishYear: _editedBook.publishYear,
-                          //     userRating: _editedBook.userRating,
-                          //     ratingNo: _editedBook.ratingNo,
-                          //     bookDescription: _editedBook.bookDescription,
-                          //     isTopGrossing: _editedBook.isTopGrossing,
-                          //   );
-                          // },
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
                     ),
                   ],
                 ),
