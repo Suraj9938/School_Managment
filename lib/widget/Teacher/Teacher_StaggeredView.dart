@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class TeacherStaggeredView extends StatefulWidget {
@@ -23,7 +24,6 @@ class _TeacherStaggeredViewState extends State<TeacherStaggeredView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       padding: EdgeInsets.all(8),
@@ -65,26 +65,19 @@ class _TeacherStaggeredViewState extends State<TeacherStaggeredView> {
   Widget build(BuildContext context) {
     return StaggeredGridView.count(
       crossAxisCount: 2,
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
+      crossAxisSpacing: 15,
+      mainAxisSpacing: 15,
       padding: EdgeInsets.symmetric(
         horizontal: 15,
         vertical: 14,
       ),
       children: [
-        data(Icons.class_, "Class Information", Colors.green[400], ()
-        {
-          //Navigator.of(context).pushNamed(AddClassScreen.routeName);
-        }),
         data(Icons.grading, "Add Attendance", Colors.blue, () {}),
         data(Icons.assignment, "Manage Assignment", Colors.purpleAccent, () {}),
-        data(Icons.calendar_today_outlined, "Manage Routine", Colors.red, () {}),
       ],
       staggeredTiles: [
-        StaggeredTile.extent(2, 160),
-        StaggeredTile.extent(1, 352),
-        StaggeredTile.extent(1, 170),
-        StaggeredTile.extent(1, 170),
+        StaggeredTile.extent(2, 170),
+        StaggeredTile.extent(2, 170),
       ],
     );
   }
