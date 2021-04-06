@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Auth {
+class Auth with ChangeNotifier {
   String userId;
   String name;
   String address;
@@ -9,26 +9,29 @@ class Auth {
   String age;
   String mobileNo;
   String email;
+  String password;
   bool isTeacher;
   bool isLibrarian;
   bool isStudent;
   bool isParent;
   bool isAdmin;
+  bool isStaff;
 
   Auth({
-    @required this.userId,
-    @required this.name,
-    @required this.address,
-    @required this.image,
-    @required this.gender,
-    @required this.age,
-    @required this.mobileNo,
-    @required this.email,
-    @required this.isTeacher,
-    @required this.isLibrarian,
-    @required this.isParent,
-    @required this.isStudent,
-    @required this.isAdmin,
+    this.userId,
+    this.name,
+    this.address,
+    this.image,
+    this.gender,
+    this.age,
+    this.mobileNo,
+    this.email,
+    this.password,
+    this.isTeacher,
+    this.isLibrarian,
+    this.isParent,
+    this.isStudent,
+    this.isAdmin,
+    this.isStaff,
   });
-
 }

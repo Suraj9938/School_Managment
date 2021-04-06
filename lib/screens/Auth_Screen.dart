@@ -7,9 +7,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/model/auth.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/provider/school_provider.dart';
+import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
 import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
+import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
 
 enum UserAuth { Login, ProceedToSignUp, SignUp }
 enum Gender { Male, Female, Others }
@@ -18,6 +21,8 @@ class AuthScreen extends StatelessWidget {
   static const routeName = "/auth";
   @override
   Widget build(BuildContext context) {
+    final schoolInfo = Provider.of<SchoolProvider>(context, listen: false).setFetchSchoolData();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -174,8 +179,16 @@ class _AuthCardState extends State<AuthCard>
             print("Student");
           } else if (user.isLibrarian) {
             Navigator.of(context)
-                .pushReplacementNamed(ParentOverViewScreen.routeName);
+                .pushReplacementNamed(LibrarianOverViewScreen.routeName);
             print("Librarian");
+          } else if (user.isTeacher) {
+            Navigator.of(context)
+                .pushReplacementNamed(TeacherOverviewScreen.routeName);
+            print("Teacher");
+          } else if (user.isParent) {
+            Navigator.of(context)
+                .pushReplacementNamed(ParentOverViewScreen.routeName);
+            print("Parent");
           }
         } else if (response.statusCode >= 300 && response.statusCode < 400 ||
             response.statusCode == 500) {
@@ -213,55 +226,6 @@ class _AuthCardState extends State<AuthCard>
         setState(() {
           _userAuth = UserAuth.SignUp;
         });
-      } else if (_userAuth == UserAuth.SignUp) {
-        //user sign up
-        final response =
-            await Provider.of<AuthProvider>(context, listen: false).signup(
-          _userAuthData['name'],
-          _userAuthData['mobileNo'],
-          _userAuthData['gender'],
-          _userAuthData['image'],
-          _userAuthData['address'],
-          _userAuthData['age'],
-          _userAuthData['email'],
-          _userAuthData['password'],
-        );
-        print("Name");
-        print(_userAuthData['name']);
-        print("Mobile Number");
-        print(_userAuthData['mobileNo']);
-        print("Gender");
-        print(_userAuthData['gender']);
-        print("Image");
-        print(_userAuthData['image']);
-        print("Address");
-        print(_userAuthData['address']);
-        print("Age");
-        print(_userAuthData['age']);
-        print("Email");
-        print(_userAuthData['email']);
-        print("Password");
-        print(_userAuthData['password']);
-
-        if (response.statusCode == 200) {
-          Navigator.of(context)
-              .pushReplacementNamed(PrincipalOverViewScreen.routeName);
-        } else {
-          showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                    title: Text('An Error Occurred!'),
-                    content: Text("Provide valid credentials and try again"),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('Okay'),
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                      )
-                    ],
-                  ));
-        }
       }
     } catch (error) {
       print(error);

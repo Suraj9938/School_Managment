@@ -3,6 +3,7 @@ import 'file:///D:/FYP/school_management/lib/widget/Teacher/Teacher_StaggeredVie
 import 'package:school_management/widget/Teacher/Teacher_App_Drawer.dart';
 
 class TeacherOverviewScreen extends StatelessWidget {
+  static const routeName = "/teacher_overview";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

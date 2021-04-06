@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:school_management/ManageBills_Screen.dart';
 import 'package:school_management/SchoolOverViewScreen.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/provider/school_provider.dart';
 import 'package:school_management/screens/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
@@ -10,9 +11,8 @@ import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.da
 import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
-import 'package:school_management/screens/Principal/Add_School_Screen.dart';
+import 'package:school_management/screens/Principal/Manage_School_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
-import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/screens/StudentScreen.dart';
@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => SchoolProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
             primary: Colors.orange,
           ),
         ),
-        home: LibrarianOverViewScreen(),
+        home: AuthScreen(),
         routes: {
           AuthScreen.routeName: (ctx) => AuthScreen(),
           SchoolOverViewScreen.routeName: (ctx) => SchoolOverViewScreen(),
@@ -54,8 +55,10 @@ class MyApp extends StatelessWidget {
           AddEventScreen.routeName: (ctx) => AddEventScreen(),
           AddClassScreen.routeName: (ctx) => AddClassScreen(),
           ManageBillsScreen.routeName: (ctx) => ManageBillsScreen(),
-          AddSchoolScreen.routeName: (ctx) => AddSchoolScreen(),
+          ManageSchoolScreen.routeName: (ctx) => ManageSchoolScreen(),
           AssignmentViewScreen.routeName: (ctx) => AssignmentViewScreen(),
+          LibrarianOverViewScreen.routeName: (ctx) => LibrarianOverViewScreen(),
+          TeacherOverviewScreen.routeName: (ctx) => TeacherOverviewScreen(),
         },
       ),
     );

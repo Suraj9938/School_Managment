@@ -1,213 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/school_provider.dart';
 
 enum SchoolTabs { AboutSchool, Description }
 
-Widget _aboutSchool() {
-  return Column(
-    children: [
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 18,
-        ),
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: ListTile(
-            leading: IconButton(
-              icon: Icon(
-                Icons.location_on_sharp,
-                size: 30,
-                color: Colors.orange,
-              ),
-            ),
-            title: Container(
-              height: 54,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "School Location",
-                    style: TextStyle(
-                      fontFamily: "font1",
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    "Chobhar, Kathmandu",
-                    style: TextStyle(
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      SizedBox(
-        height: 2,
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 18,
-        ),
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: ListTile(
-            leading: IconButton(
-              icon: Icon(
-                Icons.contact_phone_outlined,
-                size: 25,
-                color: Colors.orange,
-              ),
-            ),
-            title: Container(
-              height: 54,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Contact Number",
-                    style: TextStyle(
-                      fontFamily: "font1",
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    "01-4586358",
-                    style: TextStyle(
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      SizedBox(
-        height: 2,
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 18,
-        ),
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: ListTile(
-            leading: IconButton(
-              icon: Icon(
-                Icons.access_time_outlined,
-                size: 30,
-                color: Colors.orange,
-              ),
-            ),
-            title: Container(
-              height: 54,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Time Period",
-                    style: TextStyle(
-                      fontFamily: "font1",
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    "07: 00 am - 01: 00 pm",
-                    style: TextStyle(
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _description() {
-  return Padding(
-    padding: EdgeInsets.symmetric(
-      horizontal: 18,
-      vertical: 8,
-    ),
-    child: Card(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 4,
-        ),
-        child: Container(
-          height: 200,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "School BioData",
-                style: TextStyle(
-                  fontFamily: "font1",
-                  fontWeight: FontWeight.bold,
-                  color: Colors.orange,
-                  fontSize: 24,
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Modern Indian School is situated on the southern edge of Kathmandu city, on the Chobhar Dakshinkali road.",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: "font2",
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "Located 3 kilometers off the bustling city, the school lies nestled between lush pine forests.",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: "font2",
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
 class SchoolOverViewScreen extends StatefulWidget {
   static const routeName = "/school_overview";
+
   @override
   _SchoolOverViewScreenState createState() => _SchoolOverViewScreenState();
 }
@@ -217,6 +17,8 @@ class _SchoolOverViewScreenState extends State<SchoolOverViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final schoolData =
+        Provider.of<SchoolProvider>(context, listen: false).schoolData;
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
@@ -245,7 +47,7 @@ class _SchoolOverViewScreenState extends State<SchoolOverViewScreen> {
                 left: 15,
               ),
               child: Text(
-                "Modern Indian School",
+                schoolData.schoolName,
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: "font1",
@@ -313,10 +115,205 @@ class _SchoolOverViewScreenState extends State<SchoolOverViewScreen> {
               ),
             ),
             _schoolTabs == SchoolTabs.AboutSchool
-                ? _aboutSchool()
+                ? Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 18,
+                        ),
+                        child: Card(
+                          clipBehavior: Clip.antiAlias,
+                          child: ListTile(
+                            leading: IconButton(
+                              icon: Icon(
+                                Icons.location_on_sharp,
+                                size: 30,
+                                color: Colors.orange,
+                              ),
+                            ),
+                            title: Container(
+                              height: 54,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "School Location",
+                                    style: TextStyle(
+                                      fontFamily: "font1",
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  Text(
+                                    schoolData.location,
+                                    style: TextStyle(
+                                      fontFamily: "font2",
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 18,
+                        ),
+                        child: Card(
+                          clipBehavior: Clip.antiAlias,
+                          child: ListTile(
+                            leading: IconButton(
+                              icon: Icon(
+                                Icons.contact_phone_outlined,
+                                size: 25,
+                                color: Colors.orange,
+                              ),
+                            ),
+                            title: Container(
+                              height: 54,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Contact Number",
+                                    style: TextStyle(
+                                      fontFamily: "font1",
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  Text(
+                                    schoolData.schoolContact,
+                                    style: TextStyle(
+                                      fontFamily: "font2",
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 18,
+                        ),
+                        child: Card(
+                          clipBehavior: Clip.antiAlias,
+                          child: ListTile(
+                            leading: IconButton(
+                              icon: Icon(
+                                Icons.access_time_outlined,
+                                size: 30,
+                                color: Colors.orange,
+                              ),
+                            ),
+                            title: Container(
+                              height: 54,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Time Period",
+                                    style: TextStyle(
+                                      fontFamily: "font1",
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  Text(
+                                    schoolData.startTime,
+                                    style: TextStyle(
+                                      fontFamily: "font2",
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 : Container(),
             _schoolTabs == SchoolTabs.Description
-                ? _description()
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 8,
+                    ),
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 4,
+                        ),
+                        child: Container(
+                          height: 200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "School BioData",
+                                style: TextStyle(
+                                  fontFamily: "font1",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                  fontSize: 24,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                "Modern Indian School is situated on the southern edge of Kathmandu city, on the Chobhar Dakshinkali road.",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Located 3 kilometers off the bustling city, the school lies nestled between lush pine forests.",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                 : Container(),
           ],
         ),

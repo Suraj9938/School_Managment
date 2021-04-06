@@ -3,6 +3,7 @@ import 'package:school_management/widget/Librarian/Librarian_App_Drawer.dart';
 import 'package:school_management/widget/Librarian/Librarian_Staggered_View.dart';
 
 class LibrarianOverViewScreen extends StatelessWidget {
+  static const routeName = "/librarian_overview";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
