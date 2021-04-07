@@ -9,6 +9,7 @@ import 'package:school_management/model/school.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
 import 'package:http/http.dart' as https;
+import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
 enum Gender { Male, Female, Others }
 enum UserType { Parent, Student, Teacher, Librarian }
@@ -163,29 +164,66 @@ class _AddUserScreenState extends State<AddUserScreen> {
       _isLoading = true;
     });
     try {
-      await Provider.of<AuthProvider>(context, listen: false)
+      final response = await Provider.of<AuthProvider>(context, listen: false)
           .signup(context, _userData, images);
-      showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: Text('Success'),
-                content: Text("User was registered successfully"),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('Okay'),
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                  )
-                ],
-              ));
+      print("Response");
+      print(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('Success'),
+                  content: Text("User was registered successfully"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+        Navigator.of(context)
+            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
+      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+          response.statusCode == 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An error Occured'),
+                  content: Text("User registration failed!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+      } else if (response.statusCode >= 400 && response.statusCode < 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An Error Occurred!'),
+                  content:
+                      Text("Provide Valid User Credentials and try again!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+      }
     } catch (error) {
       print(error);
     }
     setState(() {
       _isLoading = false;
     });
-    Navigator.pop(context);
   }
 
   @override

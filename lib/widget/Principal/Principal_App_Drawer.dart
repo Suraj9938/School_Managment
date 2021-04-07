@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_management/screens/Auth_Screen.dart';
+import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
 
 class PrincipalAppDrawer extends StatelessWidget {
@@ -119,6 +120,30 @@ class PrincipalAppDrawer extends StatelessWidget {
             ),
             onTap: () {
               //Navigator.pushNamed(context, LibraryOverView.routeName);
+            },
+          ),
+          Divider(
+            thickness: 5,
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(
+              Icons.supervised_user_circle,
+              size: 24,
+              color: Colors.black54,
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text(
+                "Add New Subject",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, AddSubjectScreen.routeName);
             },
           ),
           Divider(

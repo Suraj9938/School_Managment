@@ -147,12 +147,14 @@ class _ManageSchoolScreenState extends State<ManageSchoolScreen> {
             color: Colors.white,
           ),
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.check),
-        //     color: Colors.white,
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+          ),
+        ],
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
@@ -386,7 +388,9 @@ class _ManageSchoolScreenState extends State<ManageSchoolScreen> {
                                               ),
                                             ),
                                             Text(
-                                              schoolData.startTime + " - " + schoolData.endTime,
+                                              schoolData.startTime +
+                                                  " - " +
+                                                  schoolData.endTime,
                                               style: TextStyle(
                                                 fontFamily: "font2",
                                                 fontWeight: FontWeight.normal,

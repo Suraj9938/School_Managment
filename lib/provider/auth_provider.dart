@@ -23,7 +23,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> login(String email, String password) async {
-    final url = "http://192.168.0.12:8000/api/login/";
+    final url = "http://100.64.231.210:8000/api/login/";
     try {
       final response = await https.post(
         url,
@@ -58,14 +58,18 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> signup(BuildContext context, _userData,
+  Future<https.Response> signup(BuildContext context, _userData,
       Uint8List images) async {
-    final resUrl = "http://192.168.0.12:8000/api/create/";
+    final resUrl = "http://100.64.231.210:8000/api/create/";
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
-    School schoolInfo = Provider.of<SchoolProvider>(context, listen: false).schoolData;
+    School schoolInfo;
+    Provider.of<SchoolProvider>(context, listen: false).setFetchSchoolData().then((value){
+      schoolInfo = Provider.of<SchoolProvider>(context, listen: false).schoolData;
+    });
+
     print("schoolInfo");
-    final baseUrl = "http://192.168.0.12:8000/api/";
+    final baseUrl = "http://100.64.231.210:8000/api/";
 
     request.files
         .add(https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
@@ -99,6 +103,7 @@ class AuthProvider with ChangeNotifier {
     );
 
     var userRes = json.decode(response.body);
+    print("User Res");
     print(userRes);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -110,6 +115,11 @@ class AuthProvider with ChangeNotifier {
       print(schoolInfo.schoolId);
       var url = Uri.parse(baseUrl + 'userschool/');
       https.Response userSchool = await https.post(url, body: schoolUserInfo);
+      print("From Auth Provider user school");
+      print(userSchool);
+      return userSchool;
+    } else {
+      return response;
     }
   }
 }

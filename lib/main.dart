@@ -4,6 +4,7 @@ import 'package:school_management/ManageBills_Screen.dart';
 import 'package:school_management/SchoolOverViewScreen.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
+import 'package:school_management/provider/subject_provider.dart';
 import 'package:school_management/screens/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
@@ -11,6 +12,7 @@ import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.da
 import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
+import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Manage_School_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => SchoolProvider()),
+        ChangeNotifierProvider(create: (_) => SubjectProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -59,6 +62,7 @@ class MyApp extends StatelessWidget {
           AssignmentViewScreen.routeName: (ctx) => AssignmentViewScreen(),
           LibrarianOverViewScreen.routeName: (ctx) => LibrarianOverViewScreen(),
           TeacherOverviewScreen.routeName: (ctx) => TeacherOverviewScreen(),
+          AddSubjectScreen.routeName: (ctx) => AddSubjectScreen(),
         },
       ),
     );

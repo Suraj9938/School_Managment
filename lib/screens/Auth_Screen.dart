@@ -21,8 +21,6 @@ class AuthScreen extends StatelessWidget {
   static const routeName = "/auth";
   @override
   Widget build(BuildContext context) {
-    final schoolInfo = Provider.of<SchoolProvider>(context, listen: false).setFetchSchoolData();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -211,7 +209,7 @@ class _AuthCardState extends State<AuthCard>
               context: context,
               builder: (ctx) => AlertDialog(
                     title: Text('An Error Occurred!'),
-                    content: Text("Provied Credentials does not match"),
+                    content: Text("Provided Credentials does not match"),
                     actions: <Widget>[
                       FlatButton(
                         child: Text('Okay'),
