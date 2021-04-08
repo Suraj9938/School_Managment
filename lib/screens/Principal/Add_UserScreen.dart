@@ -5,9 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:school_management/model/school.dart';
 import 'package:school_management/provider/auth_provider.dart';
-import 'package:school_management/provider/school_provider.dart';
 import 'package:http/http.dart' as https;
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
@@ -555,6 +553,64 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       SizedBox(
                         height: 18,
                       ),
+                      // Container(
+                      //   height: 50,
+                      //   width: MediaQuery.of(context).size.width - 28,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: [
+                      //       Icon(
+                      //         Icons.class_,
+                      //         color: Colors.orange,
+                      //         size: 22,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 8,
+                      //       ),
+                      //       Text(
+                      //         "Select a Class",
+                      //         style: TextStyle(
+                      //             fontSize: 19,
+                      //             fontFamily: "font2",
+                      //             fontWeight: FontWeight.w500,
+                      //             color: Colors.orange),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 15,
+                      //       ),
+                      //       Container(
+                      //         child: Material(
+                      //           borderRadius: BorderRadius.circular(18),
+                      //           color: Colors.grey[300],
+                      //           child: Padding(
+                      //             padding: EdgeInsets.symmetric(
+                      //               horizontal: 20,
+                      //             ),
+                      //             child: DropdownButton<UserType>(
+                      //               value: userType,
+                      //               items: UserType.values
+                      //                   .map((UserType userType) {
+                      //                 return DropdownMenuItem<UserType>(
+                      //                   value: userType,
+                      //                   child: Text(
+                      //                     _userTypeInString(userType),
+                      //                     style:
+                      //                     TextStyle(color: Colors.orange),
+                      //                   ),
+                      //                 );
+                      //               }).toList(),
+                      //               onChanged: (value) =>
+                      //                   _selectedUserType(value),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 18,
+                      // ),
                       Row(
                         children: [
                           Container(

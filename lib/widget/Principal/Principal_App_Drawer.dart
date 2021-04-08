@@ -104,31 +104,7 @@ class PrincipalAppDrawer extends StatelessWidget {
           ListTile(
             dense: true,
             leading: Icon(
-              Icons.supervised_user_circle,
-              size: 24,
-              color: Colors.black54,
-            ),
-            title: Transform(
-              transform: Matrix4.translationValues(-16, 0.0, 0.0),
-              child: Text(
-                "Add Class Information",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black54,
-                ),
-              ),
-            ),
-            onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
-            },
-          ),
-          Divider(
-            thickness: 5,
-          ),
-          ListTile(
-            dense: true,
-            leading: Icon(
-              Icons.supervised_user_circle,
+              Icons.subject,
               size: 24,
               color: Colors.black54,
             ),
@@ -144,6 +120,30 @@ class PrincipalAppDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pushNamed(context, AddSubjectScreen.routeName);
+            },
+          ),
+          Divider(
+            thickness: 5,
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(
+              Icons.class_,
+              size: 24,
+              color: Colors.black54,
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text(
+                "Add Class Information",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            onTap: () {
+              //Navigator.pushNamed(context, LibraryOverView.routeName);
             },
           ),
           Divider(

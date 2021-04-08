@@ -13,7 +13,7 @@ class SchoolProvider with ChangeNotifier {
   }
 
   Future<void> setFetchSchoolData() async {
-    final resUrl = "http://100.64.231.210:8000/api/viewschool/";
+    final resUrl = "http://192.168.0.14:8000/api/viewschool/";
     var url = Uri.parse(resUrl);
     try {
       final response = await https.get(
@@ -41,7 +41,7 @@ class SchoolProvider with ChangeNotifier {
   }
 
   // Future<https.Response> addSchool(_schoolData, images) async {
-  //   final resUrl = "http://100.64.231.210:8000/api/addschool/";
+  //   final resUrl = "http://192.168.0.14:8000/api/addschool/";
   //   var url = Uri.parse(resUrl);
   //   var request = https.MultipartRequest('POST', url);
   //

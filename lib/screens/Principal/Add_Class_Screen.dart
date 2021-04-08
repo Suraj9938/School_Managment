@@ -66,40 +66,6 @@ class _AddClassScreenState extends State<AddClassScreen> {
           ],
         ),
       ),
-      // body: Padding(
-      //   padding: EdgeInsets.only(
-      //     top: 10,
-      //     bottom: 24,
-      //   ),
-      //   child: ListView.builder(
-      //     itemBuilder: (ctx, index) {
-      //       return Card(
-      //         elevation: 4,
-      //         margin: EdgeInsets.symmetric(
-      //           horizontal: 20,
-      //           vertical: 6,
-      //         ),
-      //         child: Container(
-      //           padding: EdgeInsets.only(
-      //             left: 20,
-      //             top: 20,
-      //           ),
-      //           height: 65,
-      //           child: Text(
-      //             "Class Seven",
-      //             style: TextStyle(
-      //               fontFamily: "font2",
-      //               fontWeight: FontWeight.w500,
-      //               color: Colors.orange,
-      //               fontSize: 22,
-      //             ),
-      //           ),
-      //         ),
-      //       );
-      //     },
-      //     itemCount: 12,
-      //   ),
-      // ),
     );
   }
 }
