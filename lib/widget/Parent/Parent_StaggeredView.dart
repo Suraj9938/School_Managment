@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 
 class ParentStaggeredView extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _ParentStaggeredViewState extends State<ParentStaggeredView> {
                         style: TextStyle(
                           fontFamily: "font1",
                           color: colors,
-                          fontSize: 20,
+                          fontSize: 21,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -76,14 +77,14 @@ class _ParentStaggeredViewState extends State<ParentStaggeredView> {
       ),
       children: [
         data(Icons.assignment, "Check Assignments", Colors.green[400], () {
-          //Navigator.of(context).pushNamed(AddSchoolScreen.routeName);
+          Navigator.of(context).pushNamed(AssignmentViewScreen.routeName);
         }),
         data(Icons.assignment_ind, "Monitor Attendance", Colors.blue, () {}),
         data(
             Icons.widgets_rounded, "Manage Your Bills", Colors.purpleAccent, () {
           //Navigator.of(context).pushNamed(AddEventScreen.routeName);
         }),
-        data(Icons.calendar_today, "View Calendar", Colors.red, () {}),
+        data(Icons.calendar_today, "View Routine", Colors.red, () {}),
       ],
       staggeredTiles: [
         StaggeredTile.extent(2, 160),

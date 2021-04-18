@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
-class StudentProfile extends StatefulWidget {
+class PrincipalProfileScreen extends StatefulWidget {
+  static const routeName = "/principal_profile";
+
   @override
-  _StudentProfileState createState() => _StudentProfileState();
+  _PrincipalProfileScreenState createState() => _PrincipalProfileScreenState();
 }
 
-class _StudentProfileState extends State<StudentProfile> {
+class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
   Widget _topHalfUI() {
     return Container(
       height: MediaQuery.of(context).size.height / 2.3,
@@ -31,6 +34,20 @@ class _StudentProfileState extends State<StudentProfile> {
                 ),
               ),
               height: MediaQuery.of(context).size.height / 4.6,
+            ),
+          ),
+          Positioned(
+            top: 30,
+            left: 5,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+                size: 24,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, PrincipalOverViewScreen.routeName);
+              },
             ),
           ),
           Positioned(
@@ -75,14 +92,14 @@ class _StudentProfileState extends State<StudentProfile> {
                     CircleAvatar(
                       maxRadius: 28,
                       backgroundImage: AssetImage(
-                        "assets/images/child.png",
+                        "assets/images/otaku.png",
                       ),
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     Text(
-                      "Billie Eilish",
+                      "Suraj Shrestha",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -105,7 +122,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           width: 2,
                         ),
                         Text(
-                          "Kathmandu, Nepal, 781246",
+                          "Kathmandu, Nepal",
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -131,7 +148,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           width: 6,
                         ),
                         Text(
-                          "Student",
+                          "Principal",
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -190,7 +207,7 @@ class _StudentProfileState extends State<StudentProfile> {
                 height: 3,
               ),
               Text(
-                "Female",
+                "Male",
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -202,7 +219,7 @@ class _StudentProfileState extends State<StudentProfile> {
                 thickness: 2,
               ),
               Text(
-                "Class",
+                "Age",
                 style: TextStyle(
                   fontFamily: "font1",
                   fontWeight: FontWeight.bold,
@@ -213,7 +230,7 @@ class _StudentProfileState extends State<StudentProfile> {
                 height: 3,
               ),
               Text(
-                "12",
+                "31",
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -225,7 +242,7 @@ class _StudentProfileState extends State<StudentProfile> {
                 thickness: 2,
               ),
               Text(
-                "Section",
+                "Mobile Number",
                 style: TextStyle(
                   fontFamily: "font1",
                   fontWeight: FontWeight.bold,
@@ -236,7 +253,7 @@ class _StudentProfileState extends State<StudentProfile> {
                 height: 3,
               ),
               Text(
-                "A",
+                "9889236587",
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,

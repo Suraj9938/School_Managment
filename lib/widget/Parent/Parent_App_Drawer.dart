@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:school_management/screens/Auth_Screen.dart';
+import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
+import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 
 class ParentAppDrawer extends StatelessWidget {
   @override
@@ -11,11 +12,11 @@ class ParentAppDrawer extends StatelessWidget {
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
               backgroundImage: AssetImage(
-                "assets/images/child.png",
+                "assets/images/otaku.png",
               ),
             ),
             accountName: Text(
-              "Billie Eilish",
+              "Suresh Man",
               style: TextStyle(
                 fontFamily: "font2",
                 fontWeight: FontWeight.w700,
@@ -24,7 +25,7 @@ class ParentAppDrawer extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "eilish.billie@gmail.com",
+              "sures.man@gmail.com",
               style: TextStyle(
                 fontFamily: "font2",
                 fontSize: 19,
@@ -75,7 +76,7 @@ class ParentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, AssignmentViewScreen.routeName);
             },
           ),
           Divider(
@@ -92,6 +93,30 @@ class ParentAppDrawer extends StatelessWidget {
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
                 "Track Student Bills",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            onTap: () {
+              //Navigator.pushNamed(context, LibraryOverView.routeName);
+            },
+          ),
+          Divider(
+            thickness: 5,
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(
+              Icons.supervised_user_circle_rounded,
+              size: 24,
+              color: Colors.black54,
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text(
+                "View Profile",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:school_management/screens/Auth_Screen.dart';
+import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 
 class LibrarianAppDrawer extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class LibrarianAppDrawer extends StatelessWidget {
               ),
             ),
             accountName: Text(
-              "Billie Eilish",
+              "Harrie",
               style: TextStyle(
                 fontFamily: "font2",
                 fontWeight: FontWeight.w700,
@@ -24,7 +24,7 @@ class LibrarianAppDrawer extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "eilish.billie@gmail.com",
+              "harrie05@gmail.com",
               style: TextStyle(
                 fontFamily: "font2",
                 fontSize: 19,
@@ -43,7 +43,7 @@ class LibrarianAppDrawer extends StatelessWidget {
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "Library OverView",
+                "Librarian OverView",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
@@ -108,14 +108,14 @@ class LibrarianAppDrawer extends StatelessWidget {
           ListTile(
             dense: true,
             leading: Icon(
-              Icons.category,
+              Icons.supervised_user_circle_rounded,
               size: 24,
               color: Colors.black54,
             ),
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "Add Category",
+                "View Profile",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,

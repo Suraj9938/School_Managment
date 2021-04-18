@@ -3,39 +3,45 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:school_management/provider/event_provider.dart';
 
-class AddEventScreen extends StatefulWidget {
-  static const routeName = 'AddEventScreen';
+class EditSchoolScreen extends StatefulWidget {
+  static const routeName = "/edit_school";
 
   @override
-  _AddEventScreenState createState() => _AddEventScreenState();
+  _EditSchoolScreenState createState() => _EditSchoolScreenState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
-  final _eventDay = FocusNode();
+class _EditSchoolScreenState extends State<EditSchoolScreen> {
+  final _schoolContact = FocusNode();
+  final _schoolDescription = FocusNode();
+  final _form = GlobalKey<FormState>();
+  bool _isLoading = false;
   TimeOfDay _finalStartTime;
   TimeOfDay _finalEndTime;
-  bool _isLoading = false;
-  var _eventStartTime;
-  var _eventEndTime;
-  String formattedEventDate;
-  final GlobalKey<FormState> _globalKey = GlobalKey();
+  var _schoolStartTime;
+  var _schoolEndTime;
   Uint8List images;
-  DateTime _eventDate;
 
-  var _events = {};
+  var _schoolData = {};
+
+  OutlineInputBorder _outlineBorder() {
+    return OutlineInputBorder(
+      gapPadding: 0,
+      borderSide: BorderSide(
+        color: Colors.orange,
+      ),
+      borderRadius: BorderRadius.circular(25),
+    );
+  }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _eventDay.dispose();
+    _schoolContact.dispose();
   }
 
-  File userImage;
+  File schoolImage;
   ImagePicker _selectedImage = ImagePicker();
 
   Future<void> _getImage(ImageSource image) async {
@@ -45,7 +51,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       if (imagePath != null) {
         var imageBytes = await imagePath.readAsBytes();
         setState(() {
-          userImage = File(imagePath.path);
+          schoolImage = File(imagePath.path);
           images = imageBytes;
         });
       } else {
@@ -55,21 +61,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
       throw error;
     }
   }
-
-  // Future<DateTime> _userSelectedDate(BuildContext context) {
-  //   DateTime _eventDate;
-  //
-  //   showDatePicker(
-  //           context: context,
-  //           initialDate: DateTime.now(),
-  //           firstDate: DateTime.now(),
-  //           lastDate: DateTime(2022))
-  //       .then((selectDate) {
-  //     setState(() {
-  //       _eventDate = selectDate;
-  //     });
-  //   });
-  // }
 
   Future<TimeOfDay> _selectedStartTime(BuildContext context) {
     final startTime = DateTime.now();
@@ -95,71 +86,66 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  Future<void> _addEvent() async {
-    final isValid = _globalKey.currentState.validate();
-    if (!isValid) {
-      return;
-    }
-    _globalKey.currentState.save();
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      final response = await Provider.of<EventProvider>(context, listen: false)
-          .addEvent(context, _events, images);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('Success'),
-                  content: Text("Event Added Successfully!"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
-          response.statusCode == 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An Error Occurred!'),
-                  content: Text("Something went wrong."),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      } else if (response.statusCode == 400 && response.statusCode < 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An Error Occurred'),
-                  content: Text("Provide valid event details and try again!"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      }
-    } catch (error) {
-      throw (error);
-    }
-    setState(() {
-      _isLoading = false;
-    });
+  Future<void> _saveForm() async {
+    // final isValid = _form.currentState.validate();
+    // if (!isValid) {
+    //   return;
+    // }
+    // _form.currentState.save();
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text("Success"),
+              content: Text("School Information Updated Successfully"),
+              actions: [
+                FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ));
+    // try {
+    //   // await Provider.of<SchoolProvider>(context, listen: false)
+    //   //     .addSchool(_schoolData, images);
+    //   await showDialog(
+    //       context: context,
+    //       builder: (ctx) => AlertDialog(
+    //         title: Text("Success"),
+    //         content: Text("School Information Updated Successfully"),
+    //         actions: [
+    //           FlatButton(
+    //             child: Text("Ok"),
+    //             onPressed: () {
+    //               Navigator.pop(context);
+    //             },
+    //           )
+    //         ],
+    //       ));
+    // } catch (error) {
+    //   await showDialog(
+    //       context: context,
+    //       builder: (ctx) => AlertDialog(
+    //         title: Text('Error Occured'),
+    //         content: Text('School information cannot be updated'),
+    //         actions: [
+    //           FlatButton(
+    //             child: Text("Ok"),
+    //             onPressed: () {
+    //               Navigator.pop(context);
+    //             },
+    //           ),
+    //         ],
+    //       ));
+    // }
+    // setState(() {
+    //   _isLoading = false;
+    // });
+    // Navigator.pop(context);
   }
 
   @override
@@ -167,9 +153,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add Event",
+          "Update School Info",
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 20,
             fontWeight: FontWeight.w700,
             fontFamily: "font1",
             color: Colors.white,
@@ -179,7 +165,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
           IconButton(
             icon: Icon(Icons.check),
             color: Colors.white,
-            onPressed: _addEvent,
+            onPressed: () {
+              _saveForm();
+            },
           ),
         ],
         iconTheme: IconThemeData(
@@ -191,7 +179,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               child: CircularProgressIndicator(),
             )
           : Form(
-              key: _globalKey,
+              key: _form,
               child: ListView(
                 children: [
                   SizedBox(
@@ -200,7 +188,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: 13, bottom: 18),
                     child: Text(
-                      "Event Information",
+                      "School Information",
                       style: TextStyle(
                         fontFamily: "font2",
                         fontSize: 20,
@@ -219,75 +207,75 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 60,
                                   width:
                                       MediaQuery.of(context).size.width / 2 + 4,
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(18),
-                                    color: Colors.grey[300],
-                                    child: TextFormField(
-                                      //initialValue: initValues['bookType'],
-                                      decoration: InputDecoration(
-                                          prefixIcon: Icon(
-                                            Icons.event,
-                                            color: Colors.orange,
-                                            size: 20,
-                                          ),
-                                          labelText: "Event Name",
-                                          labelStyle: TextStyle(
-                                              fontSize: 19,
-                                              fontFamily: "font2",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.orange),
-                                          border: InputBorder.none),
-                                      textInputAction: TextInputAction.next,
-                                      focusNode: _eventDay,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Event Name must not be empty';
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) =>
-                                          _events['eventName'] = value,
+                                  child: TextFormField(
+                                    //initialValue: initValues['bookType'],
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.school_outlined,
+                                        color: Colors.orange,
+                                        size: 20,
+                                      ),
+                                      fillColor: Colors.grey[300],
+                                      filled: true,
+                                      labelText: "School Name",
+                                      labelStyle: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: "font2",
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.orange),
+                                      border: _outlineBorder(),
+                                      enabledBorder: _outlineBorder(),
+                                      errorBorder: _outlineBorder(),
                                     ),
+                                    textInputAction: TextInputAction.next,
+                                    focusNode: _schoolContact,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'School Name must not be empty';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) => _schoolData['name'],
                                   ),
                                 ),
                                 SizedBox(
                                   height: 12,
                                 ),
                                 Container(
-                                  height: 60,
                                   width:
                                       MediaQuery.of(context).size.width / 2 + 4,
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(18),
-                                    color: Colors.grey[300],
-                                    child: TextFormField(
-                                      //initialValue: initValues['bookType'],
-                                      decoration: InputDecoration(
-                                          prefixIcon: Icon(
-                                            Icons.view_day,
-                                            color: Colors.orange,
-                                            size: 20,
-                                          ),
-                                          labelText: "Event Day",
-                                          labelStyle: TextStyle(
-                                              fontSize: 19,
-                                              fontFamily: "font2",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.orange),
-                                          border: InputBorder.none),
-                                      textInputAction: TextInputAction.done,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Event Day must not be empty';
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) =>
-                                          _events['eventDay'] = value,
+                                  child: TextFormField(
+                                    //initialValue: initValues['bookType'],
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.contact_phone_outlined,
+                                        color: Colors.orange,
+                                        size: 20,
+                                      ),
+                                      fillColor: Colors.grey[300],
+                                      filled: true,
+                                      labelText: "School Contact",
+                                      labelStyle: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: "font2",
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.orange),
+                                      border: _outlineBorder(),
+                                      enabledBorder: _outlineBorder(),
+                                      errorBorder: _outlineBorder(),
                                     ),
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.done,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Contact must not be empty';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) =>
+                                        _schoolData['contact'],
                                   ),
                                 ),
                               ],
@@ -330,7 +318,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           ],
                                         )
                                       : Image.file(
-                                          userImage,
+                                          schoolImage,
                                           fit: BoxFit.contain,
                                           width: double.infinity,
                                         ),
@@ -359,7 +347,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 width: 8,
                               ),
                               Text(
-                                "Event Start Time",
+                                "School Start Time",
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily: "font2",
@@ -386,11 +374,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 ),
                               ),
                               onPressed: () async {
-                                final startTime =
+                                final startDate =
                                     await _selectedStartTime(context);
-                                print(startTime);
+                                print(startDate);
                                 setState(() {
-                                  _finalStartTime = startTime;
+                                  _finalStartTime = startDate;
                                   MaterialLocalizations localization =
                                       MaterialLocalizations.of(context);
                                   if (_finalStartTime != null) {
@@ -399,12 +387,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                             alwaysUse24HourFormat: false);
                                     if (formattedStartTime != null) {
                                       setState(() {
-                                        _eventStartTime = formattedStartTime;
-                                        _events['eventStartTime'] =
-                                            _eventStartTime;
+                                        _schoolStartTime = formattedStartTime;
+                                        _schoolData['startTime'] =
+                                            _schoolStartTime;
                                       });
-                                      print("Formatted Event Time");
-                                      print(_eventStartTime);
+                                      print("Formatted Start Time");
+                                      print(_schoolStartTime);
                                     }
                                   }
                                 });
@@ -414,9 +402,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               width: 12,
                             ),
                             Text(
-                              _eventStartTime == null
+                              _schoolStartTime == null
                                   ? "No time selected"
-                                  : _eventStartTime,
+                                  : _schoolStartTime,
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w400,
@@ -426,7 +414,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 24,
                         ),
                         Container(
                           height: 30,
@@ -442,7 +430,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 width: 8,
                               ),
                               Text(
-                                "Event End Time",
+                                "School End Time",
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily: "font2",
@@ -469,10 +457,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 ),
                               ),
                               onPressed: () async {
-                                final endTime = await _selectedEndTime(context);
-                                print(endTime);
+                                final endDate = await _selectedEndTime(context);
+                                print(endDate);
                                 setState(() {
-                                  _finalEndTime = endTime;
+                                  _finalEndTime = endDate;
                                   MaterialLocalizations localization =
                                       MaterialLocalizations.of(context);
                                   if (_finalEndTime != null) {
@@ -481,11 +469,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                             alwaysUse24HourFormat: false);
                                     if (formattedEndTime != null) {
                                       setState(() {
-                                        _eventEndTime = formattedEndTime;
-                                        _events['eventEndTime'] = _eventEndTime;
+                                        _schoolEndTime = formattedEndTime;
+                                        _schoolData['endTime'] = _schoolEndTime;
                                       });
                                       print("Formatted End Time");
-                                      print(_eventEndTime);
+                                      print(_schoolEndTime);
                                     }
                                   }
                                 });
@@ -495,9 +483,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               width: 12,
                             ),
                             Text(
-                              _eventEndTime == null
+                              _schoolEndTime == null
                                   ? "No time selected"
-                                  : _eventEndTime,
+                                  : _schoolEndTime,
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w400,
@@ -507,120 +495,78 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: 18,
+                          height: 24,
                         ),
                         Container(
-                          height: 30,
-                          width: MediaQuery.of(context).size.width - 28,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.calendar_today_outlined,
+                          width: MediaQuery.of(context).size.width - 120,
+                          child: TextFormField(
+                            //initialValue: initValues['bookType'],
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.location_on_sharp,
                                 color: Colors.orange,
-                                size: 22,
+                                size: 20,
                               ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "Event Date",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: "font2",
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.orange),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          width: 200,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4,
-                            vertical: 6,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: RaisedButton(
-                              color: Colors.orange,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    formattedEventDate == null
-                                        ? "Select a Date"
-                                        : formattedEventDate.toString(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: "font2",
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 28,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
-                              onPressed: () async {
-                                showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime(2022))
-                                    .then((date) {
-                                      setState(() {
-                                        _eventDate = date;
-                                        formattedEventDate = DateFormat('MMMMd').format(_eventDate);
-                                        _events['eventDate'] = formattedEventDate;
-                                      });
-                                });
-                              },
+                              fillColor: Colors.grey[300],
+                              filled: true,
+                              labelText: "School Location",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.orange),
+                              border: _outlineBorder(),
+                              enabledBorder: _outlineBorder(),
+                              errorBorder: _outlineBorder(),
                             ),
+                            textInputAction: TextInputAction.next,
+                            focusNode: _schoolDescription,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Location must not be empty';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) => _schoolData['location'],
                           ),
                         ),
                         SizedBox(
-                          height: 27,
+                          height: 26,
                         ),
                         Container(
-                          height: 170,
+                          height: 160,
                           padding: EdgeInsets.only(
                             right: 30,
                           ),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: TextFormField(
-                              //initialValue: initValues['bookDescription'],
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.description,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                  labelText: "About Event",
-                                  labelStyle: TextStyle(
-                                      fontSize: 19,
-                                      color: Colors.orange,
-                                      fontFamily: "font2"),
-                                  border: InputBorder.none),
-                              maxLines: null,
-                              textInputAction: TextInputAction.done,
-                              keyboardType: TextInputType.multiline,
-                              validator: (value) {
-                                if (value.trim().isEmpty) {
-                                  return 'Event Description must not be empty';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) => _events['eventDescription'] = value,
+                          child: TextFormField(
+                            //initialValue: initValues['bookDescription'],
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.description,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              fillColor: Colors.grey[200],
+                              filled: true,
+                              labelText: "School Description",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.orange,
+                                  fontFamily: "font2"),
+                              border: _outlineBorder(),
+                              enabledBorder: _outlineBorder(),
+                              errorBorder: _outlineBorder(),
                             ),
+                            maxLines: null,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value.trim().isEmpty) {
+                                return 'School Description must not be empty';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) => _schoolData['description'],
                           ),
                         ),
                         SizedBox(

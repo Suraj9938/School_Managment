@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 
 class LibrarianStaggeredView extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _LibrarianStaggeredViewState extends State<LibrarianStaggeredView> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(9),
-                    width: 150,
+                    width: 146,
                     height: 70,
                     child: Text(
                       title,
@@ -74,12 +75,12 @@ class _LibrarianStaggeredViewState extends State<LibrarianStaggeredView> {
       ),
       children: [
         data(Icons.add_box, "Add New Book", Colors.green[400], () {
-          //Navigator.of(context).pushNamed(LibrarianBookScreen.routeName);
+          Navigator.of(context).pushNamed(AddBookScreen.routeName);
         }),
-        data(Icons.menu_book_sharp, "Update Books", Colors.blue, () {
+        data(Icons.menu_book_sharp, "Manage Books", Colors.blue, () {
           //Navigator.of(context).pushNamed(LibrarianEditScreen.routeName);
         }),
-        data(Icons.category, "Add Category", Colors.purpleAccent, () {
+        data(Icons.supervised_user_circle_rounded, "View Own Profile", Colors.purpleAccent, () {
           //Navigator.of(context).pushNamed(CategoryScreen.routeName);
         }),
         data(Icons.exit_to_app, "Exit", Colors.redAccent, () {

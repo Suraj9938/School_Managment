@@ -1,21 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:school_management/provider/event_provider.dart';
-import 'package:school_management/screens/School_Event_ListView.dart';
-import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 
-class SchoolEventScreen extends StatefulWidget {
-  static const routeName = "/school_event";
+class StudentProfileScreen extends StatefulWidget {
+  static const routeName = "/student_profile";
 
   @override
-  _SchoolEventScreenState createState() => _SchoolEventScreenState();
+  _StudentProfileScreenState createState() => _StudentProfileScreenState();
 }
 
-class _SchoolEventScreenState extends State<SchoolEventScreen> {
+class _StudentProfileScreenState extends State<StudentProfileScreen> {
   Widget _topHalfUI() {
     return Container(
-      height: MediaQuery.of(context).size.height / 2 - 80,
+      height: MediaQuery.of(context).size.height / 2.3,
       width: double.infinity,
       child: Stack(
         children: [
@@ -40,25 +36,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
             ),
           ),
           Positioned(
-            top: 38,
-            left: 18,
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, StudentOverViewScreen.routeName);
-              },
-            ),
-          ),
-          Positioned(
             top: 40,
             right: 0,
             left: 0,
             child: Center(
               child: Text(
-                "Events",
+                "Profile",
                 style: TextStyle(
                   fontFamily: "font1",
                   color: Colors.white,
@@ -91,32 +74,22 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      height: 50,
-                      width: 60,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.orange, width: 3)),
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Image.asset(
-                          "assets/images/school.png",
-                          height: 30,
-                          width: 30,
-                          fit: BoxFit.contain,
-                        ),
+                    CircleAvatar(
+                      maxRadius: 28,
+                      backgroundImage: AssetImage(
+                        "assets/images/child.png",
                       ),
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     Text(
-                      "Eastwood High",
+                      "Billie Eilish",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         fontFamily: "font1",
-                        color: Colors.orange,
+                        color: Colors.green,
                       ),
                     ),
                     SizedBox(
@@ -127,7 +100,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       children: [
                         Icon(
                           Icons.location_on_sharp,
-                          color: Colors.green,
+                          color: Colors.orange,
                           size: 20,
                         ),
                         SizedBox(
@@ -152,17 +125,17 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.phone,
-                          color: Colors.green,
+                          Icons.person,
+                          color: Colors.orange,
                           size: 20,
                         ),
                         SizedBox(
-                          width: 2,
+                          width: 6,
                         ),
                         Text(
-                          "01-4789623",
+                          "Student",
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 17,
                             //fontWeight: FontWeight.bold,
                             fontFamily: "font1",
                             color: Colors.black,
@@ -172,7 +145,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 4,
+                      height: 6,
                     ),
                   ],
                 ),
@@ -184,34 +157,135 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
     );
   }
 
+  Widget _bottomHalfUI() {
+    return Container(
+      width: MediaQuery.of(context).size.width - 40,
+      height: MediaQuery.of(context).size.height / 2.2,
+      child: Card(
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(26),
+        ),
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 18,
+            left: 20,
+            right: 15,
+            bottom: 10,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(26),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Gender",
+                style: TextStyle(
+                  fontFamily: "font1",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Text(
+                "Female",
+                style: TextStyle(
+                  fontFamily: "font2",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 17,
+                ),
+              ),
+              Divider(
+                height: 24,
+                thickness: 2,
+              ),
+              Text(
+                "Class",
+                style: TextStyle(
+                  fontFamily: "font1",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Text(
+                "12",
+                style: TextStyle(
+                  fontFamily: "font2",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                ),
+              ),
+              Divider(
+                height: 24,
+                thickness: 2,
+              ),
+              Text(
+                "Section",
+                style: TextStyle(
+                  fontFamily: "font1",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Text(
+                "A",
+                style: TextStyle(
+                  fontFamily: "font2",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                ),
+              ),
+              Divider(
+                height: 24,
+                thickness: 2,
+              ),
+              Text(
+                "Date of Birth",
+                style: TextStyle(
+                  fontFamily: "font1",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Text(
+                "1st November, 1989",
+                style: TextStyle(
+                  fontFamily: "font2",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _topHalfUI(),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 22,
-                top: 20,
-              ),
-              child: Text(
-                "Events",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            SchoolEventListView(),
-          ],
-        ),
+      body: Column(
+        children: [
+          _topHalfUI(),
+          SizedBox(
+            height: 12,
+          ),
+          _bottomHalfUI(),
+        ],
       ),
     );
   }

@@ -34,6 +34,16 @@ class _AddUserScreenState extends State<AddUserScreen> {
   Gender _gender = Gender.Male;
   UserType userType = UserType.Teacher;
 
+  OutlineInputBorder _outlineBorder() {
+    return OutlineInputBorder(
+      gapPadding: 0,
+      borderSide: BorderSide(
+        color: Colors.orange,
+      ),
+      borderRadius: BorderRadius.circular(18),
+    );
+  }
+
   String get currentGender {
     switch (_gender) {
       case Gender.Male:
@@ -161,64 +171,78 @@ class _AddUserScreenState extends State<AddUserScreen> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      final response = await Provider.of<AuthProvider>(context, listen: false)
-          .signup(context, _userData, images);
-      print("Response");
-      print(response.statusCode);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('Success'),
-                  content: Text("User was registered successfully"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-        Navigator.of(context)
-            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
-      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
-          response.statusCode == 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An error Occured'),
-                  content: Text("User registration failed!"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      } else if (response.statusCode >= 400 && response.statusCode < 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An Error Occurred!'),
-                  content:
-                      Text("Provide Valid User Credentials and try again!"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      }
-    } catch (error) {
-      print(error);
-    }
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text('An Error Occurred!'),
+              content: Text("User with this email already exists!"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+    // try {
+    //   final response = await Provider.of<AuthProvider>(context, listen: false)
+    //       .signup(context, _userData, images);
+    //   print("Response");
+    //   print(response.statusCode);
+    //   if (response.statusCode == 200 || response.statusCode == 201) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (ctx) => AlertDialog(
+    //               title: Text('Success'),
+    //               content: Text("User was registered successfully"),
+    //               actions: <Widget>[
+    //                 FlatButton(
+    //                   child: Text('Okay'),
+    //                   onPressed: () {
+    //                     Navigator.of(ctx).pop();
+    //                   },
+    //                 )
+    //               ],
+    //             ));
+    //     Navigator.of(context)
+    //         .pushReplacementNamed(PrincipalOverViewScreen.routeName);
+    //   } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+    //       response.statusCode == 500) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (ctx) => AlertDialog(
+    //               title: Text('An error Occured'),
+    //               content: Text("User registration failed!"),
+    //               actions: <Widget>[
+    //                 FlatButton(
+    //                   child: Text('Okay'),
+    //                   onPressed: () {
+    //                     Navigator.of(ctx).pop();
+    //                   },
+    //                 )
+    //               ],
+    //             ));
+    //   } else if (response.statusCode >= 400 && response.statusCode < 500) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (ctx) => AlertDialog(
+    //               title: Text('An Error Occurred!'),
+    //               content:
+    //                   Text("Provide Valid User Credentials and try again!"),
+    //               actions: <Widget>[
+    //                 FlatButton(
+    //                   child: Text('Okay'),
+    //                   onPressed: () {
+    //                     Navigator.of(ctx).pop();
+    //                   },
+    //                 )
+    //               ],
+    //             ));
+    //   }
+    // } catch (error) {
+    //   print(error);
+    // }
     setState(() {
       _isLoading = false;
     });
@@ -278,84 +302,81 @@ class _AddUserScreenState extends State<AddUserScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: 60,
                                 width:
                                     MediaQuery.of(context).size.width / 2 + 15,
                                 padding: EdgeInsets.only(left: 13),
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(18),
-                                  color: Colors.grey[300],
-                                  child: TextFormField(
-                                    //initialValue: initValues['bookType'],
-                                    decoration: InputDecoration(
-                                        prefixIcon: Icon(
-                                          Icons.person_pin,
-                                          color: Colors.orange,
-                                          size: 20,
-                                        ),
-                                        labelText: "User Name",
-                                        labelStyle: TextStyle(
-                                            fontSize: 19,
-                                            fontFamily: "font2",
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.orange),
-                                        border: InputBorder.none),
-                                    textInputAction: TextInputAction.next,
-                                    onFieldSubmitted: (_) {
-                                      FocusScope.of(context)
-                                          .requestFocus(_userAddress);
-                                    },
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'User Name must not be empty';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) =>
-                                        _userData['name'] = value,
+                                child: TextFormField(
+                                  //initialValue: initValues['bookType'],
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.person_pin,
+                                      color: Colors.orange,
+                                      size: 20,
+                                    ),
+                                    fillColor: Colors.grey[300],
+                                    filled: true,
+                                    labelText: "User Name",
+                                    labelStyle: TextStyle(
+                                        fontSize: 19,
+                                        fontFamily: "font2",
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.orange),
+                                    border: _outlineBorder(),
+                                    enabledBorder: _outlineBorder(),
+                                    errorBorder: _outlineBorder(),
                                   ),
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context)
+                                        .requestFocus(_userAddress);
+                                  },
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'User Name must not be empty';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) =>
+                                      _userData['name'] = value,
                                 ),
                               ),
                               SizedBox(
                                 height: 12,
                               ),
                               Container(
-                                height: 60,
                                 width:
                                     MediaQuery.of(context).size.width / 2 + 15,
                                 padding: EdgeInsets.only(left: 13),
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(18),
-                                  color: Colors.grey[300],
-                                  child: TextFormField(
-                                    //initialValue: initValues['bookType'],
-                                    decoration: InputDecoration(
-                                        prefixIcon: Icon(
-                                          Icons.location_on_sharp,
-                                          color: Colors.orange,
-                                          size: 20,
-                                        ),
-                                        labelText: "User Address",
-                                        labelStyle: TextStyle(
-                                            fontSize: 19,
-                                            fontFamily: "font2",
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.orange),
-                                        border: InputBorder.none),
-                                    textInputAction: TextInputAction.done,
-                                    focusNode: _userAddress,
-                                    // onFieldSubmitted: (_) {
-                                    //   FocusScope.of(context).requestFocus(_categoryId);
-                                    // },
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'User Address must not be empty';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) =>
-                                        _userData['address'] = value,
+                                child: TextFormField(
+                                  //initialValue: initValues['bookType'],
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.location_on_sharp,
+                                      color: Colors.orange,
+                                      size: 20,
+                                    ),
+                                    fillColor: Colors.grey[300],
+                                    filled: true,
+                                    labelText: "User Address",
+                                    labelStyle: TextStyle(
+                                        fontSize: 19,
+                                        fontFamily: "font2",
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.orange),
+                                    border: _outlineBorder(),
+                                    enabledBorder: _outlineBorder(),
+                                    errorBorder: _outlineBorder(),
                                   ),
+                                  textInputAction: TextInputAction.done,
+                                  focusNode: _userAddress,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'User Address must not be empty';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) =>
+                                      _userData['address'] = value,
                                 ),
                               ),
                             ],
@@ -614,71 +635,74 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       Row(
                         children: [
                           Container(
-                            height: 60,
-                            width: MediaQuery.of(context).size.width / 2 - 35,
+                            width: MediaQuery.of(context).size.width / 2 - 32,
                             padding: EdgeInsets.only(left: 13),
-                            child: Material(
-                              borderRadius: BorderRadius.circular(18),
-                              color: Colors.grey[300],
-                              child: TextFormField(
-                                //initialValue: initValues['bookType'],
-                                decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.date_range_outlined,
-                                      color: Colors.orange,
-                                      size: 20,
-                                    ),
-                                    labelText: "User Age",
-                                    labelStyle: TextStyle(
-                                        fontSize: 19,
-                                        fontFamily: "font2",
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.orange),
-                                    border: InputBorder.none),
-                                textInputAction: TextInputAction.next,
-                                focusNode: _userAge,
-                                keyboardType: TextInputType.phone,
-                                onChanged: (value) => _userData['age'] = value,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.date_range_outlined,
+                                  color: Colors.orange,
+                                  size: 20,
+                                ),
+                                fillColor: Colors.grey[300],
+                                filled: true,
+                                labelText: "User Age",
+                                labelStyle: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.orange),
+                                border: _outlineBorder(),
+                                enabledBorder: _outlineBorder(),
+                                errorBorder: _outlineBorder(),
                               ),
+                              textInputAction: TextInputAction.next,
+                              focusNode: _userAge,
+                              keyboardType: TextInputType.phone,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'User Age must not be empty';
+                                }
+                                return null;
+                              },
+                              onChanged: (value) => _userData['age'] = value,
                             ),
                           ),
                           Container(
-                            height: 60,
-                            width: MediaQuery.of(context).size.width / 2 + 26,
+                            width: MediaQuery.of(context).size.width / 2 + 23,
                             padding: EdgeInsets.only(left: 13),
-                            child: Material(
-                              borderRadius: BorderRadius.circular(18),
-                              color: Colors.grey[300],
-                              child: TextFormField(
-                                //initialValue: initValues['bookType'],
-                                decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.mobile_friendly,
-                                      color: Colors.orange,
-                                      size: 20,
-                                    ),
-                                    labelText: "Mobile Number",
-                                    labelStyle: TextStyle(
-                                        fontSize: 19,
-                                        fontFamily: "font2",
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.orange),
-                                    border: InputBorder.none),
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.phone,
-                                onFieldSubmitted: (_) {
-                                  FocusScope.of(context)
-                                      .requestFocus(_userEmail);
-                                },
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Mobile Number must not be empty';
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) =>
-                                    _userData['mobileNo'] = value,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.mobile_friendly,
+                                  color: Colors.orange,
+                                  size: 20,
+                                ),
+                                fillColor: Colors.grey[300],
+                                filled: true,
+                                labelText: "Mobile Number",
+                                labelStyle: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "font2",
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.orange),
+                                border: _outlineBorder(),
+                                enabledBorder: _outlineBorder(),
+                                errorBorder: _outlineBorder(),
                               ),
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.phone,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).requestFocus(_userEmail);
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Mobile Number must not be empty';
+                                }
+                                return null;
+                              },
+                              onChanged: (value) =>
+                                  _userData['mobileNo'] = value,
                             ),
                           ),
                         ],
@@ -710,79 +734,77 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 60,
                           width: MediaQuery.of(context).size.width - 70,
                           padding: EdgeInsets.only(left: 13),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: TextFormField(
-                              //initialValue: initValues['bookType'],
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.quick_contacts_mail,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                  labelText: "User Email",
-                                  labelStyle: TextStyle(
-                                      fontSize: 19,
-                                      fontFamily: "font2",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.orange),
-                                  border: InputBorder.none),
-                              focusNode: _userEmail,
-                              textInputAction: TextInputAction.next,
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context)
-                                    .requestFocus(_userPassword);
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'User Email must not be empty';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) => _userData['email'] = value,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.quick_contacts_mail,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              fillColor: Colors.grey[300],
+                              filled: true,
+                              labelText: "User Email",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.orange),
+                              border: _outlineBorder(),
+                              enabledBorder: _outlineBorder(),
+                              errorBorder: _outlineBorder(),
                             ),
+                            focusNode: _userEmail,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context)
+                                  .requestFocus(_userPassword);
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'User Email must not be empty';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) => _userData['email'] = value,
                           ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         Container(
-                          height: 60,
                           width: MediaQuery.of(context).size.width - 70,
                           padding: EdgeInsets.only(left: 13),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: TextFormField(
-                              //initialValue: initValues['bookType'],
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.verified_user_rounded,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                  labelText: "Password",
-                                  labelStyle: TextStyle(
-                                      fontSize: 19,
-                                      fontFamily: "font2",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.orange),
-                                  border: InputBorder.none),
-                              textInputAction: TextInputAction.done,
-                              focusNode: _userPassword,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Password must not be empty';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) =>
-                                  _userData['password'] = value,
+                          child: TextFormField(
+                            //initialValue: initValues['bookType'],
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.verified_user_rounded,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              fillColor: Colors.grey[300],
+                              filled: true,
+                              labelText: "Password",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: "font2",
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.orange),
+                              border: _outlineBorder(),
+                              enabledBorder: _outlineBorder(),
+                              errorBorder: _outlineBorder(),
                             ),
+                            textInputAction: TextInputAction.done,
+                            focusNode: _userPassword,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Password must not be empty';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) => _userData['password'] = value,
                           ),
                         ),
                         SizedBox(

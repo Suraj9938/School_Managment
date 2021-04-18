@@ -22,64 +22,88 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      final response =
-          await Provider.of<SubjectProvider>(context, listen: false)
-              .addSubject(_subject);
-      print(response.statusCode);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('Success'),
-                  content: Text("Subject Added Successfully!"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
-          response.statusCode == 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An Error Occurred!'),
-                  content: Text("Something went wrong."),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      } else if (response.statusCode == 400 && response.statusCode < 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An Error Occurred'),
-                  content: Text("Provide valid subject detail and try again!"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      }
-    } catch (error) {
-      throw (error);
-    }
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text('Success'),
+              content: Text("Subject Added Successfully!"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+    // try {
+    //   final response =
+    //       await Provider.of<SubjectProvider>(context, listen: false)
+    //           .addSubject(_subject);
+    //   print(response.statusCode);
+    //   if (response.statusCode == 200 || response.statusCode == 201) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (ctx) => AlertDialog(
+    //               title: Text('Success'),
+    //               content: Text("Subject Added Successfully!"),
+    //               actions: <Widget>[
+    //                 FlatButton(
+    //                   child: Text('Okay'),
+    //                   onPressed: () {
+    //                     Navigator.of(ctx).pop();
+    //                   },
+    //                 )
+    //               ],
+    //             ));
+    //   } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+    //       response.statusCode == 500) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (ctx) => AlertDialog(
+    //               title: Text('An Error Occurred!'),
+    //               content: Text("Something went wrong."),
+    //               actions: <Widget>[
+    //                 FlatButton(
+    //                   child: Text('Okay'),
+    //                   onPressed: () {
+    //                     Navigator.of(ctx).pop();
+    //                   },
+    //                 )
+    //               ],
+    //             ));
+    //   } else if (response.statusCode == 400 && response.statusCode < 500) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (ctx) => AlertDialog(
+    //               title: Text('An Error Occurred'),
+    //               content: Text("Provide valid subject detail and try again!"),
+    //               actions: <Widget>[
+    //                 FlatButton(
+    //                   child: Text('Okay'),
+    //                   onPressed: () {
+    //                     Navigator.of(ctx).pop();
+    //                   },
+    //                 )
+    //               ],
+    //             ));
+    //   }
+    // } catch (error) {
+    //   throw (error);
+    // }
     setState(() {
       _isLoading = false;
     });
+  }
+
+  OutlineInputBorder _outlineBorder() {
+    return OutlineInputBorder(
+      gapPadding: 0,
+      borderSide: BorderSide(
+        color: Colors.orange,
+      ),
+      borderRadius: BorderRadius.circular(25),
+    );
   }
 
   @override
@@ -103,49 +127,45 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
             )
           : Form(
               key: _globalKey,
-              child: Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 50,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 25,
                 ),
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 60,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(34),
-                        color: Colors.grey[300],
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.subject,
-                              color: Colors.orange,
-                            ),
-                            labelText: "Subject Name",
-                            labelStyle: TextStyle(
-                              fontFamily: "font2",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Colors.orange,
-                            ),
-                            focusColor: Colors.red,
-                            contentPadding:
-                                EdgeInsets.only(bottom: 20, right: 20),
-                            border: InputBorder.none,
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Subject Name must not be empty';
-                            }
-                            return null;
-                          },
-                          onChanged: (value) => _subject['subjectName'] = value,
-                        ),
-                      ),
+                      height: 50,
                     ),
-                    SizedBox(
-                      height: 20,
+                    TextFormField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.subject,
+                          color: Colors.orange,
+                        ),
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        labelText: "Subject Name",
+                        labelStyle: TextStyle(
+                          fontFamily: "font2",
+                          fontWeight: FontWeight.normal,
+                          fontSize: 22,
+                          color: Colors.orange,
+                        ),
+                        focusColor: Colors.red,
+                        contentPadding:
+                            EdgeInsets.only(bottom: 20, right: 20),
+                        border: _outlineBorder(),
+                        enabledBorder: _outlineBorder(),
+                        errorBorder: _outlineBorder(),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Subject Name must not be empty';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) => _subject['subjectName'] = value,
                     ),
                   ],
                 ),

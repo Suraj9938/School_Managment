@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/ManageBills_Screen.dart';
-import 'package:school_management/SchoolOverViewScreen.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/provider/event_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
-import 'package:school_management/screens/AssignmentView_Screen.dart';
-import 'package:school_management/screens/Auth_Screen.dart';
 import 'package:school_management/screens/Calendar_Screen.dart';
-import 'package:school_management/screens/Event_DetailScreen.dart';
+import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
+import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dart';
 import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
+import 'package:school_management/screens/Principal/Edit_School_Screen.dart';
 import 'package:school_management/screens/Principal/Manage_School_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
+import 'package:school_management/screens/Principal/Manage_User_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
+import 'package:school_management/screens/Principal/Principal_Profile_Screen.dart';
 import 'package:school_management/screens/School_Event_Screen.dart';
+import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
-import 'package:school_management/screens/StudentScreen.dart';
 import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
+import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
+import 'package:school_management/screens/Users/Auth_Screen.dart';
+import 'package:school_management/widget/Users/SchoolOverViewScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => SchoolProvider()),
         ChangeNotifierProvider(create: (_) => SubjectProvider()),
+        ChangeNotifierProvider(create: (_) => EventProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -47,7 +53,7 @@ class MyApp extends StatelessWidget {
             primary: Colors.orange,
           ),
         ),
-        home: AuthScreen(),
+        home: AssignmentViewScreen(),
         routes: {
           AuthScreen.routeName: (ctx) => AuthScreen(),
           SchoolOverViewScreen.routeName: (ctx) => SchoolOverViewScreen(),
@@ -55,7 +61,6 @@ class MyApp extends StatelessWidget {
           ParentOverViewScreen.routeName: (ctx) => ParentOverViewScreen(),
           StudentOverViewScreen.routeName: (ctx) => StudentOverViewScreen(),
           CalendarScreen.routeName: (ctx) => CalendarScreen(),
-          StudentScreen.routeName: (ctx) => StudentScreen(),
           AddUserScreen.routeName: (ctx) => AddUserScreen(),
           AddEventScreen.routeName: (ctx) => AddEventScreen(),
           AddClassScreen.routeName: (ctx) => AddClassScreen(),
@@ -65,6 +70,13 @@ class MyApp extends StatelessWidget {
           LibrarianOverViewScreen.routeName: (ctx) => LibrarianOverViewScreen(),
           TeacherOverviewScreen.routeName: (ctx) => TeacherOverviewScreen(),
           AddSubjectScreen.routeName: (ctx) => AddSubjectScreen(),
+          SchoolEventScreen.routeName: (ctx) => SchoolEventScreen(),
+          AddBookScreen.routeName: (ctx) => AddBookScreen(),
+          EditSchoolScreen.routeName: (ctx) => EditSchoolScreen(),
+          ManageUserScreen.routeName: (ctx) => ManageUserScreen(),
+          StudentProfileScreen.routeName: (ctx) => StudentProfileScreen(),
+          LibrarianProfileScreen.routeName: (ctx) => LibrarianProfileScreen(),
+          PrincipalProfileScreen.routeName: (ctx) => PrincipalProfileScreen(),
         },
       ),
     );

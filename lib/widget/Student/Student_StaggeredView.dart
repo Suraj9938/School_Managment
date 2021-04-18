@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:school_management/screens/AssignmentView_Screen.dart';
+import 'file:///D:/FYP/school_management/lib/screens/Users/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 
 class StudentStaggeredView extends StatefulWidget {

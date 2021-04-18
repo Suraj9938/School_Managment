@@ -13,13 +13,13 @@ class SchoolProvider with ChangeNotifier {
   }
 
   Future<void> setFetchSchoolData() async {
-    final resUrl = "http://192.168.0.14:8000/api/viewschool/";
+    final resUrl = "http://192.168.137.1:8000/api/viewschool/";
     var url = Uri.parse(resUrl);
     try {
       final response = await https.get(
         url,
       );
-      print("Set Fetch Response");
+      print("Set Fetched Response");
       print(response.body);
 
       var schoolRes = json.decode(response.body);
@@ -33,6 +33,8 @@ class SchoolProvider with ChangeNotifier {
           startTime: schoolRes[0]['startTime'],
           endTime: schoolRes[0]['endTime'],
       );
+      print(schoolRes[0]['id']);
+      print(schoolRes[0]['image']);
       _schools = schoolData;
       notifyListeners();
     } catch (error) {
@@ -41,7 +43,7 @@ class SchoolProvider with ChangeNotifier {
   }
 
   // Future<https.Response> addSchool(_schoolData, images) async {
-  //   final resUrl = "http://192.168.0.14:8000/api/addschool/";
+  //   final resUrl = "http://192.168.137.1:8000/api/addschool/";
   //   var url = Uri.parse(resUrl);
   //   var request = https.MultipartRequest('POST', url);
   //

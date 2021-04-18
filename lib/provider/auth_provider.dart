@@ -23,7 +23,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> login(String email, String password) async {
-    final url = "http://192.168.0.14:8000/api/login/";
+    final url = "http://192.168.137.1:8000/api/login/";
     try {
       final response = await https.post(
         url,
@@ -60,7 +60,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<https.Response> signup(BuildContext context, _userData,
       Uint8List images) async {
-    final resUrl = "http://192.168.0.14:8000/api/create/";
+    final resUrl = "http://192.168.137.1:8000/api/create/";
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
     School schoolInfo;
@@ -69,7 +69,7 @@ class AuthProvider with ChangeNotifier {
     });
 
     print("schoolInfo");
-    final baseUrl = "http://192.168.0.14:8000/api/";
+    final baseUrl = "http://192.168.137.1:8000/api/";
 
     request.files
         .add(https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
