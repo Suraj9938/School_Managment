@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
+import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 
 class TeacherAppDrawer extends StatelessWidget {
   @override
@@ -93,7 +94,7 @@ class TeacherAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, OrderScreen.routeName);
+              Navigator.pushNamed(context, ViewAttendanceScreen.routeName);
             },
           ),
           Divider(

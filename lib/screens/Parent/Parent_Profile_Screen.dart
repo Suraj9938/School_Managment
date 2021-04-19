@@ -1,14 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
+import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 
-class LibrarianProfileScreen extends StatefulWidget {
-  static const routeName = "/librarian_profile";
+class ParentProfileScreen extends StatefulWidget {
+  static const routeName = "/parent_profile";
 
   @override
-  _LibrarianProfileScreenState createState() => _LibrarianProfileScreenState();
+  _ParentProfileScreenState createState() => _ParentProfileScreenState();
 }
 
-class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
+class _ParentProfileScreenState extends State<ParentProfileScreen> {
   Widget _topHalfUI() {
     return Container(
       height: MediaQuery.of(context).size.height / 2.3,
@@ -36,16 +37,15 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
             ),
           ),
           Positioned(
-            top: 30,
-            left: 15,
+            top: 40,
+            left: 20,
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
-                size: 22,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, LibrarianOverViewScreen.routeName);
+                Navigator.pushNamed(context, ParentOverViewScreen.routeName);
               },
             ),
           ),
@@ -98,7 +98,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                       height: 12,
                     ),
                     Text(
-                      "Light Yagami",
+                      "Sures Man",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                           width: 2,
                         ),
                         Text(
-                          "Isekai",
+                          "Kathmandu, Nepal",
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                           width: 6,
                         ),
                         Text(
-                          "Librarian",
+                          "Parent",
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -174,7 +174,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
   Widget _bottomHalfUI() {
     return Container(
       width: MediaQuery.of(context).size.width - 40,
-      height: MediaQuery.of(context).size.height / 2.9,
+      height: MediaQuery.of(context).size.height / 2.2,
       child: Card(
         elevation: 6,
         shape: RoundedRectangleBorder(
@@ -229,7 +229,30 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                 height: 3,
               ),
               Text(
-                "9867823587",
+                "9858524982",
+                style: TextStyle(
+                  fontFamily: "font2",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                ),
+              ),
+              Divider(
+                height: 24,
+                thickness: 2,
+              ),
+              Text(
+                "Age",
+                style: TextStyle(
+                  fontFamily: "font1",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Text(
+                "42",
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,

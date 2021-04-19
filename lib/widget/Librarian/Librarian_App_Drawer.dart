@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
+import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
+import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dart';
 
 class LibrarianAppDrawer extends StatelessWidget {
   @override
@@ -51,7 +54,7 @@ class LibrarianAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, LibrarianOverViewScreen.routeName);
             },
           ),
           Divider(
@@ -75,7 +78,7 @@ class LibrarianAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, AddBookScreen.routeName);
             },
           ),
           Divider(
@@ -123,7 +126,7 @@ class LibrarianAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, LibrarianProfileScreen.routeName);
             },
           ),
           Divider(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_management/ManageBills_Screen.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/event_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
@@ -9,7 +8,10 @@ import 'package:school_management/screens/Calendar_Screen.dart';
 import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dart';
+import 'package:school_management/screens/Librarian/ManageBook_Screen.dart';
+import 'package:school_management/screens/Parent/ManageBills_Screen.dart';
 import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
+import 'package:school_management/screens/Parent/Parent_Profile_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
@@ -25,6 +27,7 @@ import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
 import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Users/Auth_Screen.dart';
+import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 import 'package:school_management/widget/Users/SchoolOverViewScreen.dart';
 
 void main() {
@@ -53,7 +56,7 @@ class MyApp extends StatelessWidget {
             primary: Colors.orange,
           ),
         ),
-        home: AssignmentViewScreen(),
+        home: LibrarianOverViewScreen(),
         routes: {
           AuthScreen.routeName: (ctx) => AuthScreen(),
           SchoolOverViewScreen.routeName: (ctx) => SchoolOverViewScreen(),
@@ -77,6 +80,9 @@ class MyApp extends StatelessWidget {
           StudentProfileScreen.routeName: (ctx) => StudentProfileScreen(),
           LibrarianProfileScreen.routeName: (ctx) => LibrarianProfileScreen(),
           PrincipalProfileScreen.routeName: (ctx) => PrincipalProfileScreen(),
+          ParentProfileScreen.routeName: (ctx) => ParentProfileScreen(),
+          ViewAttendanceScreen.routeName: (ctx) => ViewAttendanceScreen(),
+          ManageBookScreen.routeName: (ctx) => ManageBookScreen(),
         },
       ),
     );

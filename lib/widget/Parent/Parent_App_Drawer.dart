@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:school_management/screens/Parent/ManageBills_Screen.dart';
+import 'package:school_management/screens/Parent/Parent_Profile_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
+import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 
 class ParentAppDrawer extends StatelessWidget {
   @override
@@ -52,7 +55,7 @@ class ParentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, ViewAttendanceScreen.routeName);
             },
           ),
           Divider(
@@ -100,7 +103,7 @@ class ParentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, ManageBillsScreen.routeName);
             },
           ),
           Divider(
@@ -124,7 +127,7 @@ class ParentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, ParentProfileScreen.routeName);
             },
           ),
           Divider(

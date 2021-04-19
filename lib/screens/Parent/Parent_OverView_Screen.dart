@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:school_management/ManageBills_Screen.dart';
+import 'file:///D:/FYP/school_management/lib/screens/Parent/ManageBills_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/widget/Parent/Parent_App_Drawer.dart';
 import 'file:///D:/FYP/school_management/lib/widget/Principal/Principal_StaggeredView.dart';

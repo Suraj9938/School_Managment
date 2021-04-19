@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
+import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dart';
+import 'package:school_management/screens/Librarian/ManageBook_Screen.dart';
+import 'package:school_management/screens/Users/Auth_Screen.dart';
 
 class LibrarianStaggeredView extends StatefulWidget {
   @override
@@ -78,13 +81,13 @@ class _LibrarianStaggeredViewState extends State<LibrarianStaggeredView> {
           Navigator.of(context).pushNamed(AddBookScreen.routeName);
         }),
         data(Icons.menu_book_sharp, "Manage Books", Colors.blue, () {
-          //Navigator.of(context).pushNamed(LibrarianEditScreen.routeName);
+          Navigator.of(context).pushNamed(ManageBookScreen.routeName);
         }),
         data(Icons.supervised_user_circle_rounded, "View Own Profile", Colors.purpleAccent, () {
-          //Navigator.of(context).pushNamed(CategoryScreen.routeName);
+          Navigator.of(context).pushNamed(LibrarianProfileScreen.routeName);
         }),
         data(Icons.exit_to_app, "Exit", Colors.redAccent, () {
-          //Navigator.pushNamed(context, AuthScreen.routeName);
+          Navigator.pushNamed(context, AuthScreen.routeName);
         }),
       ],
       staggeredTiles: [
