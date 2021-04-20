@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/event_provider.dart';
@@ -38,6 +39,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
@@ -56,7 +61,7 @@ class MyApp extends StatelessWidget {
             primary: Colors.orange,
           ),
         ),
-        home: LibrarianOverViewScreen(),
+        home: PrincipalOverViewScreen(),
         routes: {
           AuthScreen.routeName: (ctx) => AuthScreen(),
           SchoolOverViewScreen.routeName: (ctx) => SchoolOverViewScreen(),

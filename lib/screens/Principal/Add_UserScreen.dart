@@ -171,78 +171,64 @@ class _AddUserScreenState extends State<AddUserScreen> {
     setState(() {
       _isLoading = true;
     });
-    showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: Text('An Error Occurred!'),
-              content: Text("User with this email already exists!"),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
-    // try {
-    //   final response = await Provider.of<AuthProvider>(context, listen: false)
-    //       .signup(context, _userData, images);
-    //   print("Response");
-    //   print(response.statusCode);
-    //   if (response.statusCode == 200 || response.statusCode == 201) {
-    //     showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //               title: Text('Success'),
-    //               content: Text("User was registered successfully"),
-    //               actions: <Widget>[
-    //                 FlatButton(
-    //                   child: Text('Okay'),
-    //                   onPressed: () {
-    //                     Navigator.of(ctx).pop();
-    //                   },
-    //                 )
-    //               ],
-    //             ));
-    //     Navigator.of(context)
-    //         .pushReplacementNamed(PrincipalOverViewScreen.routeName);
-    //   } else if (response.statusCode >= 300 && response.statusCode < 400 ||
-    //       response.statusCode == 500) {
-    //     showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //               title: Text('An error Occured'),
-    //               content: Text("User registration failed!"),
-    //               actions: <Widget>[
-    //                 FlatButton(
-    //                   child: Text('Okay'),
-    //                   onPressed: () {
-    //                     Navigator.of(ctx).pop();
-    //                   },
-    //                 )
-    //               ],
-    //             ));
-    //   } else if (response.statusCode >= 400 && response.statusCode < 500) {
-    //     showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //               title: Text('An Error Occurred!'),
-    //               content:
-    //                   Text("Provide Valid User Credentials and try again!"),
-    //               actions: <Widget>[
-    //                 FlatButton(
-    //                   child: Text('Okay'),
-    //                   onPressed: () {
-    //                     Navigator.of(ctx).pop();
-    //                   },
-    //                 )
-    //               ],
-    //             ));
-    //   }
-    // } catch (error) {
-    //   print(error);
-    // }
+    try {
+      final response = await Provider.of<AuthProvider>(context, listen: false)
+          .signup(context, _userData, images);
+      print("Response");
+      print(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('Success'),
+                  content: Text("User was registered successfully"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+        Navigator.of(context)
+            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
+      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+          response.statusCode == 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An error Occured'),
+                  content: Text("User registration failed!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+      } else if (response.statusCode >= 400 && response.statusCode < 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An Error Occurred!'),
+                  content:
+                      Text("Provide Valid User Credentials and try again!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+      }
+    } catch (error) {
+      print(error);
+    }
     setState(() {
       _isLoading = false;
     });

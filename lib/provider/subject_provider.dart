@@ -14,7 +14,7 @@ class SubjectProvider with ChangeNotifier {
   }
 
   Future<https.Response> addSubject(_subject) async {
-    final url = "http://192.168.137.1/api/addsubject/";
+    final url = "http://192.168.0.19/api/addsubject/";
     try {
       final https.Response response = await https.post(
         url,
@@ -41,7 +41,7 @@ class SubjectProvider with ChangeNotifier {
   }
 
   Future<https.Response> setFetchSubjectData() async {
-    final resUrl = "http://192.168.137.1:8000/api/viewsubject/";
+    final resUrl = "http://192.168.0.19:8000/api/viewsubject/";
     var url = Uri.parse(resUrl);
     try {
       final response = await https.get(

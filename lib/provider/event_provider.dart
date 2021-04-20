@@ -15,7 +15,7 @@ class EventProvider with ChangeNotifier {
   }
 
   Future<https.Response> addEvent(BuildContext context, _events, images) async {
-    final resUrl = "http://192.168.137.1:8000/api/addevent/";
+    final resUrl = "http://192.168.0.19:8000/api/addevent/";
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
     School schoolInfo;
@@ -27,7 +27,7 @@ class EventProvider with ChangeNotifier {
     });
 
     print("eventInfo");
-    final baseUrl = "http://192.168.137.1:8000/api/";
+    final baseUrl = "http://192.168.0.19:8000/api/";
 
     request.files.add(
         https.MultipartFile.fromBytes('image', images, filename: 'event.png'));
@@ -71,7 +71,7 @@ class EventProvider with ChangeNotifier {
   }
 
   Future<https.Response> setFetchEventData() async {
-    final resUrl = "http://192.168.137.1:8000/api/viewevent/";
+    final resUrl = "http://192.168.0.19:8000/api/viewevent/";
     var url = Uri.parse(resUrl);
 
     try {
@@ -98,14 +98,6 @@ class EventProvider with ChangeNotifier {
           eventDay: event[i]['eventDay'],
           eventDescription: event[i]['eventDescription'],
         );
-        // print("Event Info");
-        // print(event[i]['id'].toString());
-        // print(event[i]['eventName']);
-        // print(event[i]['eventDate']);
-        // print(event[i]['eventStartTime']);
-        // print(event[i]['eventEndTime']);
-        // print(event[i]['eventDay']);
-        // print(event[i]['eventDescription']);
         _events.add(eventInfo);
         notifyListeners();
       }

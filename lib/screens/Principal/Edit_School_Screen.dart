@@ -3,6 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/model/school.dart';
+import 'package:school_management/provider/school_provider.dart';
 
 class EditSchoolScreen extends StatefulWidget {
   static const routeName = "/edit_school";
@@ -21,8 +24,30 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
   var _schoolStartTime;
   var _schoolEndTime;
   Uint8List images;
+  bool _isInit = true;
+  final _startTimeController = TextEditingController();
+  final _endTimeController = TextEditingController();
+  final _imageController = TextEditingController();
 
-  var _schoolData = {};
+  var _editedSchoolData = School(
+    schoolName: "",
+    schoolImage: "",
+    schoolDescription: "",
+    startTime: "",
+    endTime: "",
+    location: "",
+    schoolContact: "",
+  );
+
+  var initValues = {
+    'name': "",
+    'location': "",
+    'image': "",
+    'description': "",
+    'contact': "",
+    'startTime': "",
+    'endTime': "",
+  };
 
   OutlineInputBorder _outlineBorder() {
     return OutlineInputBorder(
@@ -39,6 +64,10 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
     // TODO: implement dispose
     super.dispose();
     _schoolContact.dispose();
+    _schoolDescription.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
+    _imageController.dispose();
   }
 
   File schoolImage;
@@ -149,6 +178,35 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //_imageController.addListener(_updateImage);
+  }
+
+  // void _updateImage() {
+  //   if()
+  // }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      _editedSchoolData = Provider.of<SchoolProvider>(context, listen: false).schoolData;
+      initValues = {
+        'name': _editedSchoolData.schoolName,
+        'location': _editedSchoolData.location,
+        'image': _editedSchoolData.schoolImage,
+        'description': _editedSchoolData.schoolDescription,
+        'contact': _editedSchoolData.schoolContact,
+        'startTime': _editedSchoolData.startTime,
+        'endTime': _editedSchoolData.endTime,
+      };
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -210,7 +268,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                                   width:
                                       MediaQuery.of(context).size.width / 2 + 4,
                                   child: TextFormField(
-                                    //initialValue: initValues['bookType'],
+                                    initialValue: initValues['name'],
                                     decoration: InputDecoration(
                                       prefixIcon: Icon(
                                         Icons.school_outlined,
@@ -237,7 +295,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                                       }
                                       return null;
                                     },
-                                    onChanged: (value) => _schoolData['name'],
+                                    onChanged: (value) => initValues['name'],
                                   ),
                                 ),
                                 SizedBox(
@@ -247,7 +305,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                                   width:
                                       MediaQuery.of(context).size.width / 2 + 4,
                                   child: TextFormField(
-                                    //initialValue: initValues['bookType'],
+                                    initialValue: initValues['contact'],
                                     decoration: InputDecoration(
                                       prefixIcon: Icon(
                                         Icons.contact_phone_outlined,
@@ -274,8 +332,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                                       }
                                       return null;
                                     },
-                                    onChanged: (value) =>
-                                        _schoolData['contact'],
+                                    onChanged: (value) => initValues['contact'],
                                   ),
                                 ),
                               ],
@@ -388,7 +445,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                                     if (formattedStartTime != null) {
                                       setState(() {
                                         _schoolStartTime = formattedStartTime;
-                                        _schoolData['startTime'] =
+                                        initValues['startTime'] =
                                             _schoolStartTime;
                                       });
                                       print("Formatted Start Time");
@@ -470,7 +527,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                                     if (formattedEndTime != null) {
                                       setState(() {
                                         _schoolEndTime = formattedEndTime;
-                                        _schoolData['endTime'] = _schoolEndTime;
+                                        initValues['endTime'] = _schoolEndTime;
                                       });
                                       print("Formatted End Time");
                                       print(_schoolEndTime);
@@ -500,7 +557,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                         Container(
                           width: MediaQuery.of(context).size.width - 120,
                           child: TextFormField(
-                            //initialValue: initValues['bookType'],
+                            initialValue: initValues['location'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.location_on_sharp,
@@ -527,7 +584,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                               }
                               return null;
                             },
-                            onChanged: (value) => _schoolData['location'],
+                            onChanged: (value) => initValues['location'],
                           ),
                         ),
                         SizedBox(
@@ -539,7 +596,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                             right: 30,
                           ),
                           child: TextFormField(
-                            //initialValue: initValues['bookDescription'],
+                            initialValue: initValues['description'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.description,
@@ -566,7 +623,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                               }
                               return null;
                             },
-                            onChanged: (value) => _schoolData['description'],
+                            onChanged: (value) => initValues['description'],
                           ),
                         ),
                         SizedBox(

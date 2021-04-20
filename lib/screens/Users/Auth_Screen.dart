@@ -87,7 +87,6 @@ class _AuthCardState extends State<AuthCard> {
 
   var _isLoading = false;
   final _pwController = TextEditingController();
-  AnimationController _controller;
 
   @override
   void initState() {

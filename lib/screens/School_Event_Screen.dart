@@ -95,8 +95,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       height: 50,
                       width: 60,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.orange, width: 3)),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.orange,
+                          width: 3,
+                        ),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.all(8),
                         child: Image.asset(
@@ -116,7 +120,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         fontFamily: "font1",
-                        color: Colors.orange,
+                        color: Colors.green,
                       ),
                     ),
                     SizedBox(
@@ -127,7 +131,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       children: [
                         Icon(
                           Icons.location_on_sharp,
-                          color: Colors.green,
+                          color: Colors.orange,
                           size: 20,
                         ),
                         SizedBox(
@@ -153,7 +157,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       children: [
                         Icon(
                           Icons.phone,
-                          color: Colors.green,
+                          color: Colors.orange,
                           size: 20,
                         ),
                         SizedBox(
