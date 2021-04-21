@@ -59,14 +59,17 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<https.Response> signup(BuildContext context, _userData,
-      Uint8List images) async {
+  Future<https.Response> signup(
+      BuildContext context, _userData, Uint8List images) async {
     final resUrl = "http://192.168.0.19:8000/api/create/";
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
     School schoolInfo;
-    Provider.of<SchoolProvider>(context, listen: false).setFetchSchoolData().then((value){
-      schoolInfo = Provider.of<SchoolProvider>(context, listen: false).schoolData;
+    Provider.of<SchoolProvider>(context, listen: false)
+        .setFetchSchoolData()
+        .then((value) {
+      schoolInfo =
+          Provider.of<SchoolProvider>(context, listen: false).schoolData;
     });
 
     print("schoolInfo");
@@ -121,6 +124,45 @@ class AuthProvider with ChangeNotifier {
       return userSchool;
     } else {
       return response;
+    }
+  }
+
+  Future<https.Response> setFetchedUsersData() async {
+    final resUrl = "http://192.168.0.19:8000/api/viewuser";
+    var url = Uri.parse(resUrl);
+
+    try {
+      final response = await https.get(
+        url,
+      );
+      print("Set Fetched Response");
+      print(response.body);
+
+      List<dynamic> user = List<dynamic>();
+      user = json.decode(response.body);
+      for (int i = 0; i < user.length; i++) {
+        var userRes = user[i];
+        final userInfo = Auth(
+          userId: userRes['id'].toString(),
+          name: userRes['name'],
+          address: userRes['address'],
+          image: userRes['image'].toString(),
+          gender: userRes['gender'],
+          age: userRes['age'],
+          mobileNo: userRes['mobileNo'],
+          email: userRes['email'],
+          password: userRes['password'],
+          isAdmin: userRes['admin'],
+          isTeacher: userRes['teacher'],
+          isParent: userRes['parent'],
+          isStudent: userRes['student'],
+          isLibrarian: userRes['librarian'],
+        );
+        _users.add(userInfo);
+        notifyListeners();
+      }
+    } catch (error) {
+      throw (error);
     }
   }
 }

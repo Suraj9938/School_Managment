@@ -575,11 +575,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime(2022))
                                     .then((date) {
-                                      setState(() {
-                                        _eventDate = date;
-                                        formattedEventDate = DateFormat('MMMMd').format(_eventDate);
-                                        _events['eventDate'] = formattedEventDate;
-                                      });
+                                  setState(() {
+                                    _eventDate = date;
+                                    formattedEventDate =
+                                        DateFormat('MMMMd').format(_eventDate);
+                                    _events['eventDate'] = formattedEventDate;
+                                  });
                                 });
                               },
                             ),
@@ -589,7 +590,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           height: 27,
                         ),
                         Container(
-                          height: 170,
                           padding: EdgeInsets.only(
                             right: 30,
                           ),
@@ -619,7 +619,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 }
                                 return null;
                               },
-                              onChanged: (value) => _events['eventDescription'] = value,
+                              onChanged: (value) =>
+                                  _events['eventDescription'] = value,
                             ),
                           ),
                         ),

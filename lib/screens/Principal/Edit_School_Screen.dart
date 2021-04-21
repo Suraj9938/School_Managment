@@ -116,65 +116,50 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
   }
 
   Future<void> _saveForm() async {
-    // final isValid = _form.currentState.validate();
-    // if (!isValid) {
-    //   return;
-    // }
-    // _form.currentState.save();
-    // setState(() {
-    //   _isLoading = true;
-    // });
-    await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: Text("Success"),
-              content: Text("School Information Updated Successfully"),
-              actions: [
-                FlatButton(
-                  child: Text("Ok"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ));
-    // try {
-    //   // await Provider.of<SchoolProvider>(context, listen: false)
-    //   //     .addSchool(_schoolData, images);
-    //   await showDialog(
-    //       context: context,
-    //       builder: (ctx) => AlertDialog(
-    //         title: Text("Success"),
-    //         content: Text("School Information Updated Successfully"),
-    //         actions: [
-    //           FlatButton(
-    //             child: Text("Ok"),
-    //             onPressed: () {
-    //               Navigator.pop(context);
-    //             },
-    //           )
-    //         ],
-    //       ));
-    // } catch (error) {
-    //   await showDialog(
-    //       context: context,
-    //       builder: (ctx) => AlertDialog(
-    //         title: Text('Error Occured'),
-    //         content: Text('School information cannot be updated'),
-    //         actions: [
-    //           FlatButton(
-    //             child: Text("Ok"),
-    //             onPressed: () {
-    //               Navigator.pop(context);
-    //             },
-    //           ),
-    //         ],
-    //       ));
-    // }
-    // setState(() {
-    //   _isLoading = false;
-    // });
-    // Navigator.pop(context);
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
+      return;
+    }
+    _form.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<SchoolProvider>(context, listen: false).updateSchool(_editedSchoolData);
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Success"),
+            content: Text("School Information Updated Successfully"),
+            actions: [
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ));
+    } catch (error) {
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Error Occured'),
+            content: Text('School information cannot be updated'),
+            actions: [
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ));
+    }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.pop(context);
   }
 
   @override

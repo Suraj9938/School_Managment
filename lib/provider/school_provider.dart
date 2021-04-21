@@ -46,20 +46,21 @@ class SchoolProvider with ChangeNotifier {
     final resUrl = "http://192.168.0.19:8000/api/updateschool/1/";
     var url = Uri.parse(resUrl);
     try {
-      final response = await https.post(
+      final response = await https.patch(
         url,
         body: json.encode({
-          'name': _schools.schoolName,
-          'location': _schools.location,
-          'image': _schools.schoolImage,
-          'description': _schools.schoolDescription,
-          'contact': _schools.schoolContact,
-          'startTime': _schools.startTime,
-          'endTime': _schools.endTime,
+          'name': school.schoolName,
+          'location': school.location,
+          'image': school.schoolImage,
+          'description': school.schoolDescription,
+          'contact': school.schoolContact,
+          'startTime': school.startTime,
+          'endTime': school.endTime,
         }),
       );
-      print("School Name");
-      print(json.decode(response.body)['name']);
+      _schools = school;
+      print("School Data");
+      print(_schools);
     } catch (error) {
       throw (error);
     }

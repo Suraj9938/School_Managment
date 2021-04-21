@@ -15,7 +15,6 @@ class Auth with ChangeNotifier {
   bool isStudent;
   bool isParent;
   bool isAdmin;
-  bool isStaff;
 
   Auth({
     this.userId,
@@ -32,6 +31,5 @@ class Auth with ChangeNotifier {
     this.isParent,
     this.isStudent,
     this.isAdmin,
-    this.isStaff,
   });
 }

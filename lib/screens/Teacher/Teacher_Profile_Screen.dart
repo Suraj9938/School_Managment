@@ -1,20 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
-import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
+import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
 
-class LibrarianProfileScreen extends StatefulWidget {
-  static const routeName = "/librarian_profile";
+class TeacherProfileScreen extends StatefulWidget {
+  static const routeName = "/teacher_profile";
 
   @override
-  _LibrarianProfileScreenState createState() => _LibrarianProfileScreenState();
+  _TeacherProfileScreenState createState() => _TeacherProfileScreenState();
 }
 
-class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
+class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
   Widget _topHalfUI() {
-    final librarianInfo =
+    final teacherInfo =
         Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
-
     return Container(
       height: MediaQuery.of(context).size.height / 2.3,
       width: double.infinity,
@@ -41,16 +41,15 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
             ),
           ),
           Positioned(
-            top: 30,
-            left: 15,
+            top: 40,
+            left: 20,
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
-                size: 22,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, LibrarianOverViewScreen.routeName);
+                Navigator.pushNamed(context, TeacherOverviewScreen.routeName);
               },
             ),
           ),
@@ -96,14 +95,14 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                     CircleAvatar(
                       maxRadius: 28,
                       backgroundImage: NetworkImage(
-                        librarianInfo.image,
+                        teacherInfo.image,
                       ),
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     Text(
-                      librarianInfo.name,
+                      teacherInfo.name,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -126,7 +125,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                           width: 2,
                         ),
                         Text(
-                          librarianInfo.address,
+                          teacherInfo.address,
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -152,7 +151,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                           width: 6,
                         ),
                         Text(
-                          "Librarian",
+                          "Teacher",
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -177,7 +176,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
   }
 
   Widget _bottomHalfUI() {
-    final librarianInfo =
+    final teacherInfo =
         Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
 
     return Container(
@@ -214,7 +213,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                 height: 3,
               ),
               Text(
-                librarianInfo.gender,
+                teacherInfo.gender,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -237,7 +236,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                 height: 3,
               ),
               Text(
-                librarianInfo.age,
+                teacherInfo.age,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -260,7 +259,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
                 height: 3,
               ),
               Text(
-                librarianInfo.mobileNo,
+                teacherInfo.mobileNo,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -278,6 +277,7 @@ class _LibrarianProfileScreenState extends State<LibrarianProfileScreen> {
   Widget build(BuildContext context) {
     String email;
     String password;
+
     return Scaffold(
       body: FutureBuilder(
         future: Provider.of<AuthProvider>(context).login(email, password),

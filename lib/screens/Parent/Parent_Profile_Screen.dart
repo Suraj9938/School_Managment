@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 
 class ParentProfileScreen extends StatefulWidget {
@@ -11,6 +13,8 @@ class ParentProfileScreen extends StatefulWidget {
 
 class _ParentProfileScreenState extends State<ParentProfileScreen> {
   Widget _topHalfUI() {
+    final parentInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
     return Container(
       height: MediaQuery.of(context).size.height / 2.3,
       width: double.infinity,
@@ -90,15 +94,15 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
                   children: [
                     CircleAvatar(
                       maxRadius: 28,
-                      backgroundImage: AssetImage(
-                        "assets/images/otaku.png",
+                      backgroundImage: NetworkImage(
+                        parentInfo.image,
                       ),
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     Text(
-                      "Sures Man",
+                      parentInfo.name,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -121,7 +125,7 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
                           width: 2,
                         ),
                         Text(
-                          "Kathmandu, Nepal",
+                          parentInfo.address,
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -172,9 +176,12 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
   }
 
   Widget _bottomHalfUI() {
+    final parentInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Container(
       width: MediaQuery.of(context).size.width - 40,
-      height: MediaQuery.of(context).size.height / 2.2,
+      height: MediaQuery.of(context).size.height / 2.9,
       child: Card(
         elevation: 6,
         shape: RoundedRectangleBorder(
@@ -206,34 +213,11 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
                 height: 3,
               ),
               Text(
-                "Male",
+                parentInfo.gender,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
                   fontSize: 17,
-                ),
-              ),
-              Divider(
-                height: 24,
-                thickness: 2,
-              ),
-              Text(
-                "Mobile Number",
-                style: TextStyle(
-                  fontFamily: "font1",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(
-                height: 3,
-              ),
-              Text(
-                "9858524982",
-                style: TextStyle(
-                  fontFamily: "font2",
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18,
                 ),
               ),
               Divider(
@@ -252,7 +236,7 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
                 height: 3,
               ),
               Text(
-                "42",
+                parentInfo.age,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -264,7 +248,7 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
                 thickness: 2,
               ),
               Text(
-                "Date of Birth",
+                "Mobile Number",
                 style: TextStyle(
                   fontFamily: "font1",
                   fontWeight: FontWeight.bold,
@@ -275,7 +259,7 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
                 height: 3,
               ),
               Text(
-                "1st November, 1989",
+                parentInfo.mobileNo,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -291,15 +275,27 @@ class _ParentProfileScreenState extends State<ParentProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String email;
+    String password;
+
     return Scaffold(
-      body: Column(
-        children: [
-          _topHalfUI(),
-          SizedBox(
-            height: 12,
-          ),
-          _bottomHalfUI(),
-        ],
+      body: FutureBuilder(
+        future: Provider.of<AuthProvider>(context).login(email, password),
+        builder: (ctx, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  children: [
+                    _topHalfUI(),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    _bottomHalfUI(),
+                  ],
+                );
+        },
       ),
     );
   }

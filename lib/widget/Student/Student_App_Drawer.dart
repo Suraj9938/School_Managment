@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/School_Event_Screen.dart';
+import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
 
 class StudentAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final studentInfo = Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage(
-                "assets/images/otaku.png",
+              backgroundImage: NetworkImage(
+                studentInfo.image,
               ),
             ),
             accountName: Text(
-              "Sung Jin Woo",
+              studentInfo.name,
               style: TextStyle(
                 fontFamily: "font2",
                 fontWeight: FontWeight.w700,
@@ -25,7 +30,7 @@ class StudentAppDrawer extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "jinwoo@gmail.com",
+              studentInfo.email,
               style: TextStyle(
                 fontFamily: "font2",
                 fontSize: 19,
@@ -190,7 +195,7 @@ class StudentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, SchoolEventScreen.routeName);
+              Navigator.pushNamed(context, StudentProfileScreen.routeName);
             },
           ),
           Divider(

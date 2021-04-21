@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/screens/Parent/ManageBills_Screen.dart';
 import 'package:school_management/screens/Parent/Parent_Profile_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
@@ -8,18 +10,19 @@ import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 class ParentAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final parentInfo = Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage(
-                "assets/images/otaku.png",
+              backgroundImage: NetworkImage(
+                parentInfo.image,
               ),
             ),
             accountName: Text(
-              "Suresh Man",
+              parentInfo.name,
               style: TextStyle(
                 fontFamily: "font2",
                 fontWeight: FontWeight.w700,
@@ -28,7 +31,7 @@ class ParentAppDrawer extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "sures.man@gmail.com",
+              parentInfo.email,
               style: TextStyle(
                 fontFamily: "font2",
                 fontSize: 19,

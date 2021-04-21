@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
 class PrincipalProfileScreen extends StatefulWidget {
@@ -11,6 +13,9 @@ class PrincipalProfileScreen extends StatefulWidget {
 
 class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
   Widget _topHalfUI() {
+    final principalInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Container(
       height: MediaQuery.of(context).size.height / 2.3,
       width: double.infinity,
@@ -91,15 +96,15 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
                   children: [
                     CircleAvatar(
                       maxRadius: 28,
-                      backgroundImage: AssetImage(
-                        "assets/images/otaku.png",
+                      backgroundImage: NetworkImage(
+                        principalInfo.image,
                       ),
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     Text(
-                      "Suraj Shrestha",
+                      principalInfo.name,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -122,7 +127,7 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
                           width: 2,
                         ),
                         Text(
-                          "Kathmandu, Nepal",
+                          principalInfo.address,
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -173,6 +178,9 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
   }
 
   Widget _bottomHalfUI() {
+    final principalInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Container(
       width: MediaQuery.of(context).size.width - 40,
       height: MediaQuery.of(context).size.height / 2.2,
@@ -207,7 +215,7 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
                 height: 3,
               ),
               Text(
-                "Male",
+                principalInfo.gender,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -230,7 +238,7 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
                 height: 3,
               ),
               Text(
-                "31",
+                principalInfo.age,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -253,7 +261,7 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
                 height: 3,
               ),
               Text(
-                "9889236587",
+                principalInfo.mobileNo,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -265,7 +273,7 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
                 thickness: 2,
               ),
               Text(
-                "Date of Birth",
+                "Email",
                 style: TextStyle(
                   fontFamily: "font1",
                   fontWeight: FontWeight.bold,
@@ -276,7 +284,7 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
                 height: 3,
               ),
               Text(
-                "1st November, 1989",
+                principalInfo.email,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -292,15 +300,27 @@ class _PrincipalProfileScreenState extends State<PrincipalProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String email;
+    String password;
+
     return Scaffold(
-      body: Column(
-        children: [
-          _topHalfUI(),
-          SizedBox(
-            height: 12,
-          ),
-          _bottomHalfUI(),
-        ],
+      body: FutureBuilder(
+        future: Provider.of<AuthProvider>(context).login(email, password),
+        builder: (ctx, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  children: [
+                    _topHalfUI(),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    _bottomHalfUI(),
+                  ],
+                );
+        },
       ),
     );
   }

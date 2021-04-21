@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/provider/book_provider.dart';
+import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
 
 class AddBookScreen extends StatefulWidget {
   static const String routeName = "/staff_book_screen";
@@ -14,19 +16,17 @@ class AddBookScreen extends StatefulWidget {
 
 class _AddBookScreenState extends State<AddBookScreen> {
   final _bookType = FocusNode();
-  final _categoryId = FocusNode();
   final _publihser = FocusNode();
   final _publishYear = FocusNode();
   final _ratingNo = FocusNode();
   final _userRating = FocusNode();
-  final _isTopGrossing = FocusNode();
   final _bookDescription = FocusNode();
-  final _imageUrl = FocusNode();
-  final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
   bool _isInit = true;
   bool _isLoading = false;
   Uint8List images;
+
+  var _bookData = {};
 
   var initValues = {
     'bookName': "",
@@ -44,27 +44,17 @@ class _AddBookScreenState extends State<AddBookScreen> {
   @override
   void initState() {
     super.initState();
-    _imageUrlController.addListener(_updateImageUrl);
-  }
-
-  void _updateImageUrl() {
-    if (!_imageUrl.hasFocus) {
-      setState(() {});
-    }
   }
 
   @override
   void dispose() {
     super.dispose();
     _bookType.dispose();
-    _categoryId.dispose();
     _publihser.dispose();
     _publishYear.dispose();
     _ratingNo.dispose();
     _userRating.dispose();
-    _isTopGrossing.dispose();
     _bookDescription.dispose();
-    _imageUrl.dispose();
   }
 
   //save form and validate
@@ -146,6 +136,63 @@ class _AddBookScreenState extends State<AddBookScreen> {
     //         ));
     //   }
     // }
+    try {
+      final response = await Provider.of<BookProvider>(context, listen: false).addBook(_bookData, images);
+      print("Response");
+      print(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('Success'),
+              content: Text("Book was added successfully"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+        Navigator.of(context)
+            .pushReplacementNamed(LibrarianOverViewScreen.routeName);
+      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+          response.statusCode == 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('An error Occured'),
+              content: Text("Book addition failed!"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+      } else if (response.statusCode >= 400 && response.statusCode < 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('An Error Occurred!'),
+              content:
+              Text("Provide Valid Book Credentials and try again!"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+      }
+    } catch(error) {
+      throw error;
+    }
     setState(() {
       _isLoading = false;
     });
@@ -279,6 +326,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   FocusScope.of(context)
                                       .requestFocus(_bookType);
                                 },
+                                onChanged: (value) => _bookData['bookName'] = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Book Name must not be empty';
@@ -318,6 +366,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   FocusScope.of(context)
                                       .requestFocus(_publihser);
                                 },
+                                onChanged: (value) => _bookData['bookType'] = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Book Type must not be empty';
@@ -411,6 +460,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             onFieldSubmitted: (_) {
                               FocusScope.of(context).requestFocus(_publishYear);
                             },
+                            onChanged: (value) => _bookData['publisher'] = value,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Publisher must not be empty';
@@ -449,6 +499,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             onFieldSubmitted: (_) {
                               FocusScope.of(context).requestFocus(_ratingNo);
                             },
+                            onChanged: (value) => _bookData['publishYear'] = value,
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return 'Publish Year must not be empty';
@@ -494,6 +545,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             onFieldSubmitted: (_) {
                               FocusScope.of(context).requestFocus(_userRating);
                             },
+                            onChanged: (value) => _bookData['ratingNo'] = value,
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return 'Rating No must not be empty';
@@ -533,9 +585,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               FocusScope.of(context)
                                   .requestFocus(_bookDescription);
                             },
+                            onChanged: (value) => _bookData['userRating'] = value,
                             validator: (value) {
                               if (value.trim().isEmpty) {
-                                return 'Publish Year must not be empty';
+                                return 'User Rating must not be empty';
                               }
                               return null;
                             },
@@ -568,12 +621,11 @@ class _AddBookScreenState extends State<AddBookScreen> {
                           enabledBorder: _outlineBorder(),
                           errorBorder: _outlineBorder(),
                         ),
-                        maxLines: 5,
+                        maxLines: null,
+                        textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.multiline,
                         focusNode: _bookDescription,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_imageUrl);
-                        },
+                        onChanged: (value) => _bookData['bookDescription'] = value,
                         validator: (value) {
                           if (value.trim().isEmpty) {
                             return 'Book Description must not be empty';

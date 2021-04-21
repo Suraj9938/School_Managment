@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
@@ -9,18 +11,21 @@ import 'package:school_management/screens/Principal/Principal_Profile_Screen.dar
 class PrincipalAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final principalInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage(
-                "assets/images/otaku.png",
+              backgroundImage: NetworkImage(
+                principalInfo.image,
               ),
             ),
             accountName: Text(
-              "Suraj",
+              principalInfo.name,
               style: TextStyle(
                 fontFamily: "font2",
                 fontWeight: FontWeight.w700,
@@ -29,7 +34,7 @@ class PrincipalAppDrawer extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "suraj@gmail.com",
+              principalInfo.email,
               style: TextStyle(
                 fontFamily: "font2",
                 fontSize: 19,

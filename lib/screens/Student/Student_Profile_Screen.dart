@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 
 class StudentProfileScreen extends StatefulWidget {
   static const routeName = "/student_profile";
@@ -10,6 +13,9 @@ class StudentProfileScreen extends StatefulWidget {
 
 class _StudentProfileScreenState extends State<StudentProfileScreen> {
   Widget _topHalfUI() {
+    final studentInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Container(
       height: MediaQuery.of(context).size.height / 2.3,
       width: double.infinity,
@@ -33,6 +39,20 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 ),
               ),
               height: MediaQuery.of(context).size.height / 4.6,
+            ),
+          ),
+          Positioned(
+            top: 30,
+            left: 10,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+                size: 22,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, StudentOverViewScreen.routeName);
+              },
             ),
           ),
           Positioned(
@@ -76,15 +96,15 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                   children: [
                     CircleAvatar(
                       maxRadius: 28,
-                      backgroundImage: AssetImage(
-                        "assets/images/child.png",
+                      backgroundImage: NetworkImage(
+                        studentInfo.image,
                       ),
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     Text(
-                      "Billie Eilish",
+                      studentInfo.name,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -107,7 +127,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                           width: 2,
                         ),
                         Text(
-                          "Kathmandu, Nepal, 781246",
+                          studentInfo.address,
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -158,9 +178,12 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
   }
 
   Widget _bottomHalfUI() {
+    final studentInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Container(
       width: MediaQuery.of(context).size.width - 40,
-      height: MediaQuery.of(context).size.height / 2.2,
+      height: MediaQuery.of(context).size.height / 2.8,
       child: Card(
         elevation: 6,
         shape: RoundedRectangleBorder(
@@ -192,7 +215,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 height: 3,
               ),
               Text(
-                "Female",
+                studentInfo.gender,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -204,7 +227,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 thickness: 2,
               ),
               Text(
-                "Class",
+                "Age",
                 style: TextStyle(
                   fontFamily: "font1",
                   fontWeight: FontWeight.bold,
@@ -215,7 +238,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 height: 3,
               ),
               Text(
-                "12",
+                studentInfo.age,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -227,7 +250,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 thickness: 2,
               ),
               Text(
-                "Section",
+                "Mobile Number",
                 style: TextStyle(
                   fontFamily: "font1",
                   fontWeight: FontWeight.bold,
@@ -238,30 +261,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 height: 3,
               ),
               Text(
-                "A",
-                style: TextStyle(
-                  fontFamily: "font2",
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18,
-                ),
-              ),
-              Divider(
-                height: 24,
-                thickness: 2,
-              ),
-              Text(
-                "Date of Birth",
-                style: TextStyle(
-                  fontFamily: "font1",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(
-                height: 3,
-              ),
-              Text(
-                "1st November, 1989",
+                studentInfo.mobileNo,
                 style: TextStyle(
                   fontFamily: "font2",
                   fontWeight: FontWeight.normal,
@@ -277,15 +277,27 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String email;
+    String password;
+
     return Scaffold(
-      body: Column(
-        children: [
-          _topHalfUI(),
-          SizedBox(
-            height: 12,
-          ),
-          _bottomHalfUI(),
-        ],
+      body: FutureBuilder(
+        future: Provider.of<AuthProvider>(context).login(email, password),
+        builder: (ctx, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  children: [
+                    _topHalfUI(),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    _bottomHalfUI(),
+                  ],
+                );
+        },
       ),
     );
   }

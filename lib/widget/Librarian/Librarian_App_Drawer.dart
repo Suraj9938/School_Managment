@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
@@ -7,18 +9,20 @@ import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dar
 class LibrarianAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final librarianInfo = Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage(
-                "assets/images/child.png",
+              backgroundImage: NetworkImage(
+                librarianInfo.image,
               ),
             ),
             accountName: Text(
-              "Harrie",
+              librarianInfo.name,
               style: TextStyle(
                 fontFamily: "font2",
                 fontWeight: FontWeight.w700,
@@ -27,7 +31,7 @@ class LibrarianAppDrawer extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "harrie05@gmail.com",
+              librarianInfo.email,
               style: TextStyle(
                 fontFamily: "font2",
                 fontSize: 19,

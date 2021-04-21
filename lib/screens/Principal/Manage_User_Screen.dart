@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
+import 'package:school_management/widget/Principal/Users_List_View.dart';
 
 class ManageUserScreen extends StatelessWidget {
   static const routeName = "/manage_users";
 
+  Future<void> _refreshUsers(BuildContext context) async {
+    await Provider.of<AuthProvider>(context, listen: false)
+        .setFetchedUsersData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final users = Provider.of<AuthProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -30,300 +40,32 @@ class ManageUserScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: ListView(
-          children: [
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
+      body: FutureBuilder(
+        future: _refreshUsers(context),
+        builder: (ctx, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : RefreshIndicator(
+                  onRefresh: () => _refreshUsers(context),
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Consumer<AuthProvider>(
+                      builder: (ctx, user, _) {
+                        return ListView.builder(
+                          itemBuilder: (ctx, index) => UserListView(
+                            user.users[index].userId,
+                            user.users[index].name,
+                            user.users[index].image,
+                          ),
+                          itemCount: user.users.length,
+                        );
+                      },
                     ),
                   ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 60,
-                child: ListTile(
-                  title: Text(
-                    "Sung Jin Woo",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "font2",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/otaku.png"),
-                  ),
-                  trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          color: Theme.of(context).accentColor,
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+                );
+        },
       ),
     );
   }

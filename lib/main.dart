@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/provider/book_provider.dart';
 import 'package:school_management/provider/event_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
@@ -26,6 +27,7 @@ import 'package:school_management/screens/School_Event_Screen.dart';
 import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
+import 'package:school_management/screens/Teacher/Teacher_Profile_Screen.dart';
 import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SchoolProvider()),
         ChangeNotifierProvider(create: (_) => SubjectProvider()),
         ChangeNotifierProvider(create: (_) => EventProvider()),
+        ChangeNotifierProvider(create: (_) => BookProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -61,7 +64,7 @@ class MyApp extends StatelessWidget {
             primary: Colors.orange,
           ),
         ),
-        home: PrincipalOverViewScreen(),
+        home: AuthScreen(),
         routes: {
           AuthScreen.routeName: (ctx) => AuthScreen(),
           SchoolOverViewScreen.routeName: (ctx) => SchoolOverViewScreen(),
@@ -88,6 +91,7 @@ class MyApp extends StatelessWidget {
           ParentProfileScreen.routeName: (ctx) => ParentProfileScreen(),
           ViewAttendanceScreen.routeName: (ctx) => ViewAttendanceScreen(),
           ManageBookScreen.routeName: (ctx) => ManageBookScreen(),
+          TeacherProfileScreen.routeName: (ctx) => TeacherProfileScreen(),
         },
       ),
     );
