@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
-import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
+import 'package:school_management/screens/Principal/Add_Class_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
 import 'package:school_management/screens/Principal/Manage_User_Screen.dart';
@@ -120,6 +120,30 @@ class PrincipalAppDrawer extends StatelessWidget {
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
                 "Add New Subject",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, AddSubjectScreen.routeName);
+            },
+          ),
+          Divider(
+            thickness: 5,
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(
+              Icons.subject,
+              size: 24,
+              color: Colors.black54,
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text(
+                "Add New Class",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,

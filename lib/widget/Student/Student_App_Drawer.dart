@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
-import 'package:school_management/screens/School_Event_Screen.dart';
+import 'file:///D:/FYP/school_management/lib/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
+import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 
 class StudentAppDrawer extends StatelessWidget {
   @override
@@ -123,7 +124,7 @@ class StudentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, ViewAttendanceScreen.routeName);
             },
           ),
           Divider(

@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_management/provider/event_provider.dart';
-import 'package:school_management/screens/School_Event_ListView.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
+import 'package:school_management/widget/Users/School_Event_ListView.dart';
 
 class SchoolEventScreen extends StatefulWidget {
   static const routeName = "/school_event";
@@ -15,7 +14,7 @@ class SchoolEventScreen extends StatefulWidget {
 class _SchoolEventScreenState extends State<SchoolEventScreen> {
   Widget _topHalfUI() {
     return Container(
-      height: MediaQuery.of(context).size.height / 2 - 80,
+      height: MediaQuery.of(context).size.height / 2 - 30,
       width: double.infinity,
       child: Stack(
         children: [
@@ -83,7 +82,6 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                   top: 18,
                   left: 15,
                   right: 15,
-                  bottom: 10,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,

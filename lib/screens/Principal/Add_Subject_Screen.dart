@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
 
 class AddSubjectScreen extends StatefulWidget {
-  static const routeName = "/addsubject";
+  static const routeName = "/AddSubject";
 
   @override
   _AddSubjectScreenState createState() => _AddSubjectScreenState();
@@ -114,7 +114,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
           color: Colors.white,
         ),
         title: Text(
-          "Subjects",
+          "Add Subject",
           style: TextStyle(color: Colors.white),
         ),
         actions: [

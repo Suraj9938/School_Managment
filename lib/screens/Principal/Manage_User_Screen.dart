@@ -14,7 +14,6 @@ class ManageUserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final users = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(

@@ -5,7 +5,6 @@ import 'package:http/http.dart' as https;
 import 'package:school_management/model/subject.dart';
 
 class SubjectProvider with ChangeNotifier {
-  var subject = List<Subject>();
   List<Subject> _subjects = [
   ];
 
@@ -14,7 +13,7 @@ class SubjectProvider with ChangeNotifier {
   }
 
   Future<https.Response> addSubject(_subject) async {
-    final url = "http://192.168.0.19/api/addsubject/";
+    final url = "http://192.168.0.20/api/addsubject/";
     try {
       final https.Response response = await https.post(
         url,
@@ -25,14 +24,6 @@ class SubjectProvider with ChangeNotifier {
         ),
         headers: {'Content-Type': 'application/json'},
       );
-      // var subjectRes = json.decode(response.body);
-      // print("Subject Response Structure");
-      // print(subjectRes);
-      // final subject = Subject(
-      //   subjectId: subjectRes['id'].toString(),
-      //   subjectName: subjectRes['subjectName'],
-      // );
-      // _subject = subject;
       print(response.body);
       return response;
     } catch (error) {
@@ -41,7 +32,7 @@ class SubjectProvider with ChangeNotifier {
   }
 
   Future<https.Response> setFetchSubjectData() async {
-    final resUrl = "http://192.168.0.19:8000/api/viewsubject/";
+    final resUrl = "http://192.168.0.20:8000/api/viewsubject/";
     var url = Uri.parse(resUrl);
     try {
       final response = await https.get(
@@ -51,18 +42,24 @@ class SubjectProvider with ChangeNotifier {
       print(response.body);
       print(response.body.length);
 
-      var subjectRes = json.decode(response.body);
-      for(int i=0; i<subjectRes.length; i++){
+      List<dynamic> subjects = List<dynamic>();
+      subjects= json.decode(response.body);
+      print("Subject from Subject Provider");
+      print(subjects);
+      _subjects.clear();
+      for(int i=0; i<subjects.length; i++){
         final subjectData = Subject(
-          subjectId: subjectRes[i]['id'],
-          subjectName: subjectRes[i]['subjectName'],
+          subjectId: subjects[i]['id'].toString(),
+          subjectName: subjects[i]['subjectName'],
         );
-        print(subjectRes[i]['id']);
-        print(subjectRes[i]['subjectName']);
-        subject.add(subjectData);
+        print("Subject Info");
+        print(subjects[i]['id'].toString());
+        print(subjects[i]['subjectName']);
+        _subjects.add(subjectData);
+        print("_subjects");
+        print(_subjects);
+        notifyListeners();
       }
-      _subjects = subject;
-      notifyListeners();
     } catch (error) {
       throw (error);
     }

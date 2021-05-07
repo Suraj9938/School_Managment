@@ -54,17 +54,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/EducationCore.png
-     - assets/images/ECore.png
-     - assets/images/SchoolManagement.png
-     - assets/images/school.png
-     - assets/images/EventImage.png
-     - assets/images/event.png
-     - assets/images/child.png
-     - assets/images/SchoolImage.png
-     - assets/images/normalisation.png
-     - assets/images/otaku.png
-     - assets/images/Box.png
+     - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

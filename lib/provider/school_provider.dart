@@ -13,7 +13,7 @@ class SchoolProvider with ChangeNotifier {
   }
 
   Future<void> setFetchSchoolData() async {
-    final resUrl = "http://192.168.0.19:8000/api/viewschool/";
+    final resUrl = "http://192.168.0.20:8000/api/viewschool/";
     var url = Uri.parse(resUrl);
     try {
       final response = await https.get(
@@ -43,7 +43,7 @@ class SchoolProvider with ChangeNotifier {
   }
 
   Future<void> updateSchool(School school) async {
-    final resUrl = "http://192.168.0.19:8000/api/updateschool/1/";
+    final resUrl = "http://192.168.0.20:8000/api/updateschool/1/";
     var url = Uri.parse(resUrl);
     try {
       final response = await https.patch(
@@ -67,7 +67,7 @@ class SchoolProvider with ChangeNotifier {
   }
 
 // Future<https.Response> addSchool(_schoolData, images) async {
-//   final resUrl = "http://192.168.0.19:8000/api/addschool/";
+//   final resUrl = "http://192.168.0.20:8000/api/addschool/";
 //   var url = Uri.parse(resUrl);
 //   var request = https.MultipartRequest('POST', url);
 //

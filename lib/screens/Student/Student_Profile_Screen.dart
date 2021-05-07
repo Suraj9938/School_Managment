@@ -15,6 +15,12 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
   Widget _topHalfUI() {
     final studentInfo =
         Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+    print("Student Data:");
+    print(studentInfo.name);
+    print(studentInfo.address);
+    print(studentInfo.gender);
+    print(studentInfo.age);
+    print(studentInfo.mobileNo);
 
     return Container(
       height: MediaQuery.of(context).size.height / 2.3,

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:school_management/provider/assignment_provider.dart';
 
 enum AssignmentStatus { Assigned, Completed }
 
@@ -16,6 +18,8 @@ class AssignmentViewScreen extends StatefulWidget {
 class _AssignmentViewScreenState extends State<AssignmentViewScreen> {
   @override
   Widget build(BuildContext context) {
+    final assignmentInfo = Provider.of<AssignmentProvider>(context, listen: false).setFetchedAssignmentData();
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -192,7 +196,7 @@ class _AssignmentViewScreenState extends State<AssignmentViewScreen> {
                                       width: 7,
                                     ),
                                     Text(
-                                      "Economics",
+                                      "Mathematics",
                                       style: TextStyle(
                                         fontFamily: "font2",
                                         fontSize: 17,
@@ -218,7 +222,7 @@ class _AssignmentViewScreenState extends State<AssignmentViewScreen> {
                                 Container(
                                   width: MediaQuery.of(context).size.width - 80,
                                   child: ReadMoreText(
-                                    "To complete normalisation",
+                                    "To complete the following tasks related to Algebric Equations.",
                                     style: TextStyle(
                                       fontFamily: "font2",
                                       fontSize: 17,
@@ -281,7 +285,7 @@ class _AssignmentViewScreenState extends State<AssignmentViewScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Assigned on ",
+                                      "Deadline on ",
                                       style: TextStyle(
                                         fontFamily: "font2",
                                         fontSize: 17,
@@ -289,7 +293,7 @@ class _AssignmentViewScreenState extends State<AssignmentViewScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "January 01, 2021",
+                                      "April 30, 2021",
                                       style: TextStyle(
                                         fontFamily: "font2",
                                         fontSize: 17,

@@ -72,7 +72,8 @@ class _TeacherStaggeredViewState extends State<TeacherStaggeredView> {
         vertical: 14,
       ),
       children: [
-        data(Icons.grading, "Add Attendance", Colors.blue, () {}),
+        data(Icons.grading, "Add Attendance", Colors.blue, () {
+        }),
         data(Icons.assignment, "Manage Assignment", Colors.purpleAccent, () {}),
       ],
       staggeredTiles: [

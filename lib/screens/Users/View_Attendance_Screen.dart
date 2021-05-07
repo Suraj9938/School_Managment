@@ -140,7 +140,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                           ),
                           leading: CircleAvatar(
                             backgroundImage:
-                                AssetImage("assets/images/otaku.png"),
+                                AssetImage("assets/images/SungJinWoo.png"),
                           ),
                           trailing: Container(
                             width: 60,
@@ -163,7 +163,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                         height: 60,
                         child: ListTile(
                           title: Text(
-                            "Sung Jin Woo",
+                            "Naruto",
                             style: TextStyle(
                               fontSize: 18,
                               fontFamily: "font2",
@@ -172,7 +172,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                           ),
                           leading: CircleAvatar(
                             backgroundImage:
-                                AssetImage("assets/images/otaku.png"),
+                                AssetImage("assets/images/Naruto.png"),
                           ),
                           trailing: Container(
                             width: 60,
@@ -195,7 +195,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                         height: 60,
                         child: ListTile(
                           title: Text(
-                            "Sung Jin Woo",
+                            "Hinata",
                             style: TextStyle(
                               fontSize: 18,
                               fontFamily: "font2",
@@ -204,7 +204,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                           ),
                           leading: CircleAvatar(
                             backgroundImage:
-                                AssetImage("assets/images/otaku.png"),
+                                AssetImage("assets/images/HinataHyuga.png"),
                           ),
                           trailing: Container(
                             width: 60,
@@ -227,7 +227,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                         height: 60,
                         child: ListTile(
                           title: Text(
-                            "Sung Jin Woo",
+                            "Obito",
                             style: TextStyle(
                               fontSize: 18,
                               fontFamily: "font2",
@@ -236,7 +236,7 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                           ),
                           leading: CircleAvatar(
                             backgroundImage:
-                                AssetImage("assets/images/otaku.png"),
+                                AssetImage("assets/images/Obito.png"),
                           ),
                           trailing: Container(
                             width: 60,
@@ -245,70 +245,6 @@ class _ViewAttendanceScreenState extends State<ViewAttendanceScreen> {
                               child: IconButton(
                                 icon: Icon(
                                   Icons.done,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      elevation: 3,
-                      child: Container(
-                        height: 60,
-                        child: ListTile(
-                          title: Text(
-                            "Sung Jin Woo",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: "font2",
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                AssetImage("assets/images/otaku.png"),
-                          ),
-                          trailing: Container(
-                            width: 60,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.orange,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.clear,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      elevation: 3,
-                      child: Container(
-                        height: 60,
-                        child: ListTile(
-                          title: Text(
-                            "Sung Jin Woo",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: "font2",
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                AssetImage("assets/images/otaku.png"),
-                          ),
-                          trailing: Container(
-                            width: 60,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.orange,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.clear,
                                   color: Colors.white,
                                 ),
                               ),

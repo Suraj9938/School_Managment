@@ -23,7 +23,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> login(String email, String password) async {
-    final url = "http://192.168.0.19:8000/api/login/";
+    final url = "http://192.168.0.20:8000/api/login/";
     try {
       final response = await https.post(
         url,
@@ -61,7 +61,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<https.Response> signup(
       BuildContext context, _userData, Uint8List images) async {
-    final resUrl = "http://192.168.0.19:8000/api/create/";
+    final resUrl = "http://192.168.0.20:8000/api/create/";
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
     School schoolInfo;
@@ -73,7 +73,7 @@ class AuthProvider with ChangeNotifier {
     });
 
     print("schoolInfo");
-    final baseUrl = "http://192.168.0.19:8000/api/";
+    final baseUrl = "http://192.168.0.20:8000/api/";
 
     request.files
         .add(https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
@@ -128,7 +128,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> setFetchedUsersData() async {
-    final resUrl = "http://192.168.0.19:8000/api/viewuser";
+    final resUrl = "http://192.168.0.20:8000/api/viewuser/";
     var url = Uri.parse(resUrl);
 
     try {
@@ -140,6 +140,7 @@ class AuthProvider with ChangeNotifier {
 
       List<dynamic> user = List<dynamic>();
       user = json.decode(response.body);
+      _users.clear();
       for (int i = 0; i < user.length; i++) {
         var userRes = user[i];
         final userInfo = Auth(
@@ -159,6 +160,8 @@ class AuthProvider with ChangeNotifier {
           isLibrarian: userRes['librarian'],
         );
         _users.add(userInfo);
+        print("User Info");
+        print(userInfo);
         notifyListeners();
       }
     } catch (error) {

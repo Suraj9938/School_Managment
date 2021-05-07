@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/book_provider.dart';
 import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
+import 'package:school_management/widget/Librarian/Book_ListView.dart';
 
 class ManageBookScreen extends StatelessWidget {
   static const routeName = "/manage_books";
+
+  Future<void> _refreshBooks(BuildContext context) async {
+    await Provider.of<BookProvider>(context, listen: false)
+        .setFetchedBooksData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,210 +42,32 @@ class ManageBookScreen extends StatelessWidget {
         ],
       ),
       backgroundColor: Colors.grey[200],
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 15,
-              ),
-              Card(
-                elevation: 3,
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                    title: Text(
-                      "Harry Potter",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "font2",
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/otaku.png"),
-                    ),
-                    trailing: Container(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.orange,
-                            ),
+      body: FutureBuilder(
+        future: _refreshBooks(context),
+        builder: (ctx, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : RefreshIndicator(
+                  onRefresh: () => _refreshBooks(context),
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Consumer<BookProvider>(
+                      builder: (ctx, book, _) {
+                        return ListView.builder(
+                          itemBuilder: (ctx, index) => BookListView(
+                            book.books[index].bookId,
+                            book.books[index].bookName,
+                            book.books[index].bookImage,
                           ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
+                          itemCount: book.books.length,
+                        );
+                      },
                     ),
                   ),
-                ),
-              ),
-              Card(
-                elevation: 3,
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                    title: Text(
-                      "Harry Potter",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "font2",
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/otaku.png"),
-                    ),
-                    trailing: Container(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 3,
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                    title: Text(
-                      "Harry Potter",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "font2",
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/otaku.png"),
-                    ),
-                    trailing: Container(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 3,
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                    title: Text(
-                      "Harry Potter",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "font2",
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/otaku.png"),
-                    ),
-                    trailing: Container(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 3,
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                    title: Text(
-                      "Harry Potter",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "font2",
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/otaku.png"),
-                    ),
-                    trailing: Container(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                );
+        },
       ),
     );
   }

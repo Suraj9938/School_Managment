@@ -12,6 +12,18 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   CalendarController _calendarController;
+  var _eventStartTime;
+  var _eventEndTime;
+
+  OutlineInputBorder _outlineBorder() {
+    return OutlineInputBorder(
+      gapPadding: 0,
+      borderSide: BorderSide(
+        color: Colors.orange,
+      ),
+      borderRadius: BorderRadius.circular(25),
+    );
+  }
 
   @override
   void initState() {
@@ -29,17 +41,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //DateTime selectedDate = _calendarController.selectedDay;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          "Class Routine",
+          "Calendar Routine",
           style:
               TextStyle(color: Colors.white, fontSize: 22, fontFamily: "font1"),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(
+              right: 18,
+            ),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
+      backgroundColor: Colors.grey[200],
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -60,8 +82,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   weekendDays: [6],
                   headerStyle: HeaderStyle(
                     decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        ),
+                      color: Theme.of(context).primaryColor,
+                    ),
                     headerMargin: const EdgeInsets.only(bottom: 8.0),
                     titleTextStyle: TextStyle(
                       color: Colors.white,
@@ -87,17 +109,70 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   builders: CalendarBuilders(),
                 ),
               ),
-              /*Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 15.0),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 12,
+                  top: 10,
+                ),
                 child: Text(
-                  DateFormat('| EEEE | dd MMMM, yyyy |').format(selectedDate),
+                  "Mathematics",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
-                    fontFamily: "font2",
+                    fontSize: 24,
+                    fontFamily: "font1",
+                    fontWeight: FontWeight.w100,
                   ),
                 ),
-              ),*/
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 15,
+                ),
+                child: Container(
+                  height: 60,
+                  child: ListTile(
+                    title: Text(
+                      "Naruto Uzumaki",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "font2",
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(
+                        "assets/images/Naruto.png",
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12,
+                ),
+                child: Container(
+                  height: 60,
+                  child: ListTile(
+                    title: Text(
+                      "10 : 00 am to 11 : 00 am",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "font2",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(
+                        "assets/images/Naruto.png",
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

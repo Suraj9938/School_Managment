@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/event_provider.dart';
-import 'package:school_management/screens/Event_Details.dart';
+import 'file:///D:/FYP/school_management/lib/widget/Users/Event_Details.dart';
 
 class SchoolEventListView extends StatelessWidget {
 
