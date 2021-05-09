@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/model/class.dart';
 import 'package:school_management/provider/class_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
+import 'package:school_management/widget/Principal/ClassDropDownListView.dart';
 import 'package:school_management/widget/Principal/Subject_CheckBox_ListView.dart';
 
 class AddClassSubjectScreen extends StatefulWidget {
@@ -14,7 +18,6 @@ class AddClassSubjectScreen extends StatefulWidget {
 }
 
 class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
-  var _class = {};
   final _form = GlobalKey<FormState>();
 
   Future<void> _fetchSubjects(BuildContext context) async {
@@ -30,11 +33,6 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final classInfo =
-        Provider.of<ClassProvider>(context, listen: false).AddClassSubject(_class);
-    print("Subject Names From Add Class Screen");
-    print(widget.subjectNames);
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -76,34 +74,7 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
                       SizedBox(
                         height: 22,
                       ),
-                      SizedBox(
-                        height: 60,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(34),
-                          color: Colors.grey[300],
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.class_,
-                                color: Colors.orange,
-                                size: 20,
-                              ),
-                              labelText: "Class Name",
-                              labelStyle: TextStyle(
-                                  fontSize: 19,
-                                  fontFamily: "font2",
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.orange),
-                              focusColor: Colors.red,
-                              contentPadding:
-                                  EdgeInsets.only(bottom: 20, right: 20),
-                              border: InputBorder.none,
-                            ),
-                            keyboardType: TextInputType.name,
-                            onChanged: (value) => _class['className'] = value,
-                          ),
-                        ),
-                      ),
+                      ClassDropDownListView(),
                       SizedBox(
                         height: 30,
                       ),

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
-import 'package:http/http.dart' as https;
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
 enum Gender { Male, Female, Others }

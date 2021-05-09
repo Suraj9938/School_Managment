@@ -4,11 +4,10 @@ import 'package:school_management/provider/event_provider.dart';
 import 'file:///D:/FYP/school_management/lib/widget/Users/Event_Details.dart';
 
 class SchoolEventListView extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    final eventData = Provider.of<EventProvider>(context, listen: false)
-        .setFetchEventData();
+    final eventData =
+        Provider.of<EventProvider>(context, listen: false).setFetchEventData();
 
     return SingleChildScrollView(
       child: Container(

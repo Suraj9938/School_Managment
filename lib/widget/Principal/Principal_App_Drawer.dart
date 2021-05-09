@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
-import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
+import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
 import 'package:school_management/screens/Principal/Manage_User_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_Profile_Screen.dart';
+import 'package:school_management/screens/Users/Auth_Screen.dart';
 
 class PrincipalAppDrawer extends StatelessWidget {
   @override
@@ -151,7 +152,7 @@ class PrincipalAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, AddSubjectScreen.routeName);
+              Navigator.pushNamed(context, AddClassScreen.routeName);
             },
           ),
           Divider(
@@ -167,7 +168,7 @@ class PrincipalAppDrawer extends StatelessWidget {
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "Add Class Information",
+                "Add Class Subject",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
@@ -175,7 +176,7 @@ class PrincipalAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, AddClassScreen.routeName);
+              Navigator.pushNamed(context, AddClassSubjectScreen.routeName);
             },
           ),
           Divider(

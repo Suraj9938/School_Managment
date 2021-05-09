@@ -42,6 +42,7 @@ class BookProvider with ChangeNotifier {
 
       List<dynamic> book = List<dynamic>();
       book = json.decode(response.body);
+      _books.clear();
       for (int i = 0; i < book.length; i++) {
         var bookRes = book[i];
         final bookInfo = Book(

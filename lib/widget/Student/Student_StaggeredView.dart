@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'file:///D:/FYP/school_management/lib/screens/Users/AssignmentView_Screen.dart';
+import 'package:school_management/screens/Student/Library_Books_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
+import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 
 class StudentStaggeredView extends StatefulWidget {
@@ -82,7 +83,7 @@ class _StudentStaggeredViewState extends State<StudentStaggeredView> {
           Navigator.of(context).pushNamed(ViewAttendanceScreen.routeName);
         }),
         data(Icons.book_online, "Library Books", Colors.purpleAccent, () {
-          //Navigator.of(context).pushNamed(LibraryOverViewScreen.routeName);
+          Navigator.of(context).pushNamed(LibraryBooksScreen.routeName);
         }),
         data(Icons.calendar_today_outlined, "View Calendar", Colors.red,
                 () {}),

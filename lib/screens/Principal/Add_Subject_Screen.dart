@@ -22,75 +22,61 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
     setState(() {
       _isLoading = true;
     });
-    showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: Text('Success'),
-              content: Text("Subject Added Successfully!"),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
-    // try {
-    //   final response =
-    //       await Provider.of<SubjectProvider>(context, listen: false)
-    //           .addSubject(_subject);
-    //   print(response.statusCode);
-    //   if (response.statusCode == 200 || response.statusCode == 201) {
-    //     showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //               title: Text('Success'),
-    //               content: Text("Subject Added Successfully!"),
-    //               actions: <Widget>[
-    //                 FlatButton(
-    //                   child: Text('Okay'),
-    //                   onPressed: () {
-    //                     Navigator.of(ctx).pop();
-    //                   },
-    //                 )
-    //               ],
-    //             ));
-    //   } else if (response.statusCode >= 300 && response.statusCode < 400 ||
-    //       response.statusCode == 500) {
-    //     showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //               title: Text('An Error Occurred!'),
-    //               content: Text("Something went wrong."),
-    //               actions: <Widget>[
-    //                 FlatButton(
-    //                   child: Text('Okay'),
-    //                   onPressed: () {
-    //                     Navigator.of(ctx).pop();
-    //                   },
-    //                 )
-    //               ],
-    //             ));
-    //   } else if (response.statusCode == 400 && response.statusCode < 500) {
-    //     showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //               title: Text('An Error Occurred'),
-    //               content: Text("Provide valid subject detail and try again!"),
-    //               actions: <Widget>[
-    //                 FlatButton(
-    //                   child: Text('Okay'),
-    //                   onPressed: () {
-    //                     Navigator.of(ctx).pop();
-    //                   },
-    //                 )
-    //               ],
-    //             ));
-    //   }
-    // } catch (error) {
-    //   throw (error);
-    // }
+    try {
+      final response =
+          await Provider.of<SubjectProvider>(context, listen: false)
+              .addSubject(_subject);
+      print(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('Success'),
+                  content: Text("Subject Added Successfully!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+          response.statusCode == 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An Error Occurred!'),
+                  content: Text("Something went wrong."),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+      } else if (response.statusCode == 400 && response.statusCode < 500) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An Error Occurred'),
+                  content: Text("Provide valid subject detail and try again!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                ));
+      }
+    } catch (error) {
+      throw (error);
+    }
     setState(() {
       _isLoading = false;
     });
@@ -148,12 +134,10 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                         labelStyle: TextStyle(
                           fontFamily: "font2",
                           fontWeight: FontWeight.normal,
-                          fontSize: 22,
+                          fontSize: 19,
                           color: Colors.orange,
                         ),
                         focusColor: Colors.red,
-                        contentPadding:
-                            EdgeInsets.only(bottom: 20, right: 20),
                         border: _outlineBorder(),
                         enabledBorder: _outlineBorder(),
                         errorBorder: _outlineBorder(),

@@ -15,6 +15,7 @@ import 'package:school_management/screens/Librarian/ManageBook_Screen.dart';
 import 'package:school_management/screens/Parent/ManageBills_Screen.dart';
 import 'package:school_management/screens/Parent/Parent_OverView_Screen.dart';
 import 'package:school_management/screens/Parent/Parent_Profile_Screen.dart';
+import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
@@ -24,6 +25,7 @@ import 'package:school_management/screens/Principal/Add_UserScreen.dart';
 import 'package:school_management/screens/Principal/Manage_User_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/screens/Principal/Principal_Profile_Screen.dart';
+import 'package:school_management/screens/Student/Library_Books_Screen.dart';
 import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
@@ -33,7 +35,6 @@ import 'package:school_management/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Users/Calendar_Screen.dart';
 import 'package:school_management/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
-import 'package:school_management/widget/Users/Event_DetailScreen.dart';
 import 'package:school_management/widget/Users/SchoolOverViewScreen.dart';
 
 void main() {
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
           AddUserScreen.routeName: (ctx) => AddUserScreen(),
           AddEventScreen.routeName: (ctx) => AddEventScreen(),
           AddClassScreen.routeName: (ctx) => AddClassScreen(),
+          AddClassSubjectScreen.routeName: (ctx) => AddClassSubjectScreen(),
           ManageBillsScreen.routeName: (ctx) => ManageBillsScreen(),
           ManageSchoolScreen.routeName: (ctx) => ManageSchoolScreen(),
           AssignmentViewScreen.routeName: (ctx) => AssignmentViewScreen(),
@@ -97,6 +99,7 @@ class MyApp extends StatelessWidget {
           ViewAttendanceScreen.routeName: (ctx) => ViewAttendanceScreen(),
           ManageBookScreen.routeName: (ctx) => ManageBookScreen(),
           TeacherProfileScreen.routeName: (ctx) => TeacherProfileScreen(),
+          LibraryBooksScreen.routeName: (ctx) => LibraryBooksScreen(),
         },
       ),
     );
