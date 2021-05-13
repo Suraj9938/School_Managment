@@ -28,19 +28,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   var _bookData = {};
 
-  var initValues = {
-    'bookName': "",
-    'bookImage': "",
-    'bookType': "",
-    'ISBN': "",
-    'publisher': "",
-    'publishYear': "",
-    'userRating': "",
-    'ratingNo': "",
-    'bookDescription': "",
-    'isTopGrossing': "",
-  };
-
   @override
   void initState() {
     super.initState();
@@ -67,130 +54,72 @@ class _AddBookScreenState extends State<AddBookScreen> {
     setState(() {
       _isLoading = true;
     });
-    // if (_editedBook.id != null) {
-    //   try {
-    //     await Provider.of<Book>(context, listen: false)
-    //         .updateProduct(_editedBook.id, _editedBook);
-    //     await showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //           title: Text('Success'),
-    //           content: Text("Book Updated Successfully"),
-    //           actions: <Widget>[
-    //             FlatButton(
-    //               child: Text("OK"),
-    //               onPressed: () {
-    //                 Navigator.pop(context);
-    //               },
-    //             )
-    //           ],
-    //         ));
-    //
-    //   } catch (error) {
-    //     await showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //           title: Text('Error Occurred'),
-    //           content: Text("Something has occurred! Book cannot be added"),
-    //           actions: <Widget>[
-    //             FlatButton(
-    //               child: Text("OK"),
-    //               onPressed: () {
-    //                 Navigator.pop(context);
-    //               },
-    //             )
-    //           ],
-    //         ));
-    //   }
-    // } else {
-    //   try {
-    //     await Provider.of<Book>(context, listen: false).addBook(_editedBook);
-    //     await showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //           title: Text('Success'),
-    //           content: Text("Book Added Successfully"),
-    //           actions: <Widget>[
-    //             FlatButton(
-    //               child: Text("OK"),
-    //               onPressed: () {
-    //                 Navigator.pop(context);
-    //               },
-    //             )
-    //           ],
-    //         ));
-    //   } catch (error) {
-    //     await showDialog(
-    //         context: context,
-    //         builder: (ctx) => AlertDialog(
-    //           title: Text('Error Occurred'),
-    //           content: Text("Something has occurred! Book cannot be added"),
-    //           actions: <Widget>[
-    //             FlatButton(
-    //               child: Text("OK"),
-    //               onPressed: () {
-    //                 Navigator.pop(context);
-    //               },
-    //             )
-    //           ],
-    //         ));
-    //   }
-    // }
     try {
-      final response = await Provider.of<BookProvider>(context, listen: false).addBook(_bookData, images);
+      final response = await Provider.of<BookProvider>(context, listen: false)
+          .addBook(_bookData, images);
       print("Response");
       print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: Text('Success'),
-              content: Text("Book was added successfully"),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
-        Navigator.of(context)
-            .pushReplacementNamed(LibrarianOverViewScreen.routeName);
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Success'),
+            content: Text("Book was added successfully"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        ).then(
+          (value) => Navigator.of(context)
+              .pushNamed(LibrarianOverViewScreen.routeName),
+        );
       } else if (response.statusCode >= 300 && response.statusCode < 400 ||
           response.statusCode == 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: Text('An error Occured'),
-              content: Text("Book addition failed!"),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('An error Occured'),
+            content: Text("Book addition failed!"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        ).then(
+          (value) => Navigator.of(context)
+              .pushNamed(LibrarianOverViewScreen.routeName),
+        );
       } else if (response.statusCode >= 400 && response.statusCode < 500) {
         showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: Text('An Error Occurred!'),
-              content:
-              Text("Provide Valid Book Credentials and try again!"),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('An Error Occurred!'),
+            content: Text("Provide Valid Book Credentials and try again!"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        ).then(
+          (value) => Navigator.of(context)
+              .pushNamed(LibrarianOverViewScreen.routeName),
+        );
       }
-    } catch(error) {
+    } catch (error) {
       throw error;
     }
     setState(() {
@@ -228,32 +157,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
     } catch (error) {
       throw error;
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      final String bookId = ModalRoute.of(context).settings.arguments;
-      // if (bookId != null) {
-      //   _editedBook =
-      //       Provider.of<Book>(context, listen: false).findById(bookId);
-      //   initValues = {
-      //     'bookName': _editedBook.bookName,
-      //     'bookImage': _editedBook.bookImage,
-      //     'bookType': _editedBook.bookType,
-      //     'categoryId': _editedBook.categoryId.toString(),
-      //     'publisher': _editedBook.publisher,
-      //     'publishYear': _editedBook.publishYear.toString(),
-      //     'userRating': _editedBook.userRating,
-      //     'ratingNo': _editedBook.ratingNo,
-      //     'bookDescription': _editedBook.bookDescription,
-      //     'isTopGrossing': _editedBook.isTopGrossing,
-      //   };
-      //   _imageUrlController.text = _editedBook.bookImage;
-      // }
-    }
-    _isInit = false;
-    super.didChangeDependencies();
   }
 
   @override
@@ -305,7 +208,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             child: Material(
                               borderRadius: BorderRadius.circular(18),
                               child: TextFormField(
-                                initialValue: initValues['bookName'],
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.library_books,
@@ -326,7 +228,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   FocusScope.of(context)
                                       .requestFocus(_bookType);
                                 },
-                                onChanged: (value) => _bookData['bookName'] = value,
+                                onChanged: (value) =>
+                                    _bookData['bookName'] = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Book Name must not be empty';
@@ -344,7 +247,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             child: Material(
                               borderRadius: BorderRadius.circular(18),
                               child: TextFormField(
-                                initialValue: initValues['bookType'],
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.book,
@@ -366,7 +268,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   FocusScope.of(context)
                                       .requestFocus(_publihser);
                                 },
-                                onChanged: (value) => _bookData['bookType'] = value,
+                                onChanged: (value) =>
+                                    _bookData['bookType'] = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Book Type must not be empty';
@@ -439,7 +342,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         child: Material(
                           borderRadius: BorderRadius.circular(18),
                           child: TextFormField(
-                            initialValue: initValues['publisher'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.person_pin,
@@ -460,7 +362,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             onFieldSubmitted: (_) {
                               FocusScope.of(context).requestFocus(_publishYear);
                             },
-                            onChanged: (value) => _bookData['publisher'] = value,
+                            onChanged: (value) =>
+                                _bookData['publisher'] = value,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Publisher must not be empty';
@@ -478,7 +381,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         child: Material(
                           borderRadius: BorderRadius.circular(18),
                           child: TextFormField(
-                            initialValue: initValues['publishYear'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.date_range,
@@ -499,7 +401,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             onFieldSubmitted: (_) {
                               FocusScope.of(context).requestFocus(_ratingNo);
                             },
-                            onChanged: (value) => _bookData['publishYear'] = value,
+                            onChanged: (value) =>
+                                _bookData['publishYear'] = value,
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return 'Publish Year must not be empty';
@@ -524,7 +427,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         child: Material(
                           borderRadius: BorderRadius.circular(18),
                           child: TextFormField(
-                            initialValue: initValues['ratingNo'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.rate_review,
@@ -563,7 +465,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         child: Material(
                           borderRadius: BorderRadius.circular(18),
                           child: TextFormField(
-                            initialValue: initValues['userRating'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.aspect_ratio,
@@ -585,7 +486,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               FocusScope.of(context)
                                   .requestFocus(_bookDescription);
                             },
-                            onChanged: (value) => _bookData['userRating'] = value,
+                            onChanged: (value) =>
+                                _bookData['userRating'] = value,
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return 'User Rating must not be empty';
@@ -605,7 +507,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                     child: Material(
                       borderRadius: BorderRadius.circular(18),
                       child: TextFormField(
-                        initialValue: initValues['bookDescription'],
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.library_books,
@@ -625,7 +526,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.multiline,
                         focusNode: _bookDescription,
-                        onChanged: (value) => _bookData['bookDescription'] = value,
+                        onChanged: (value) =>
+                            _bookData['bookDescription'] = value,
                         validator: (value) {
                           if (value.trim().isEmpty) {
                             return 'Book Description must not be empty';

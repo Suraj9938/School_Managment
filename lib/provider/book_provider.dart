@@ -16,7 +16,8 @@ class BookProvider with ChangeNotifier {
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
 
-    request.files.add(https.MultipartFile.fromBytes('image', images, filename: "book.png"));
+    request.files.add(
+        https.MultipartFile.fromBytes('image', images, filename: "book.png"));
 
     request.fields['bookName'] = _bookData['bookName'];
     request.fields['bookType'] = _bookData['bookType'];
@@ -26,12 +27,16 @@ class BookProvider with ChangeNotifier {
     request.fields['userRating'] = _bookData['userRating'];
     request.fields['bookDescription'] = _bookData['bookDescription'];
 
-    await request.send();
+    https.Response response = await https.Response.fromStream(
+      await request.send(),
+    );
+    return response;
   }
 
   Future<https.Response> setFetchedBooksData() async {
     final resUrl = "http://192.168.0.20:8000/api/viewbook/";
     var url = Uri.parse(resUrl);
+    List<Book> bookList = [];
 
     try {
       final response = await https.get(
@@ -39,30 +44,39 @@ class BookProvider with ChangeNotifier {
       );
       print("Set Fetched Response");
       print(response.body);
+      List books = json.decode(response.body);
 
-      List<dynamic> book = List<dynamic>();
-      book = json.decode(response.body);
-      _books.clear();
-      for (int i = 0; i < book.length; i++) {
-        var bookRes = book[i];
-        final bookInfo = Book(
-          bookId: bookRes['id'].toString(),
-          bookName: bookRes['bookName'],
-          bookType: bookRes['bookType'],
-          bookImage: bookRes['image'].toString(),
-          publisher: bookRes['publisher'],
-          publishYear: bookRes['publishYear'],
-          ratingNo: bookRes['ratingNo'],
-          userRating: bookRes['userRating'],
-          bookDescription: bookRes['bookDescription'],
+      for (int i = 0; i < books.length; i++) {
+        var bookRes = books[i];
+        bookList.add(
+          new Book(
+            bookId: bookRes['id'].toString(),
+            bookName: bookRes['bookName'],
+            bookType: bookRes['bookType'],
+            bookImage: bookRes['image'].toString(),
+            publisher: bookRes['publisher'],
+            publishYear: bookRes['publishYear'],
+            ratingNo: bookRes['ratingNo'],
+            userRating: bookRes['userRating'],
+            bookDescription: bookRes['bookDescription'],
+          ),
         );
-        _books.add(bookInfo);
-        print("Book Info");
-        print(bookInfo);
-        notifyListeners();
       }
+      _books = bookList;
+      notifyListeners();
     } catch (error) {
-      throw (error);
+      return null;
     }
+  }
+
+  //get search book list
+  List<Book> getSearchBook(String query) {
+    if (query.isNotEmpty && query != null) {
+      return _books
+          .where((book) => book.bookName.toLowerCase().startsWith(query))
+          .toList();
+    }
+    notifyListeners();
+    return [];
   }
 }

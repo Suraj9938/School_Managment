@@ -130,6 +130,7 @@ class AuthProvider with ChangeNotifier {
   Future<https.Response> setFetchedUsersData() async {
     final resUrl = "http://192.168.0.20:8000/api/viewuser/";
     var url = Uri.parse(resUrl);
+    List<Auth> userList = [];
 
     try {
       final response = await https.get(
@@ -138,32 +139,31 @@ class AuthProvider with ChangeNotifier {
       print("Set Fetched Response");
       print(response.body);
 
-      List<dynamic> user = List<dynamic>();
-      user = json.decode(response.body);
+      List users = json.decode(response.body);
       _users.clear();
-      for (int i = 0; i < user.length; i++) {
-        var userRes = user[i];
-        final userInfo = Auth(
-          userId: userRes['id'].toString(),
-          name: userRes['name'],
-          address: userRes['address'],
-          image: userRes['image'].toString(),
-          gender: userRes['gender'],
-          age: userRes['age'],
-          mobileNo: userRes['mobileNo'],
-          email: userRes['email'],
-          password: userRes['password'],
-          isAdmin: userRes['admin'],
-          isTeacher: userRes['teacher'],
-          isParent: userRes['parent'],
-          isStudent: userRes['student'],
-          isLibrarian: userRes['librarian'],
+      for (int i = 0; i < users.length; i++) {
+        var userRes = users[i];
+        userList.add(
+          new Auth(
+            userId: userRes['id'].toString(),
+            name: userRes['name'],
+            address: userRes['address'],
+            image: userRes['image'].toString(),
+            gender: userRes['gender'],
+            age: userRes['age'],
+            mobileNo: userRes['mobileNo'],
+            email: userRes['email'],
+            password: userRes['password'],
+            isAdmin: userRes['admin'],
+            isTeacher: userRes['teacher'],
+            isParent: userRes['parent'],
+            isStudent: userRes['student'],
+            isLibrarian: userRes['librarian'],
+          ),
         );
-        _users.add(userInfo);
-        print("User Info");
-        print(userInfo);
-        notifyListeners();
       }
+      _users = userList;
+      notifyListeners();
     } catch (error) {
       throw (error);
     }

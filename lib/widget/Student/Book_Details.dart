@@ -9,7 +9,7 @@ class BookDetails extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 12,
+          height: 20,
         ),
         InkWell(
           onTap: () {
@@ -20,8 +20,8 @@ class BookDetails extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(22),
                 child: Container(
-                  height: 152,
-                  width: 130,
+                  height: 142,
+                  width: 125,
                   color: Colors.grey,
                   child: Image.network(
                     loadedBooks.bookImage,
@@ -35,7 +35,7 @@ class BookDetails extends StatelessWidget {
                     topRight: Radius.circular(22)),
                 child: Container(
                   color: Colors.white,
-                  height: 118,
+                  height: 100,
                   width: MediaQuery.of(context).size.width / 2 + 15,
                   padding: EdgeInsets.only(
                     top: 4,

@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/model/auth.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
@@ -27,8 +28,41 @@ class _AddUserScreenState extends State<AddUserScreen> {
   final _form = GlobalKey<FormState>();
   bool _isLoading = false;
   Uint8List images;
+  bool _isInit = true;
 
   var _userData = {};
+
+  var _editedUserData = Auth(
+    name: "",
+    email: "",
+    password: "",
+    mobileNo: "",
+    age: "",
+    gender: "",
+    address: "",
+    image: "",
+    isParent: false,
+    isAdmin: false,
+    isTeacher: false,
+    isStudent: false,
+    isLibrarian: false,
+  );
+
+  var initValues = {
+    'name': "",
+    'email': "",
+    'password': "",
+    'mobileNo': "",
+    'age': "",
+    'gender': "",
+    "address": "",
+    "image": "",
+    "isParent": "",
+    "isAdmin": "",
+    "isTeacher": "",
+    "isStudent": "",
+    "isLibrarian": "",
+  };
 
   Gender _gender = Gender.Male;
   UserType userType = UserType.Teacher;
@@ -231,6 +265,31 @@ class _AddUserScreenState extends State<AddUserScreen> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      _editedUserData =
+          Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+      initValues = {
+        'name': _editedUserData.name,
+        'email': _editedUserData.email,
+        'password': _editedUserData.password,
+        'mobileNo': _editedUserData.mobileNo,
+        'age': _editedUserData.age,
+        'gender': _editedUserData.gender,
+        'address': _editedUserData.address,
+        'image': _editedUserData.image,
+        'isParent': _editedUserData.isParent.toString(),
+        'isAdmin': _editedUserData.isAdmin.toString(),
+        'isTeacher': _editedUserData.isTeacher.toString(),
+        'isStudent': _editedUserData.isStudent.toString(),
+        'isLibrarian': _editedUserData.isLibrarian.toString(),
+      };
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override

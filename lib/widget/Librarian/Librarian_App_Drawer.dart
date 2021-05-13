@@ -5,11 +5,13 @@ import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dart';
+import 'package:school_management/screens/Librarian/ManageBook_Screen.dart';
 
 class LibrarianAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final librarianInfo = Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+    final librarianInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
 
     return Drawer(
       child: Column(
@@ -98,7 +100,7 @@ class LibrarianAppDrawer extends StatelessWidget {
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "Edit Books",
+                "Manage Books",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
@@ -106,7 +108,7 @@ class LibrarianAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, ManageBookScreen.routeName);
             },
           ),
           Divider(

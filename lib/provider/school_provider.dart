@@ -27,7 +27,7 @@ class SchoolProvider with ChangeNotifier {
         schoolId: schoolRes[0]['id'].toString(),
         schoolName: schoolRes[0]['name'],
         location: schoolRes[0]['location'],
-        schoolImage: schoolRes[0]['image'],
+        schoolImage: schoolRes[0]['image'].toString(),
         schoolDescription: schoolRes[0]['description'],
         schoolContact: schoolRes[0]['contact'].toString(),
         startTime: schoolRes[0]['startTime'],

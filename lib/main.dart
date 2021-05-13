@@ -35,6 +35,7 @@ import 'package:school_management/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Users/Calendar_Screen.dart';
 import 'package:school_management/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
+import 'package:school_management/widget/Student/Book_Info_Screen.dart';
 import 'package:school_management/widget/Users/SchoolOverViewScreen.dart';
 
 void main() {
@@ -105,4 +106,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

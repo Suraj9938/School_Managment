@@ -35,16 +35,16 @@ class ClassProvider with ChangeNotifier {
     final url = "http://192.168.0.20:8000/api/viewclass/";
     List<Class> classList = [];
     try {
-      final response = await https.get(
-        url
-      );
+      final response = await https.get(url);
       List classes = json.decode(response.body);
 
       for (int i = 0; i < classes.length; i++) {
-        classList.add(new Class(
-          classId: classes[i]['id'].toString(),
-          className: classes[i]['className'],
-        ),);
+        classList.add(
+          new Class(
+            classId: classes[i]['id'].toString(),
+            className: classes[i]['className'],
+          ),
+        );
       }
       _classes = classList;
       notifyListeners();
