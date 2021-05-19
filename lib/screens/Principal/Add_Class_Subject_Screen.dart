@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/model/class.dart';
 import 'package:school_management/provider/class_provider.dart';
+import 'package:school_management/provider/class_subject_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
+import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/widget/Principal/ClassDropDownListView.dart';
 import 'package:school_management/widget/Principal/Subject_CheckBox_ListView.dart';
 
 class AddClassSubjectScreen extends StatefulWidget {
   static const routeName = '/AddClassSubject';
-  List<String> subjectNames = [];
 
   @override
   _AddClassSubjectScreenState createState() => _AddClassSubjectScreenState();
@@ -19,6 +20,9 @@ class AddClassSubjectScreen extends StatefulWidget {
 
 class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
   final _form = GlobalKey<FormState>();
+  bool _isLoading = false;
+  List<String> subjects;
+  Class _selectedClass;
 
   Future<void> _fetchSubjects(BuildContext context) async {
     await Provider.of<SubjectProvider>(context, listen: false)
@@ -30,8 +34,66 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
     super.initState();
   }
 
+  // save form and add class subject
+  Future<void> _saveForm() async {
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
+      return;
+    }
+    _form.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final response =
+          await Provider.of<ClassSubjectProvider>(context, listen: false)
+              .addClassSubject(_selectedClass, subjects);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('Success'),
+                  content: Text("Class Subject was added successfully"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                )).then(
+          (value) => Navigator.of(context)
+              .pushReplacementNamed(PrincipalOverViewScreen.routeName),
+        );
+      } else {
+        return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An Error Occurred!'),
+                  content: Text("Class Subject could not be added!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                )).then(
+          (value) => Navigator.of(context)
+              .pushReplacementNamed(PrincipalOverViewScreen.routeName),
+        );
+      }
+    } catch (error) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("Subjects from AddClassSubjectScreen");
+    print(subjects);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -42,7 +104,7 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.add), onPressed: () {}),
+          IconButton(icon: Icon(Icons.add), onPressed: () => _saveForm()),
         ],
       ),
       body: FutureBuilder(
@@ -73,7 +135,7 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
                       SizedBox(
                         height: 22,
                       ),
-                      ClassDropDownListView(),
+                      ClassDropDownListView(_selectedClass),
                       SizedBox(
                         height: 30,
                       ),
@@ -90,7 +152,7 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
                       SizedBox(
                         height: 18,
                       ),
-                      SubjectCheckBoxListView(widget.subjectNames),
+                      SubjectCheckBoxListView(subjects),
                     ],
                   ),
                 );

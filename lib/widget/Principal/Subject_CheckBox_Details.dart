@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:school_management/model/subject.dart';
 
 class SubjectCheckBoxDetails extends StatefulWidget {
-  List<String> subjectNames = [];
+  List<String> subjects = [];
 
-  SubjectCheckBoxDetails(this.subjectNames);
+  SubjectCheckBoxDetails(this.subjects);
 
   @override
   _SubjectCheckBoxDetailsState createState() => _SubjectCheckBoxDetailsState();
@@ -38,16 +38,19 @@ class _SubjectCheckBoxDetailsState extends State<SubjectCheckBoxDetails> {
         setState(() {
           loadedSubjects.isChecked = !loadedSubjects.isChecked;
         });
-        print(widget.subjectNames);
+        print(widget.subjects);
         //widget.subjectNames.clear();
-        if (loadedSubjects.isChecked == true && !widget.subjectNames.contains(loadedSubjects.subjectName)) {
-          widget.subjectNames.add(loadedSubjects.subjectName);
-          print("subjectNames");
-          print(widget.subjectNames);
-        } else if (loadedSubjects.isChecked == false && widget.subjectNames.contains(loadedSubjects.subjectName)) {
-          widget.subjectNames.removeWhere((element) => element == loadedSubjects.subjectName);
-          print("removed subjects");
-          print(widget.subjectNames);
+        if (loadedSubjects.isChecked == true &&
+            !widget.subjects.contains(loadedSubjects.subjectId)) {
+          widget.subjects.add(loadedSubjects.subjectName);
+          print("selected subjects");
+          print(widget.subjects);
+        } else if (loadedSubjects.isChecked == false &&
+            widget.subjects.contains(loadedSubjects.subjectId)) {
+          widget.subjects
+              .removeWhere((element) => element == loadedSubjects.subjectName);
+          print("removed subject info");
+          print(widget.subjects);
         }
       },
     );

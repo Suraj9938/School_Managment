@@ -5,8 +5,7 @@ import 'package:http/http.dart' as https;
 import 'package:school_management/model/subject.dart';
 
 class SubjectProvider with ChangeNotifier {
-  List<Subject> _subjects = [
-  ];
+  List<Subject> _subjects = [];
 
   List<Subject> get subjects {
     return [..._subjects];
@@ -43,11 +42,11 @@ class SubjectProvider with ChangeNotifier {
       print(response.body.length);
 
       List<dynamic> subjects = List<dynamic>();
-      subjects= json.decode(response.body);
+      subjects = json.decode(response.body);
       print("Subject from Subject Provider");
       print(subjects);
       _subjects.clear();
-      for(int i=0; i<subjects.length; i++){
+      for (int i = 0; i < subjects.length; i++) {
         final subjectData = Subject(
           subjectId: subjects[i]['id'].toString(),
           subjectName: subjects[i]['subjectName'],

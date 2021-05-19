@@ -4,13 +4,16 @@ import 'package:school_management/provider/subject_provider.dart';
 import 'package:school_management/widget/Principal/Subject_CheckBox_Details.dart';
 
 class SubjectCheckBoxListView extends StatelessWidget {
-  List<String> subjectNames = [];
+  List<String> subjects;
 
-  SubjectCheckBoxListView(this.subjectNames);
-
+  SubjectCheckBoxListView(this.subjects);
   @override
   Widget build(BuildContext context) {
-    final subjectData = Provider.of<SubjectProvider>(context, listen: false).setFetchSubjectData();
+    print("Subjects from SubjectCheckBoxListView");
+    print(subjects);
+
+    final subjectData = Provider.of<SubjectProvider>(context, listen: false)
+        .setFetchSubjectData();
 
     return Container(
       width: double.infinity,
@@ -24,7 +27,7 @@ class SubjectCheckBoxListView extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) => ChangeNotifierProvider.value(
                   value: subject.subjects[index],
-                  child: SubjectCheckBoxDetails(subjectNames),
+                  child: SubjectCheckBoxDetails(subjects),
                 ),
                 itemCount: subject.subjects.length,
               );

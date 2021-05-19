@@ -22,6 +22,10 @@ class AuthProvider with ChangeNotifier {
     return [..._users];
   }
 
+  Auth findById(String id) {
+    return _users.firstWhere((user) => user.userId == id);
+  }
+
   Future<https.Response> login(String email, String password) async {
     final url = "http://192.168.0.20:8000/api/login/";
     try {
@@ -89,6 +93,7 @@ class AuthProvider with ChangeNotifier {
     request.fields['librarian'] = _userData['isLibrarian'].toString();
     request.fields['student'] = _userData['isStudent'].toString();
     request.fields['parent'] = _userData['isParent'].toString();
+    request.fields['admin'] = _userData['isAdmin'].toString();
 
     print(request.fields['name']);
     print(request.fields['address']);
@@ -101,6 +106,7 @@ class AuthProvider with ChangeNotifier {
     print(request.fields['librarian']);
     print(request.fields['student']);
     print(request.fields['parent']);
+    print(request.fields['admin']);
 
     https.Response response = await https.Response.fromStream(
       await request.send(),
@@ -166,6 +172,42 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       throw (error);
+    }
+  }
+
+  Future<void> updateUserInfo(String id, _editedUserData) async {
+    final userId = _users.indexWhere((user) => user.userId == id);
+    final resUrl = "http://192.168.0.20:8000/api/updateuser/$id/";
+    var url = Uri.parse(resUrl);
+
+    try {
+      if (userId >= 0) {
+        await https.patch(
+          url,
+          body: json.encode(
+            {
+              'name': _editedUserData['name'],
+              'address': _editedUserData['address'],
+              'image': _editedUserData['image'].toString(),
+              'gender': _editedUserData['gender'],
+              'age': _editedUserData['age'],
+              'mobileNo': _editedUserData['mobileNo'],
+              'email': _editedUserData['email'],
+              'password': _editedUserData['password'],
+              'admin': _editedUserData['isAdmin'].toString(),
+              'teacher': _editedUserData['isTeacher'].toString(),
+              'parent': _editedUserData['isParent'].toString(),
+              'student': _editedUserData['isStudent'].toString(),
+              'librarian': _editedUserData['isLibrarian'].toString(),
+            },
+          ),
+          headers: {'Content-Type': 'application/json'},
+        );
+        _users[userId] = _editedUserData;
+        notifyListeners();
+      }
+    } catch (error) {
+      return null;
     }
   }
 }

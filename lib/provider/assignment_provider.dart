@@ -16,7 +16,8 @@ class AssignmentProvider with ChangeNotifier {
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
 
-    request.files.add(https.MultipartFile.fromBytes('image', images, filename: "task.png"));
+    request.files.add(
+        https.MultipartFile.fromBytes('image', images, filename: "task.png"));
 
     request.fields['assignmentTask'] = _assignmentData['assignmentTask'];
     request.fields['deadline'] = _assignmentData['deadline'];

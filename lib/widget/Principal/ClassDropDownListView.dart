@@ -5,6 +5,9 @@ import 'package:school_management/provider/class_provider.dart';
 import 'package:school_management/widget/Principal/ClassDropDownDetails.dart';
 
 class ClassDropDownListView extends StatefulWidget {
+  Class _selectedClass;
+  ClassDropDownListView(this._selectedClass);
+
   @override
   _ClassDropDownListViewState createState() => _ClassDropDownListViewState();
 }
@@ -13,7 +16,6 @@ class _ClassDropDownListViewState extends State<ClassDropDownListView> {
   bool _isInit = false;
   bool _isLoading = false;
   List<Class> _classes;
-  Class _selectedClass;
 
   @override
   void didChangeDependencies() {
@@ -26,7 +28,7 @@ class _ClassDropDownListViewState extends State<ClassDropDownListView> {
           .setFetchClassData()
           .then((value) {
         _classes = Provider.of<ClassProvider>(context, listen: false).classes;
-        _selectedClass = _classes[0];
+        widget._selectedClass = _classes[0];
         setState(() {
           _isLoading = false;
         });
@@ -57,10 +59,10 @@ class _ClassDropDownListViewState extends State<ClassDropDownListView> {
                   .toList(),
               onChanged: (value) {
                 setState(() {
-                  _selectedClass = value;
+                  widget._selectedClass = value;
                 });
               },
-              value: _selectedClass,
+              value: widget._selectedClass,
             ),
           );
   }

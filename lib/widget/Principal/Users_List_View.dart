@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_management/screens/Principal/Add_UserScreen.dart';
 
 class UserListView extends StatelessWidget {
   final String userId;
@@ -36,7 +37,10 @@ class UserListView extends StatelessWidget {
                 IconButton(
                   color: Theme.of(context).accentColor,
                   icon: Icon(Icons.edit),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    Navigator.pushNamed(context, AddUserScreen.routeName,
+                        arguments: userId);
+                  },
                 ),
                 IconButton(
                   color: Theme.of(context).accentColor,

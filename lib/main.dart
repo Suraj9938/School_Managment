@@ -5,6 +5,7 @@ import 'package:school_management/provider/assignment_provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/book_provider.dart';
 import 'package:school_management/provider/class_provider.dart';
+import 'package:school_management/provider/class_subject_provider.dart';
 import 'package:school_management/provider/event_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
@@ -35,7 +36,6 @@ import 'package:school_management/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Users/Calendar_Screen.dart';
 import 'package:school_management/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
-import 'package:school_management/widget/Student/Book_Info_Screen.dart';
 import 'package:school_management/widget/Users/SchoolOverViewScreen.dart';
 
 void main() {
@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BookProvider()),
         ChangeNotifierProvider(create: (_) => AssignmentProvider()),
         ChangeNotifierProvider(create: (_) => ClassProvider()),
+        ChangeNotifierProvider(create: (_) => ClassSubjectProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

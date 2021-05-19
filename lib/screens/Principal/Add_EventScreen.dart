@@ -56,20 +56,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
     }
   }
 
-  // Future<DateTime> _userSelectedDate(BuildContext context) {
-  //   DateTime _eventDate;
-  //
-  //   showDatePicker(
-  //           context: context,
-  //           initialDate: DateTime.now(),
-  //           firstDate: DateTime.now(),
-  //           lastDate: DateTime(2022))
-  //       .then((selectDate) {
-  //     setState(() {
-  //       _eventDate = selectDate;
-  //     });
-  //   });
-  // }
+  OutlineInputBorder _outlineBorder() {
+    return OutlineInputBorder(
+      gapPadding: 0,
+      borderSide: BorderSide(
+        color: Colors.orange,
+      ),
+      borderRadius: BorderRadius.circular(18),
+    );
+  }
 
   Future<TimeOfDay> _selectedStartTime(BuildContext context) {
     final startTime = DateTime.now();
@@ -219,75 +214,75 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 60,
                                   width:
                                       MediaQuery.of(context).size.width / 2 + 4,
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(18),
-                                    color: Colors.grey[300],
-                                    child: TextFormField(
-                                      //initialValue: initValues['bookType'],
-                                      decoration: InputDecoration(
-                                          prefixIcon: Icon(
-                                            Icons.event,
-                                            color: Colors.orange,
-                                            size: 20,
-                                          ),
-                                          labelText: "Event Name",
-                                          labelStyle: TextStyle(
-                                              fontSize: 19,
-                                              fontFamily: "font2",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.orange),
-                                          border: InputBorder.none),
-                                      textInputAction: TextInputAction.next,
-                                      focusNode: _eventDay,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Event Name must not be empty';
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) =>
-                                          _events['eventName'] = value,
+                                  child: TextFormField(
+                                    //initialValue: initValues['bookType'],
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.event,
+                                        color: Colors.orange,
+                                        size: 20,
+                                      ),
+                                      fillColor: Colors.grey[300],
+                                      filled: true,
+                                      labelText: "Event Name",
+                                      labelStyle: TextStyle(
+                                          fontSize: 19,
+                                          fontFamily: "font2",
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.orange),
+                                      border: _outlineBorder(),
+                                      enabledBorder: _outlineBorder(),
+                                      errorBorder: _outlineBorder(),
                                     ),
+                                    textInputAction: TextInputAction.next,
+                                    focusNode: _eventDay,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Event Name must not be empty';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) =>
+                                        _events['eventName'] = value,
                                   ),
                                 ),
                                 SizedBox(
                                   height: 12,
                                 ),
                                 Container(
-                                  height: 60,
                                   width:
                                       MediaQuery.of(context).size.width / 2 + 4,
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(18),
-                                    color: Colors.grey[300],
-                                    child: TextFormField(
-                                      //initialValue: initValues['bookType'],
-                                      decoration: InputDecoration(
-                                          prefixIcon: Icon(
-                                            Icons.view_day,
-                                            color: Colors.orange,
-                                            size: 20,
-                                          ),
-                                          labelText: "Event Day",
-                                          labelStyle: TextStyle(
-                                              fontSize: 19,
-                                              fontFamily: "font2",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.orange),
-                                          border: InputBorder.none),
-                                      textInputAction: TextInputAction.done,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Event Day must not be empty';
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) =>
-                                          _events['eventDay'] = value,
+                                  child: TextFormField(
+                                    //initialValue: initValues['bookType'],
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.view_day,
+                                        color: Colors.orange,
+                                        size: 20,
+                                      ),
+                                      fillColor: Colors.grey[300],
+                                      filled: true,
+                                      labelText: "Event Day",
+                                      labelStyle: TextStyle(
+                                          fontSize: 19,
+                                          fontFamily: "font2",
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.orange),
+                                      border: _outlineBorder(),
+                                      enabledBorder: _outlineBorder(),
+                                      errorBorder: _outlineBorder(),
                                     ),
+                                    textInputAction: TextInputAction.done,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Event Day must not be empty';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) =>
+                                        _events['eventDay'] = value,
                                   ),
                                 ),
                               ],
@@ -593,35 +588,36 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           padding: EdgeInsets.only(
                             right: 30,
                           ),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.grey[300],
-                            child: TextFormField(
-                              //initialValue: initValues['bookDescription'],
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.description,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                  labelText: "About Event",
-                                  labelStyle: TextStyle(
-                                      fontSize: 19,
-                                      color: Colors.orange,
-                                      fontFamily: "font2"),
-                                  border: InputBorder.none),
-                              maxLines: null,
-                              textInputAction: TextInputAction.done,
-                              keyboardType: TextInputType.multiline,
-                              validator: (value) {
-                                if (value.trim().isEmpty) {
-                                  return 'Event Description must not be empty';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) =>
-                                  _events['eventDescription'] = value,
+                          child: TextFormField(
+                            //initialValue: initValues['bookDescription'],
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.description,
+                                color: Colors.orange,
+                                size: 20,
+                              ),
+                              fillColor: Colors.grey[200],
+                              filled: true,
+                              labelText: "About Event",
+                              labelStyle: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.orange,
+                                  fontFamily: "font2"),
+                              border: _outlineBorder(),
+                              enabledBorder: _outlineBorder(),
+                              errorBorder: _outlineBorder(),
                             ),
+                            maxLines: null,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value.trim().isEmpty) {
+                                return 'Event Description must not be empty';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) =>
+                                _events['eventDescription'] = value,
                           ),
                         ),
                         SizedBox(

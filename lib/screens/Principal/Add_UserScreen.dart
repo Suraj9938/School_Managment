@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -10,7 +9,7 @@ import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
 enum Gender { Male, Female, Others }
-enum UserType { Parent, Student, Teacher, Librarian }
+enum UserType { Parent, Student, Teacher, Librarian, Admin }
 
 class AddUserScreen extends StatefulWidget {
   static const routeName = 'AddUser';
@@ -29,7 +28,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   bool _isLoading = false;
   Uint8List images;
   bool _isInit = true;
-
+  String displayImage = "";
   var _userData = {};
 
   var _editedUserData = Auth(
@@ -41,11 +40,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
     gender: "",
     address: "",
     image: "",
-    isParent: false,
-    isAdmin: false,
-    isTeacher: false,
-    isStudent: false,
-    isLibrarian: false,
+    isParent: null,
+    isAdmin: null,
+    isTeacher: null,
+    isStudent: null,
+    isLibrarian: null,
   );
 
   var initValues = {
@@ -65,7 +64,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   };
 
   Gender _gender = Gender.Male;
-  UserType userType = UserType.Teacher;
+  UserType userType = UserType.Parent;
 
   OutlineInputBorder _outlineBorder() {
     return OutlineInputBorder(
@@ -110,6 +109,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
         return "Teacher";
       case UserType.Librarian:
         return "Librarian";
+      case UserType.Admin:
+        return "Admin";
     }
   }
 
@@ -122,7 +123,9 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 ? "Student"
                 : chosenUserType == UserType.Teacher
                     ? "Teacher"
-                    : null;
+                    : chosenUserType == UserType.Admin
+                        ? "Admin"
+                        : null;
   }
 
   void _selectedUserType(UserType value) {
@@ -137,6 +140,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
           _userData['isTeacher'] = false;
           _userData['isStudent'] = false;
           _userData['isParent'] = false;
+          _userData['isAdmin'] = false;
         });
       } else if (user == UserType.Teacher) {
         setState(() {
@@ -144,6 +148,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
           _userData['isLibrarian'] = false;
           _userData['isStudent'] = false;
           _userData['isParent'] = false;
+          _userData['isAdmin'] = false;
         });
       } else if (user == UserType.Student) {
         setState(() {
@@ -151,6 +156,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
           _userData['isTeacher'] = false;
           _userData['isLibrarian'] = false;
           _userData['isParent'] = false;
+          _userData['isAdmin'] = false;
         });
       } else if (user == UserType.Parent) {
         setState(() {
@@ -158,6 +164,15 @@ class _AddUserScreenState extends State<AddUserScreen> {
           _userData['isStudent'] = false;
           _userData['isTeacher'] = false;
           _userData['isLibrarian'] = false;
+          _userData['isAdmin'] = false;
+        });
+      } else if (user == UserType.Admin) {
+        setState(() {
+          _userData['isParent'] = false;
+          _userData['isStudent'] = false;
+          _userData['isTeacher'] = false;
+          _userData['isLibrarian'] = false;
+          _userData['isAdmin'] = true;
         });
       }
     });
@@ -204,63 +219,102 @@ class _AddUserScreenState extends State<AddUserScreen> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      final response = await Provider.of<AuthProvider>(context, listen: false)
-          .signup(context, _userData, images);
-      print("Response");
-      print(response.statusCode);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        showDialog(
+    if (_editedUserData.userId != null) {
+      try {
+        await Provider.of<AuthProvider>(context, listen: false)
+            .updateUserInfo(_editedUserData.userId, _editedUserData);
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Success"),
+            content: Text("User Credentials Updated Successfully!"),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+      } catch (error) {
+        await showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
-                  title: Text('Success'),
-                  content: Text("User was registered successfully"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-        Navigator.of(context)
-            .pushReplacementNamed(PrincipalOverViewScreen.routeName);
-      } else if (response.statusCode >= 300 && response.statusCode < 400 ||
-          response.statusCode == 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An error Occured'),
-                  content: Text("User registration failed!"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                    )
-                  ],
-                ));
-      } else if (response.statusCode >= 400 && response.statusCode < 500) {
-        showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text('An Error Occurred!'),
+                  title: Text('Error Occurred'),
                   content:
-                      Text("Provide Valid User Credentials and try again!"),
+                      Text("Something has occurred! User cannot be updated"),
                   actions: <Widget>[
                     FlatButton(
-                      child: Text('Okay'),
+                      child: Text("OK"),
                       onPressed: () {
-                        Navigator.of(ctx).pop();
+                        Navigator.pop(context);
                       },
                     )
                   ],
                 ));
       }
-    } catch (error) {
-      print(error);
+    } else {
+      try {
+        final response = await Provider.of<AuthProvider>(context, listen: false)
+            .signup(context, _userData, images);
+        print("Response");
+        print(response.statusCode);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          return showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text('Success'),
+                    content: Text("User was registered successfully"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  )).then(
+            (value) => Navigator.of(context)
+                .pushReplacementNamed(PrincipalOverViewScreen.routeName),
+          );
+        } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+            response.statusCode == 500) {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text('An error Occured'),
+                    content: Text("User registration failed!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  ));
+        } else if (response.statusCode >= 400 && response.statusCode < 500) {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text('An Error Occurred!'),
+                    content:
+                        Text("Provide Valid User Credentials and try again!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  ));
+        }
+      } catch (error) {
+        print(error);
+      }
     }
     setState(() {
       _isLoading = false;
@@ -270,23 +324,40 @@ class _AddUserScreenState extends State<AddUserScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      _editedUserData =
-          Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
-      initValues = {
-        'name': _editedUserData.name,
-        'email': _editedUserData.email,
-        'password': _editedUserData.password,
-        'mobileNo': _editedUserData.mobileNo,
-        'age': _editedUserData.age,
-        'gender': _editedUserData.gender,
-        'address': _editedUserData.address,
-        'image': _editedUserData.image,
-        'isParent': _editedUserData.isParent.toString(),
-        'isAdmin': _editedUserData.isAdmin.toString(),
-        'isTeacher': _editedUserData.isTeacher.toString(),
-        'isStudent': _editedUserData.isStudent.toString(),
-        'isLibrarian': _editedUserData.isLibrarian.toString(),
-      };
+      final String userId = ModalRoute.of(context).settings.arguments;
+      if (userId != null) {
+        _editedUserData =
+            Provider.of<AuthProvider>(context, listen: false).findById(userId);
+        initValues = {
+          'name': _editedUserData.name,
+          'email': _editedUserData.email,
+          'password': _editedUserData.password,
+          'mobileNo': _editedUserData.mobileNo,
+          'age': _editedUserData.age,
+          'gender': _editedUserData.gender,
+          'address': _editedUserData.address,
+          'isParent': _editedUserData.isParent.toString(),
+          'isAdmin': _editedUserData.isAdmin.toString(),
+          'isTeacher': _editedUserData.isTeacher.toString(),
+          'isStudent': _editedUserData.isStudent.toString(),
+          'isLibrarian': _editedUserData.isLibrarian.toString(),
+        };
+        _gender = _editedUserData.gender == "Male"
+            ? Gender.Male
+            : _editedUserData.gender == "Female"
+                ? Gender.Female
+                : Gender.Others;
+        userType = _editedUserData.isStudent
+            ? UserType.Student
+            : _editedUserData.isTeacher
+                ? UserType.Teacher
+                : _editedUserData.isLibrarian
+                    ? UserType.Librarian
+                    : _editedUserData.isAdmin
+                        ? UserType.Admin
+                        : UserType.Parent;
+        displayImage = _editedUserData.image.toString();
+      }
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -297,12 +368,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add User",
+          _editedUserData.userId != null ? "Edit User" : "Add User",
           style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
-            fontFamily: "font1",
             color: Colors.white,
+            fontFamily: "font2",
+            fontSize: 22,
           ),
         ),
         actions: [
@@ -350,7 +420,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                     MediaQuery.of(context).size.width / 2 + 15,
                                 padding: EdgeInsets.only(left: 13),
                                 child: TextFormField(
-                                  //initialValue: initValues['bookType'],
+                                  initialValue: initValues['name'],
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.person_pin,
@@ -392,7 +462,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                     MediaQuery.of(context).size.width / 2 + 15,
                                 padding: EdgeInsets.only(left: 13),
                                 child: TextFormField(
-                                  //initialValue: initValues['bookType'],
+                                  initialValue: initValues['address'],
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.location_on_sharp,
@@ -435,37 +505,41 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               width: MediaQuery.of(context).size.width / 2 - 40,
                               color: Colors.blueGrey[200],
                               child: RaisedButton(
-                                child: images == null && userImage == null
-                                    ? Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.camera,
-                                            color: Colors.orange,
-                                            size: 24,
-                                          ),
-                                          SizedBox(
-                                            height: 3,
-                                          ),
-                                          Text(
-                                            "Choose an Image",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: "font2",
-                                              color: Colors.orange,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
+                                child: _editedUserData.userId != null
+                                    ? Image.network(
+                                        displayImage,
                                       )
-                                    : Image.file(
-                                        userImage,
-                                        fit: BoxFit.contain,
-                                        width: double.infinity,
-                                      ),
+                                    : images == null && userImage == null
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.camera,
+                                                color: Colors.orange,
+                                                size: 24,
+                                              ),
+                                              SizedBox(
+                                                height: 3,
+                                              ),
+                                              Text(
+                                                "Choose an Image",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: "font2",
+                                                  color: Colors.orange,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          )
+                                        : Image.file(
+                                            userImage,
+                                            fit: BoxFit.contain,
+                                            width: double.infinity,
+                                          ),
                                 onPressed: () {
                                   _getImage(ImageSource.gallery);
                                 },
@@ -594,7 +668,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                     horizontal: 20,
                                   ),
                                   child: DropdownButton<UserType>(
-                                    value: userType,
+                                    value:
+                                        userType, //initValues['userType'].toString(),
                                     items: UserType.values
                                         .map((UserType userType) {
                                       return DropdownMenuItem<UserType>(
@@ -618,70 +693,13 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       SizedBox(
                         height: 18,
                       ),
-                      // Container(
-                      //   height: 50,
-                      //   width: MediaQuery.of(context).size.width - 28,
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.start,
-                      //     children: [
-                      //       Icon(
-                      //         Icons.class_,
-                      //         color: Colors.orange,
-                      //         size: 22,
-                      //       ),
-                      //       SizedBox(
-                      //         width: 8,
-                      //       ),
-                      //       Text(
-                      //         "Select a Class",
-                      //         style: TextStyle(
-                      //             fontSize: 19,
-                      //             fontFamily: "font2",
-                      //             fontWeight: FontWeight.w500,
-                      //             color: Colors.orange),
-                      //       ),
-                      //       SizedBox(
-                      //         width: 15,
-                      //       ),
-                      //       Container(
-                      //         child: Material(
-                      //           borderRadius: BorderRadius.circular(18),
-                      //           color: Colors.grey[300],
-                      //           child: Padding(
-                      //             padding: EdgeInsets.symmetric(
-                      //               horizontal: 20,
-                      //             ),
-                      //             child: DropdownButton<UserType>(
-                      //               value: userType,
-                      //               items: UserType.values
-                      //                   .map((UserType userType) {
-                      //                 return DropdownMenuItem<UserType>(
-                      //                   value: userType,
-                      //                   child: Text(
-                      //                     _userTypeInString(userType),
-                      //                     style:
-                      //                     TextStyle(color: Colors.orange),
-                      //                   ),
-                      //                 );
-                      //               }).toList(),
-                      //               onChanged: (value) =>
-                      //                   _selectedUserType(value),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 18,
-                      // ),
                       Row(
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width / 2 - 32,
                             padding: EdgeInsets.only(left: 13),
                             child: TextFormField(
+                              initialValue: initValues['age'],
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.date_range_outlined,
@@ -716,6 +734,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                             width: MediaQuery.of(context).size.width / 2 + 23,
                             padding: EdgeInsets.only(left: 13),
                             child: TextFormField(
+                              initialValue: initValues['mobileNo'],
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.mobile_friendly,
@@ -781,6 +800,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           width: MediaQuery.of(context).size.width - 70,
                           padding: EdgeInsets.only(left: 13),
                           child: TextFormField(
+                            initialValue: initValues['email'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.quick_contacts_mail,
@@ -821,7 +841,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           width: MediaQuery.of(context).size.width - 70,
                           padding: EdgeInsets.only(left: 13),
                           child: TextFormField(
-                            //initialValue: initValues['bookType'],
+                            initialValue: initValues['password'],
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.verified_user_rounded,
