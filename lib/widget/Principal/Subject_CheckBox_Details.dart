@@ -42,13 +42,13 @@ class _SubjectCheckBoxDetailsState extends State<SubjectCheckBoxDetails> {
         //widget.subjectNames.clear();
         if (loadedSubjects.isChecked == true &&
             !widget.subjects.contains(loadedSubjects.subjectId)) {
-          widget.subjects.add(loadedSubjects.subjectName);
+          widget.subjects.add(loadedSubjects.subjectId);
           print("selected subjects");
           print(widget.subjects);
         } else if (loadedSubjects.isChecked == false &&
             widget.subjects.contains(loadedSubjects.subjectId)) {
           widget.subjects
-              .removeWhere((element) => element == loadedSubjects.subjectName);
+              .removeWhere((element) => element == loadedSubjects.subjectId);
           print("removed subject info");
           print(widget.subjects);
         }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/provider/school_provider.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/widget/Users/School_Event_ListView.dart';
 
@@ -13,6 +14,8 @@ class SchoolEventScreen extends StatefulWidget {
 
 class _SchoolEventScreenState extends State<SchoolEventScreen> {
   Widget _topHalfUI() {
+    final schoolData =
+        Provider.of<SchoolProvider>(context, listen: false).schoolData;
     return Container(
       height: MediaQuery.of(context).size.height / 2 - 30,
       width: double.infinity,
@@ -101,8 +104,8 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(8),
-                        child: Image.asset(
-                          "assets/images/school.png",
+                        child: Image.network(
+                          schoolData.schoolImage,
                           height: 30,
                           width: 30,
                           fit: BoxFit.contain,
@@ -113,7 +116,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                       height: 12,
                     ),
                     Text(
-                      "Eastwood High",
+                      schoolData.schoolName,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -136,7 +139,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                           width: 2,
                         ),
                         Text(
-                          "Kathmandu, Nepal, 781246",
+                          schoolData.location,
                           style: TextStyle(
                             fontSize: 17,
                             //fontWeight: FontWeight.bold,
@@ -162,7 +165,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                           width: 2,
                         ),
                         Text(
-                          "01-4789623",
+                          schoolData.schoolContact,
                           style: TextStyle(
                             fontSize: 16,
                             //fontWeight: FontWeight.bold,
@@ -188,6 +191,8 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final schoolData =
+        Provider.of<SchoolProvider>(context, listen: false).schoolData;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/model/book.dart';
+import 'package:school_management/widget/Student/Book_Info_Screen.dart';
 
 class BookDetails extends StatelessWidget {
   @override
@@ -13,7 +14,8 @@ class BookDetails extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            //Navigator.pushNamed(context, )
+            Navigator.pushNamed(context, BookInfoScreen.routeName,
+                arguments: loadedBooks.bookId);
           },
           child: Row(
             children: [

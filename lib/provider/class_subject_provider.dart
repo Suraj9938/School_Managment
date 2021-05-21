@@ -11,7 +11,7 @@ class ClassSubjectProvider with ChangeNotifier {
     for (int i = 0; i < subjects.length; i++) {
       Map<String, String> classSubjectInfo = {
         'classes': _selectedClass.classId.toString(),
-        'subject': subjects.toString(),
+        'subject': subjects[i].toString(),
       };
       https.Response classSubject =
           await https.post(url, body: classSubjectInfo);

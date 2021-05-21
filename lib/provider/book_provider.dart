@@ -11,6 +11,10 @@ class BookProvider with ChangeNotifier {
     return [..._books];
   }
 
+  Book findById(String id) {
+    return _books.firstWhere((book) => book.bookId == id);
+  }
+
   Future<https.Response> addBook(_bookData, images) async {
     final resUrl = "http://192.168.0.20:8000/api/addbook/";
     var url = Uri.parse(resUrl);

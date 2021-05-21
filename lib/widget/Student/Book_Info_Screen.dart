@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/provider/book_provider.dart';
+import 'package:school_management/screens/Student/Library_Books_Screen.dart';
 
 class BookInfoScreen extends StatefulWidget {
   static const routeName = "/book_info";
@@ -13,21 +15,20 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final id = ModalRoute.of(context).settings.arguments as String;
-    // final books = Provider.of<Book>(context).findById(id);
+    final id = ModalRoute.of(context).settings.arguments as String;
+    final books = Provider.of<BookProvider>(context).findById(id);
     // final books1 = Provider.of<Books>(context, listen: _listen);
     // final auth = Provider.of<Auth>(context, listen: false);
 
     return Scaffold(
-      //backgroundColor: Colors.grey[200],
       body: Stack(
         children: <Widget>[
           Container(
             foregroundDecoration: BoxDecoration(color: Colors.black26),
             height: 400,
             width: double.infinity,
-            child: Image.asset(
-              "assets/images/book.png",
+            child: Image.network(
+              books.bookImage,
               fit: BoxFit.cover,
             ),
           ),
@@ -38,13 +39,28 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: 285),
+                SizedBox(
+                  height: 10,
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                    size: 22,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, LibraryBooksScreen.routeName);
+                  },
+                ),
+                SizedBox(
+                  height: 235,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 16,
                   ),
                   child: Text(
-                    "Information Technology",
+                    books.bookName,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -75,7 +91,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                       child: Row(
                         children: [
                           Text(
-                            "89256 ratings",
+                            books.ratingNo,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
@@ -109,7 +125,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                         ),
                       ),
                       child: Text(
-                        "4.7",
+                        books.userRating,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,
@@ -184,7 +200,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                                             width: 4,
                                           ),
                                           Text(
-                                            "Suraj",
+                                            books.publisher,
                                             style: TextStyle(
                                               fontFamily: "font2",
                                               fontSize: 18,
@@ -219,7 +235,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                                             width: 4,
                                           ),
                                           Text(
-                                            "2018",
+                                            books.publishYear,
                                             style: TextStyle(
                                               fontFamily: "font2",
                                               fontSize: 18,
@@ -251,7 +267,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                                             ),
                                           ),
                                           Text(
-                                            "Information Technology",
+                                            books.bookType,
                                             style: TextStyle(
                                               fontFamily: "font2",
                                               fontSize: 18,
@@ -282,7 +298,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                                 left: 2,
                               ),
                               child: Text(
-                                "Best Information Technlogy Till Date asfa aso fab sjfbas oaskfb asj bfkjasbasf.",
+                                books.bookDescription,
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,

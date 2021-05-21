@@ -4,7 +4,7 @@ import 'package:school_management/provider/subject_provider.dart';
 import 'package:school_management/widget/Principal/Subject_CheckBox_Details.dart';
 
 class SubjectCheckBoxListView extends StatelessWidget {
-  List<String> subjects;
+  List<String> subjects = [];
 
   SubjectCheckBoxListView(this.subjects);
   @override

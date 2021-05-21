@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:school_management/screens/Users/Calendar_Add_Screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -45,23 +46,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          "Calendar Routine",
+          "Academic Calendar",
           style:
               TextStyle(color: Colors.white, fontSize: 22, fontFamily: "font1"),
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(
-              right: 18,
-            ),
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
-        ],
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       backgroundColor: Colors.grey[200],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orange,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, CalendarAddScreen.routeName);
+        },
+      ),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -75,10 +78,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 margin: const EdgeInsets.all(8.0),
                 child: TableCalendar(
                   calendarController: _calendarController,
-                  //events: _groupedEvents,
-                  // onDaySelected: (date, events, holidays) {
-                  //   setState(() {});
-                  // },
                   weekendDays: [6],
                   headerStyle: HeaderStyle(
                     decoration: BoxDecoration(
@@ -107,70 +106,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                   calendarStyle: CalendarStyle(),
                   builders: CalendarBuilders(),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 12,
-                  top: 10,
-                ),
-                child: Text(
-                  "Mathematics",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontFamily: "font1",
-                    fontWeight: FontWeight.w100,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 15,
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                    title: Text(
-                      "Naruto Uzumaki",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "font2",
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(
-                        "assets/images/Naruto.png",
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12,
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                    title: Text(
-                      "10 : 00 am to 11 : 00 am",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "font2",
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(
-                        "assets/images/Naruto.png",
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ],
