@@ -54,14 +54,14 @@ class _AddBillState extends State<AddBill> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(labelText: "Enter product name"),
+                decoration: InputDecoration(labelText: "Enter bill name"),
                 controller: titleController,
                 onSubmitted: (_) {
                   _submitData();
                 },
               ),
               TextField(
-                decoration: InputDecoration(labelText: "Enter product amount"),
+                decoration: InputDecoration(labelText: "Enter bill amount"),
                 controller: amountController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) {

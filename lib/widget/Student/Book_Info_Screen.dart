@@ -39,22 +39,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 22,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, LibraryBooksScreen.routeName);
-                  },
-                ),
-                SizedBox(
-                  height: 235,
-                ),
+                SizedBox(height: 275),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 16,

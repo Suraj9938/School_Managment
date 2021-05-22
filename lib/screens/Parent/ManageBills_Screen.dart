@@ -53,6 +53,7 @@ class _ManageBillsScreenState extends State<ManageBillsScreen> {
 
   void _showAddBill(BuildContext context) {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (ctx) {
           return AddBill(_addBill);
@@ -64,7 +65,7 @@ class _ManageBillsScreenState extends State<ManageBillsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Manage Bills",
+          "Track Student Bills",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
@@ -79,7 +80,7 @@ class _ManageBillsScreenState extends State<ManageBillsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(height: 180, child: BillChart(_recentBills)),
+            Container(height: 160, child: BillChart(_recentBills)),
             Container(
               height: 400,
               child: BillList(

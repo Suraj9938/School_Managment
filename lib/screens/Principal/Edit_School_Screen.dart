@@ -125,36 +125,37 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
       _isLoading = true;
     });
     try {
-      await Provider.of<SchoolProvider>(context, listen: false).updateSchool(_editedSchoolData);
+      await Provider.of<SchoolProvider>(context, listen: false)
+          .updateSchool(_editedSchoolData);
       await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text("Success"),
-            content: Text("School Information Updated Successfully"),
-            actions: [
-              FlatButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          ));
+                title: Text("Success"),
+                content: Text("School Information Updated Successfully"),
+                actions: [
+                  FlatButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ));
     } catch (error) {
       await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text('Error Occured'),
-            content: Text('School information cannot be updated'),
-            actions: [
-              FlatButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ));
+                title: Text('Error Occured'),
+                content: Text('School information cannot be updated'),
+                actions: [
+                  FlatButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ));
     }
     setState(() {
       _isLoading = false;
@@ -175,8 +176,10 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     if (_isInit) {
-      _editedSchoolData = Provider.of<SchoolProvider>(context, listen: false).schoolData;
+      _editedSchoolData =
+          Provider.of<SchoolProvider>(context, listen: false).schoolData;
       initValues = {
         'name': _editedSchoolData.schoolName,
         'location': _editedSchoolData.location,
@@ -187,8 +190,9 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
         'endTime': _editedSchoolData.endTime,
       };
     }
+    _schoolStartTime = _editedSchoolData.startTime;
+    _schoolEndTime = _editedSchoolData.endTime;
     _isInit = false;
-    super.didChangeDependencies();
   }
 
   @override
@@ -407,7 +411,9 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                             RaisedButton(
                               color: Colors.orange,
                               child: Text(
-                                "Choose start time",
+                                _schoolStartTime == null
+                                    ? "Choose start time"
+                                    : "Update Start Time",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontFamily: "font2",
@@ -490,7 +496,9 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                             RaisedButton(
                               color: Colors.orange,
                               child: Text(
-                                "Choose end time",
+                                _schoolEndTime == null
+                                    ? "Choose end time"
+                                    : "Update end Time",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontFamily: "font2",

@@ -61,6 +61,7 @@ class _ClassDropDownListViewState extends State<ClassDropDownListView> {
                 setState(() {
                   widget._selectedClass = value;
                 });
+                print(widget._selectedClass.className);
               },
               value: widget._selectedClass,
             ),

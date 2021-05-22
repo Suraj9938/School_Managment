@@ -5,6 +5,7 @@ import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
+import 'package:school_management/screens/Principal/Add_User_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Manage_User_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_Profile_Screen.dart';
 import 'package:school_management/screens/Users/Auth_Screen.dart';
@@ -137,7 +138,7 @@ class PrincipalAppDrawer extends StatelessWidget {
           ListTile(
             dense: true,
             leading: Icon(
-              Icons.subject,
+              Icons.class_,
               size: 24,
               color: Colors.black54,
             ),
@@ -161,7 +162,7 @@ class PrincipalAppDrawer extends StatelessWidget {
           ListTile(
             dense: true,
             leading: Icon(
-              Icons.class_,
+              Icons.widgets_rounded,
               size: 24,
               color: Colors.black54,
             ),
@@ -185,14 +186,14 @@ class PrincipalAppDrawer extends StatelessWidget {
           ListTile(
             dense: true,
             leading: Icon(
-              Icons.date_range,
+              Icons.view_carousel_rounded,
               size: 24,
               color: Colors.black54,
             ),
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "Manage Routine",
+                "Add User Class",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
@@ -200,7 +201,7 @@ class PrincipalAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, AddUserClassScreen.routeName);
             },
           ),
           Divider(

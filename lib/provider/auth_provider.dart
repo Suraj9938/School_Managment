@@ -63,9 +63,21 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<String> checkUserExist({@required String email}) async {
+    await setFetchedUsersData();
+    final val = _users.where(
+      (user) => user.email.toLowerCase() == email.toLowerCase(),
+    );
+    if (val != null) {
+      return "User Already Exists";
+    }
+    return "User Does Not Exist";
+  }
+
   Future<https.Response> signup(
       BuildContext context, _userData, Uint8List images) async {
-    final resUrl = "http://192.168.0.20:8000/api/create/";
+    final baseUrl = "http://192.168.0.20:8000/api/";
+    final resUrl = baseUrl + "create/";
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
     School schoolInfo;
@@ -77,7 +89,6 @@ class AuthProvider with ChangeNotifier {
     });
 
     print("schoolInfo");
-    final baseUrl = "http://192.168.0.20:8000/api/";
 
     request.files
         .add(https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
@@ -175,39 +186,77 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateUserInfo(String id, _editedUserData) async {
+  Future<https.Response> updateUserInfo(
+      String id, _editedUserData, images) async {
     final userId = _users.indexWhere((user) => user.userId == id);
     final resUrl = "http://192.168.0.20:8000/api/updateuser/$id/";
     var url = Uri.parse(resUrl);
+    var request = https.MultipartRequest('PATCH', url);
 
     try {
       if (userId >= 0) {
-        await https.patch(
-          url,
-          body: json.encode(
-            {
-              'name': _editedUserData['name'],
-              'address': _editedUserData['address'],
-              'image': _editedUserData['image'].toString(),
-              'gender': _editedUserData['gender'],
-              'age': _editedUserData['age'],
-              'mobileNo': _editedUserData['mobileNo'],
-              'email': _editedUserData['email'],
-              'password': _editedUserData['password'],
-              'admin': _editedUserData['isAdmin'].toString(),
-              'teacher': _editedUserData['isTeacher'].toString(),
-              'parent': _editedUserData['isParent'].toString(),
-              'student': _editedUserData['isStudent'].toString(),
-              'librarian': _editedUserData['isLibrarian'].toString(),
-            },
-          ),
-          headers: {'Content-Type': 'application/json'},
+        request.files.add(
+            https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
+
+        request.fields['name'] = _editedUserData['name'];
+        request.fields['address'] = _editedUserData['address'];
+        request.fields['gender'] = _editedUserData['gender'];
+        request.fields['age'] = _editedUserData['age'];
+        request.fields['mobileNo'] = _editedUserData['mobileNo'];
+        request.fields['email'] = _editedUserData['email'];
+        request.fields['password'] = _editedUserData['password'];
+        request.fields['teacher'] = _editedUserData['isTeacher'].toString();
+        request.fields['librarian'] = _editedUserData['isLibrarian'].toString();
+        request.fields['student'] = _editedUserData['isStudent'].toString();
+        request.fields['parent'] = _editedUserData['isParent'].toString();
+        request.fields['admin'] = _editedUserData['isAdmin'].toString();
+
+        https.Response response = await https.Response.fromStream(
+          await request.send(),
         );
-        _users[userId] = _editedUserData;
-        notifyListeners();
+        return response;
       }
     } catch (error) {
       return null;
     }
   }
+
+//   try {
+//     if (userId >= 0) {
+//       print("----------------i was called here");
+//       final _httpPatchResponse = await https.patch(
+//         url,
+//         body: json.encode(
+//           {
+//             'name': _editedUserData['name'],
+//             'address': _editedUserData['address'],
+//             'image': _editedUserData['image'].toString(),
+//             'gender': _editedUserData['gender'],
+//             'age': _editedUserData['age'],
+//             'mobileNo': _editedUserData['mobileNo'],
+//             'email': _editedUserData['email'],
+//             'password': _editedUserData['password'],
+//             'admin': _editedUserData['isAdmin'].toString(),
+//             'teacher': _editedUserData['isTeacher'].toString(),
+//             'parent': _editedUserData['isParent'].toString(),
+//             'student': _editedUserData['isStudent'].toString(),
+//             'librarian': _editedUserData['isLibrarian'].toString(),
+//           },
+//         ),
+//         headers: {'Content-Type': 'application/json'},
+//       );
+//       print(_httpPatchResponse.body);
+//       print("----------------------${_httpPatchResponse.statusCode}");
+//       if (_httpPatchResponse.statusCode == 201 ||
+//           _httpPatchResponse.statusCode == 200) {
+//         _users[userId] = _editedUserData;
+//         notifyListeners();
+//         return 200;
+//       }
+//     }
+//     return 401;
+//   } catch (error) {
+//     return 401;
+//   }
+// }
 }

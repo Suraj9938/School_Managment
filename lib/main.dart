@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/model/auth.dart';
 import 'package:school_management/provider/assignment_provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/book_provider.dart';
@@ -20,6 +21,7 @@ import 'package:school_management/screens/Principal/Add_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Add_Class_Subject_Screen.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Add_Subject_Screen.dart';
+import 'package:school_management/screens/Principal/Add_User_Class_Screen.dart';
 import 'package:school_management/screens/Principal/Edit_School_Screen.dart';
 import 'package:school_management/screens/Principal/Manage_School_Screen.dart';
 import 'package:school_management/screens/Principal/Add_UserScreen.dart';
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => Auth()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => SchoolProvider()),
         ChangeNotifierProvider(create: (_) => SubjectProvider()),
@@ -106,6 +109,7 @@ class MyApp extends StatelessWidget {
           LibraryBooksScreen.routeName: (ctx) => LibraryBooksScreen(),
           CalendarAddScreen.routeName: (ctx) => CalendarAddScreen(),
           BookInfoScreen.routeName: (ctx) => BookInfoScreen(),
+          AddUserClassScreen.routeName: (ctx) => AddUserClassScreen(),
         },
       ),
     );

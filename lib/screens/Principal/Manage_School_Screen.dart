@@ -20,12 +20,8 @@ class ManageSchoolScreen extends StatefulWidget {
 }
 
 class _ManageSchoolScreenState extends State<ManageSchoolScreen> {
-
   @override
   Widget build(BuildContext context) {
-    final schoolData =
-        Provider.of<SchoolProvider>(context, listen: false).schoolData;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -57,6 +53,8 @@ class _ManageSchoolScreenState extends State<ManageSchoolScreen> {
         future: Provider.of<SchoolProvider>(context, listen: false)
             .setFetchSchoolData(),
         builder: (ctx, snapshot) {
+          final schoolData =
+              Provider.of<SchoolProvider>(context, listen: false).schoolData;
           return snapshot.connectionState == ConnectionState.waiting
               ? Center(
                   child: CircularProgressIndicator(),
@@ -71,7 +69,8 @@ class _ManageSchoolScreenState extends State<ManageSchoolScreen> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              schoolData.schoolImage,
+                              schoolData.schoolImage ??
+                                  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
                             ),
                             fit: BoxFit.cover,
                           ),

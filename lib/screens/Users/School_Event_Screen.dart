@@ -17,7 +17,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
     final schoolData =
         Provider.of<SchoolProvider>(context, listen: false).schoolData;
     return Container(
-      height: MediaQuery.of(context).size.height / 2 - 30,
+      height: MediaQuery.of(context).size.height / 2 - 70,
       width: double.infinity,
       child: Stack(
         children: [
@@ -93,22 +93,12 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
                 child: Column(
                   children: [
                     Container(
-                      height: 50,
                       width: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.orange,
-                          width: 3,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Image.network(
+                      height: 60,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
                           schoolData.schoolImage,
-                          height: 30,
-                          width: 30,
-                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
@@ -191,34 +181,44 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final schoolData =
-        Provider.of<SchoolProvider>(context, listen: false).schoolData;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _topHalfUI(),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 22,
-                top: 20,
-              ),
-              child: Text(
-                "Events",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            SchoolEventListView(),
-          ],
-        ),
+      backgroundColor: Colors.grey[200],
+      body: FutureBuilder(
+        future: Provider.of<SchoolProvider>(context, listen: false)
+            .setFetchSchoolData(),
+        builder: (ctx, snapshot) {
+          Provider.of<SchoolProvider>(context, listen: false).schoolData;
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _topHalfUI(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 22,
+                          top: 20,
+                        ),
+                        child: Text(
+                          "Events",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SchoolEventListView(),
+                    ],
+                  ),
+                );
+        },
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/model/class.dart';
+import 'package:school_management/provider/class_provider.dart';
 import 'package:school_management/provider/class_subject_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
@@ -12,7 +13,6 @@ import 'package:school_management/widget/Principal/Subject_CheckBox_ListView.dar
 
 class AddClassSubjectScreen extends StatefulWidget {
   List<String> subjects = [];
-  Class _selectedClass;
 
   static const routeName = '/AddClassSubject';
 
@@ -21,8 +21,10 @@ class AddClassSubjectScreen extends StatefulWidget {
 }
 
 class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
-  final _form = GlobalKey<FormState>();
+  bool _isInit = false;
   bool _isLoading = false;
+  List<Class> _classes;
+  Class _selectedClass;
 
   Future<void> _fetchSubjects(BuildContext context) async {
     await Provider.of<SubjectProvider>(context, listen: false)
@@ -34,14 +36,33 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ClassProvider>(context, listen: false)
+          .setFetchClassData()
+          .then((value) {
+        _classes = Provider.of<ClassProvider>(context, listen: false).classes;
+        _selectedClass = _classes[0];
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = true;
+  }
+
   // save form and add class subject
   Future<void> _saveForm() async {
-    print(widget.subjects);
-    print(widget._selectedClass);
+    //print(widget.subjects);
     try {
       final response =
           await Provider.of<ClassSubjectProvider>(context, listen: false)
-              .addClassSubject(widget._selectedClass, widget.subjects);
+              .addClassSubject(_selectedClass, widget.subjects);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return showDialog(
             context: context,
@@ -87,14 +108,15 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
   @override
   Widget build(BuildContext context) {
     print("Subjects from AddClassSubjectScreen");
-    print(widget.subjects);
+/*    print(widget.subjects);
+    print(_selectedClass.className);*/
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
         title: Text(
-          "Classes",
+          "Add Class Subject",
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -129,7 +151,9 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
                       SizedBox(
                         height: 22,
                       ),
-                      ClassDropDownListView(widget._selectedClass),
+                      _isLoading
+                          ? CircularProgressIndicator()
+                          : ClassDropDownListView(_selectedClass),
                       SizedBox(
                         height: 30,
                       ),

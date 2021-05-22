@@ -84,7 +84,7 @@ class _ParentStaggeredViewState extends State<ParentStaggeredView> {
         data(Icons.assignment_ind, "Monitor Attendance", Colors.blue, () {
           Navigator.of(context).pushNamed(ViewAttendanceScreen.routeName);
         }),
-        data(Icons.widgets_rounded, "Manage Your Bills", Colors.purpleAccent,
+        data(Icons.widgets_rounded, "Track Student Bills", Colors.purpleAccent,
             () {
           Navigator.of(context).pushNamed(ManageBillsScreen.routeName);
         }),
