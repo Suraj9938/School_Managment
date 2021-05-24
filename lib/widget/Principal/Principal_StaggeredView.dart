@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:school_management/screens/Principal/Add_EventScreen.dart';
 import 'package:school_management/screens/Principal/Manage_School_Screen.dart';
 import 'package:school_management/screens/Users/Calendar_Screen.dart';
+import 'package:school_management/screens/Users/NotificationView_Screen.dart';
 
 class PrincipalStaggeredView extends StatefulWidget {
   @override
@@ -89,7 +90,9 @@ class _PrincipalStaggeredViewState extends State<PrincipalStaggeredView> {
             () {
           Navigator.of(context).pushNamed(AddEventScreen.routeName);
         }),
-        data(Icons.notifications_active, "Add Notification", Colors.red, () {}),
+        data(Icons.notifications_active, "View Notifications", Colors.red, () {
+          Navigator.of(context).pushNamed(NotificationViewScreen.routeName);
+        }),
       ],
       staggeredTiles: [
         StaggeredTile.extent(2, 160),

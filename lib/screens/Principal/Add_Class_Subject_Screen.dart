@@ -8,11 +8,11 @@ import 'package:school_management/provider/class_provider.dart';
 import 'package:school_management/provider/class_subject_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
-import 'package:school_management/widget/Principal/ClassDropDownListView.dart';
 import 'package:school_management/widget/Principal/Subject_CheckBox_ListView.dart';
 
 class AddClassSubjectScreen extends StatefulWidget {
   List<String> subjects = [];
+  Class _selectedClass;
 
   static const routeName = '/AddClassSubject';
 
@@ -24,7 +24,6 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
   bool _isInit = false;
   bool _isLoading = false;
   List<Class> _classes;
-  Class _selectedClass;
 
   Future<void> _fetchSubjects(BuildContext context) async {
     await Provider.of<SubjectProvider>(context, listen: false)
@@ -47,7 +46,7 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
           .setFetchClassData()
           .then((value) {
         _classes = Provider.of<ClassProvider>(context, listen: false).classes;
-        _selectedClass = _classes[0];
+        widget._selectedClass = _classes[0];
         setState(() {
           _isLoading = false;
         });
@@ -58,11 +57,10 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
 
   // save form and add class subject
   Future<void> _saveForm() async {
-    //print(widget.subjects);
     try {
       final response =
           await Provider.of<ClassSubjectProvider>(context, listen: false)
-              .addClassSubject(_selectedClass, widget.subjects);
+              .addClassSubject(widget._selectedClass, widget.subjects);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return showDialog(
             context: context,
@@ -107,9 +105,6 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Subjects from AddClassSubjectScreen");
-/*    print(widget.subjects);
-    print(_selectedClass.className);*/
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -135,6 +130,7 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
                     horizontal: 20,
                     vertical: 20,
                   ),
+                  height: MediaQuery.of(context).size.height,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -153,7 +149,28 @@ class _AddClassSubjectScreenState extends State<AddClassSubjectScreen> {
                       ),
                       _isLoading
                           ? CircularProgressIndicator()
-                          : ClassDropDownListView(_selectedClass),
+                          : Container(
+                              width: double.infinity,
+                              height: 50,
+                              child: DropdownButton<Class>(
+                                items: _classes
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        child: Text(e.className),
+                                        value: e,
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    widget._selectedClass = value;
+                                  });
+                                  print("From Class Drop Down List View");
+                                  print(widget._selectedClass.className);
+                                },
+                                value: widget._selectedClass,
+                              ),
+                            ),
                       SizedBox(
                         height: 30,
                       ),

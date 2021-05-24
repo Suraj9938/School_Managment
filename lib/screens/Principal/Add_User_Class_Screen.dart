@@ -4,67 +4,118 @@ import 'package:school_management/model/auth.dart';
 import 'package:school_management/model/class.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/class_provider.dart';
-import 'package:school_management/widget/Principal/ClassDropDownListView.dart';
-import 'package:school_management/widget/Principal/StudentDropDownListView.dart';
+import 'package:school_management/provider/user_class_provider.dart';
+import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
-class AddUserClassScreen extends StatelessWidget {
-  static const routeName = "/add_user_screen";
+class AddUserClassScreen extends StatefulWidget {
   Class _selectedClass;
   Auth _selectedUser;
+
+  static const routeName = "/add_user_screen";
+
+  @override
+  _AddUserClassScreenState createState() => _AddUserClassScreenState();
+}
+
+class _AddUserClassScreenState extends State<AddUserClassScreen> {
+  bool _isInit = false;
+  bool _isLoading = false;
+  List<Auth> _users;
+  List<Auth> _user = [];
+  List<Class> _class = [];
 
   Future<void> _fetchClass(BuildContext context) async {
     await Provider.of<ClassProvider>(context, listen: false)
         .setFetchClassData();
   }
 
-  // save form and add class subject
-  // Future<void> _saveForm() async {
-  //   print(widget.subjects);
-  //   try {
-  //     final response =
-  //         await Provider.of<ClassSubjectProvider>(context, listen: false)
-  //             .addClassSubject(_selectedClass, widget.subjects);
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //       return showDialog(
-  //           context: context,
-  //           builder: (ctx) => AlertDialog(
-  //                 title: Text('Success'),
-  //                 content: Text("Class Subject was added successfully"),
-  //                 actions: <Widget>[
-  //                   FlatButton(
-  //                     child: Text('Okay'),
-  //                     onPressed: () {
-  //                       Navigator.of(ctx).pop();
-  //                     },
-  //                   )
-  //                 ],
-  //               )).then(
-  //         (value) => Navigator.of(context)
-  //             .pushReplacementNamed(PrincipalOverViewScreen.routeName),
-  //       );
-  //     } else {
-  //       return showDialog(
-  //           context: context,
-  //           builder: (ctx) => AlertDialog(
-  //                 title: Text('An Error Occurred!'),
-  //                 content: Text("Class Subject could not be added!"),
-  //                 actions: <Widget>[
-  //                   FlatButton(
-  //                     child: Text('Okay'),
-  //                     onPressed: () {
-  //                       Navigator.of(ctx).pop();
-  //                     },
-  //                   )
-  //                 ],
-  //               )).then(
-  //         (value) => Navigator.of(context)
-  //             .pushReplacementNamed(PrincipalOverViewScreen.routeName),
-  //       );
-  //     }
-  //   } catch (error) {
-  //     return null;
-  //   }
-  // }
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ClassProvider>(context, listen: false)
+          .setFetchClassData()
+          .then((value) {
+        _class = Provider.of<ClassProvider>(context, listen: false).classes;
+        widget._selectedClass = _class[0];
+        setState(() {
+          _isLoading = false;
+        });
+      });
+      Provider.of<AuthProvider>(context, listen: false)
+          .setFetchedUsersData()
+          .then((value) {
+        _users = Provider.of<AuthProvider>(context, listen: false).users;
+
+        _users.forEach((element) {
+          if (element.isStudent || element.isTeacher || element.isParent) {
+            _user.add(element);
+          }
+        });
+        print(_user);
+        widget._selectedUser = _user[0];
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = true;
+  }
+
+  Future<void> _saveForm() async {
+    try {
+      final response =
+          await Provider.of<UserClassProvider>(context, listen: false)
+              .addUserClass(widget._selectedUser, widget._selectedClass);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('Success'),
+                  content: Text("User Class was added successfully"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                )).then(
+          (value) => Navigator.of(context)
+              .pushReplacementNamed(PrincipalOverViewScreen.routeName),
+        );
+      } else {
+        return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text('An Error Occurred!'),
+                  content: Text("User Class could not be added!"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                    )
+                  ],
+                )).then(
+          (value) => Navigator.of(context)
+              .pushReplacementNamed(PrincipalOverViewScreen.routeName),
+        );
+      }
+    } catch (error) {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +129,7 @@ class AddUserClassScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.add), onPressed: () {}),
+          IconButton(icon: Icon(Icons.add), onPressed: () => _saveForm()),
         ],
       ),
       body: FutureBuilder(
@@ -98,7 +149,7 @@ class AddUserClassScreen extends StatelessWidget {
                     children: [
                       Container(
                         child: Text(
-                          "Select a Student",
+                          "Select a User",
                           style: TextStyle(
                             fontFamily: "font2",
                             fontSize: 20,
@@ -109,7 +160,30 @@ class AddUserClassScreen extends StatelessWidget {
                       SizedBox(
                         height: 22,
                       ),
-                      StudentDropDownListView(_selectedUser),
+                      _isLoading
+                          ? CircularProgressIndicator()
+                          : Container(
+                              width: double.infinity,
+                              height: 50,
+                              child: DropdownButton<Auth>(
+                                items: _user
+                                    .map(
+                                      (user) => DropdownMenuItem(
+                                        child: Text(user.name),
+                                        value: user,
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    widget._selectedUser = value;
+                                    print("From Add User Class Screen");
+                                    print(widget._selectedUser.name);
+                                  });
+                                },
+                                value: widget._selectedUser,
+                              ),
+                            ),
                       SizedBox(
                         height: 30,
                       ),
@@ -126,7 +200,28 @@ class AddUserClassScreen extends StatelessWidget {
                       SizedBox(
                         height: 22,
                       ),
-                      ClassDropDownListView(_selectedClass),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        child: DropdownButton<Class>(
+                          items: _class
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  child: Text(e.className),
+                                  value: e,
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              widget._selectedClass = value;
+                              print("From Add User Class Screen");
+                              print(widget._selectedClass.className);
+                            });
+                          },
+                          value: widget._selectedClass,
+                        ),
+                      ),
                     ],
                   ),
                 );

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "680391132552",
+    "project_id": "flutter-notifications-94862",
+    "storage_bucket": "flutter-notifications-94862.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680391132552:android:e1e8503eb07d3b201be63d",
+        "android_client_info": {
+          "package_name": "com.example.school_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680391132552-d8nsqlnq582dauech92mdj9tdk456sb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.school_management",
+            "certificate_hash": "5cd5db87be80016adff5f2e8c9c5929447271d86"
+          }
+        },
+        {
+          "client_id": "680391132552-1onqipm9mcl4nlfuh9gvjnpt1m81iugj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCthQccrKwRmvl31k0iB3cWss_5DQmPTwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680391132552-1onqipm9mcl4nlfuh9gvjnpt1m81iugj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
