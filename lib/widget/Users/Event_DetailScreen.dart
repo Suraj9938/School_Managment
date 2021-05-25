@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/event_provider.dart';
 
 class EventDetailScreen extends StatefulWidget {
+  static const routeName = "/event_details";
+
   @override
   _EventDetailScreenState createState() => _EventDetailScreenState();
 }
@@ -184,6 +187,8 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final id = ModalRoute.of(context).settings.arguments as String;
+    final events = Provider.of<EventProvider>(context).findById(id);
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(

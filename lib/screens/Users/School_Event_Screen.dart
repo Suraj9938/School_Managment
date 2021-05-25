@@ -17,7 +17,7 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
     final schoolData =
         Provider.of<SchoolProvider>(context, listen: false).schoolData;
     return Container(
-      height: MediaQuery.of(context).size.height / 2 - 70,
+      height: MediaQuery.of(context).size.height / 2 - 30,
       width: double.infinity,
       child: Stack(
         children: [
@@ -43,7 +43,6 @@ class _SchoolEventScreenState extends State<SchoolEventScreen> {
           ),
           Positioned(
             top: 38,
-            left: 18,
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back,

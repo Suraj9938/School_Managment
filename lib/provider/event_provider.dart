@@ -14,6 +14,10 @@ class EventProvider with ChangeNotifier {
     return [..._events];
   }
 
+  Event findById(String id) {
+    return _events.firstWhere((event) => event.eventId == id);
+  }
+
   Future<https.Response> addEvent(BuildContext context, _events, images) async {
     final resUrl = "http://192.168.0.20:8000/api/addevent/";
     var url = Uri.parse(resUrl);

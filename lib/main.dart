@@ -10,6 +10,7 @@ import 'package:school_management/provider/class_subject_provider.dart';
 import 'package:school_management/provider/event_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
+import 'package:school_management/provider/user_class_provider.dart';
 import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dart';
@@ -31,6 +32,8 @@ import 'package:school_management/screens/Principal/Principal_Profile_Screen.dar
 import 'package:school_management/screens/Student/Library_Books_Screen.dart';
 import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
+import 'package:school_management/screens/Teacher/Add_Assignment_Screen.dart';
+import 'package:school_management/screens/Teacher/Class_Details_Screen.dart';
 import 'package:school_management/screens/Teacher/Teacher_OverViewScreen.dart';
 import 'package:school_management/screens/Teacher/Teacher_Profile_Screen.dart';
 import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
@@ -41,6 +44,7 @@ import 'package:school_management/screens/Users/NotificationView_Screen.dart';
 import 'package:school_management/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 import 'package:school_management/widget/Student/Book_Info_Screen.dart';
+import 'package:school_management/widget/Users/Event_DetailScreen.dart';
 import 'package:school_management/widget/Users/SchoolOverViewScreen.dart';
 
 void main() {
@@ -66,6 +70,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AssignmentProvider()),
         ChangeNotifierProvider(create: (_) => ClassProvider()),
         ChangeNotifierProvider(create: (_) => ClassSubjectProvider()),
+        ChangeNotifierProvider(create: (_) => UserClassProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -112,6 +117,9 @@ class MyApp extends StatelessWidget {
           BookInfoScreen.routeName: (ctx) => BookInfoScreen(),
           AddUserClassScreen.routeName: (ctx) => AddUserClassScreen(),
           NotificationViewScreen.routeName: (ctx) => NotificationViewScreen(),
+          EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
+          AddAssignmentScreen.routeName: (ctx) => AddAssignmentScreen(),
+          ClassDetails.routeName: (ctx) => ClassDetails(),
         },
       ),
     );

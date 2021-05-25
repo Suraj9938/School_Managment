@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/screens/Teacher/Add_Assignment_Screen.dart';
 import 'package:school_management/screens/Teacher/Teacher_Profile_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
@@ -8,7 +9,8 @@ import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
 class TeacherAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final teacherInfo = Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+    final teacherInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
 
     return Drawer(
       child: Column(
@@ -77,7 +79,7 @@ class TeacherAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, AddUserScreen.routeName);
+              Navigator.pushNamed(context, AddAssignmentScreen.routeName);
             },
           ),
           ListTile(
@@ -123,7 +125,7 @@ class TeacherAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, AddAssignmentScreen.routeName);
             },
           ),
           Divider(

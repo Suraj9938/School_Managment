@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:school_management/screens/Teacher/Add_Assignment_Screen.dart';
 
 class TeacherStaggeredView extends StatefulWidget {
   @override
@@ -72,9 +73,10 @@ class _TeacherStaggeredViewState extends State<TeacherStaggeredView> {
         vertical: 14,
       ),
       children: [
-        data(Icons.grading, "Add Attendance", Colors.blue, () {
+        data(Icons.grading, "Add Attendance", Colors.blue, () {}),
+        data(Icons.assignment, "Add Assignment", Colors.purpleAccent, () {
+          Navigator.pushNamed(context, AddAssignmentScreen.routeName);
         }),
-        data(Icons.assignment, "Manage Assignment", Colors.purpleAccent, () {}),
       ],
       staggeredTiles: [
         StaggeredTile.extent(2, 170),

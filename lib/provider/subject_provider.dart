@@ -37,26 +37,26 @@ class SubjectProvider with ChangeNotifier {
       final response = await https.get(
         url,
       );
-      print("Set Fetched Response");
-      print(response.body);
-      print(response.body.length);
+      // print("Set Fetched Response");
+      // print(response.body);
+      // print(response.body.length);
 
       List<dynamic> subjects = List<dynamic>();
       subjects = json.decode(response.body);
-      print("Subject from Subject Provider");
-      print(subjects);
+      // print("Subject from Subject Provider");
+      // print(subjects);
       _subjects.clear();
       for (int i = 0; i < subjects.length; i++) {
         final subjectData = Subject(
           subjectId: subjects[i]['id'].toString(),
           subjectName: subjects[i]['subjectName'],
         );
-        print("Subject Info");
-        print(subjects[i]['id'].toString());
-        print(subjects[i]['subjectName']);
+        // print("Subject Info");
+        // print(subjects[i]['id'].toString());
+        // print(subjects[i]['subjectName']);
         _subjects.add(subjectData);
-        print("_subjects");
-        print(_subjects);
+        // print("_subjects");
+        // print(_subjects);
         notifyListeners();
       }
     } catch (error) {
