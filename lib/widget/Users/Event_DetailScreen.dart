@@ -31,6 +31,9 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   }
 
   Widget _bottomScreen() {
+    final id = ModalRoute.of(context).settings.arguments as String;
+    final events = Provider.of<EventProvider>(context).findById(id);
+
     return Container(
       width: double.infinity,
       child: Padding(
@@ -42,47 +45,15 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Dance Competition",
-                  style: TextStyle(
-                    fontSize: 26,
-                    color: Colors.orange,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "font1",
-                  ),
-                ),
-                Icon(
-                  Icons.favorite_border,
-                  color: Colors.orange,
-                  size: 34,
-                ),
-              ],
+            Text(
+              events.eventName,
+              style: TextStyle(
+                fontSize: 26,
+                color: Colors.orange,
+                fontWeight: FontWeight.bold,
+                fontFamily: "font1",
+              ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.only(left: 10, top: 10),
-            //   child: Container(
-            //     width: MediaQuery.of(context).size.width - 45,
-            //     child: Padding(
-            //       padding: EdgeInsets.only(
-            //         top: 18,
-            //         left: 15,
-            //       ),
-            //       child: Text(
-            //         "Dance Competition is being held in Dance Room. All the interested students are to attend Dance Room in 3rd May.",
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.w600,
-            //           fontSize: 18,
-            //           fontFamily: "font1",
-            //           letterSpacing: 1,
-            //         ),
-            //         textAlign: TextAlign.justify,
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: EdgeInsets.only(
                 top: 20,
@@ -97,30 +68,16 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     child: Container(
                       height: 80,
                       width: 115,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "JANUARY",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.orange,
-                              fontFamily: "font1",
-                              fontSize: 18,
-                            ),
+                      child: Center(
+                        child: Text(
+                          events.eventDate,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.orange,
+                            fontFamily: "font1",
+                            fontSize: 18,
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            "01",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              fontFamily: "font2",
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -131,7 +88,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Sunday",
+                        events.eventDay,
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 21,
@@ -142,7 +99,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         height: 2,
                       ),
                       Text(
-                        "10:00 am - 12:00 pm",
+                        "${events.eventStartTime} - ${events.eventEndTime}",
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           fontSize: 16,
@@ -170,7 +127,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               height: 6,
             ),
             Text(
-              "Eastwood High is organizing a Dance Competition on 15th October, 2021. All interested students are requested to attend Dance Room at 28th September on Dance Room exactly 12pm.",
+              events.eventDescription,
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
@@ -187,8 +144,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final id = ModalRoute.of(context).settings.arguments as String;
-    final events = Provider.of<EventProvider>(context).findById(id);
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(

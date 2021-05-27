@@ -12,11 +12,7 @@ class ManageBillsScreen extends StatefulWidget {
 }
 
 class _ManageBillsScreenState extends State<ManageBillsScreen> {
-  List<Bill> _billsHistory = [
-//    Transaction(title: "Groceries", amount: 50.00, date: DateTime.now()),
-//    Transaction(title: "Watch", amount: 100.00, date: DateTime.now()),
-//    Transaction(title: "Shoes", amount: 120.00, date: DateTime.now()),
-  ];
+  List<Bill> _billsHistory = [];
 
   String title;
   double amount;
@@ -80,12 +76,17 @@ class _ManageBillsScreenState extends State<ManageBillsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(height: 160, child: BillChart(_recentBills)),
-            Container(
-              height: 400,
-              child: BillList(
-                _billsHistory,
-                _deleteBill,
+            //Container(height: 160, child: BillChart(_recentBills)),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Container(
+                height: 400,
+                child: BillList(
+                  _billsHistory,
+                  _deleteBill,
+                ),
               ),
             ),
           ],

@@ -48,7 +48,6 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       Provider.of<ClassSubjectProvider>(context, listen: false)
           .setFetchClassSubjectData()
           .then((value) {
-        print("new");
         _classSubject =
             Provider.of<ClassSubjectProvider>(context, listen: false)
                 .classSubjects;
@@ -72,7 +71,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add New Assignment",
+          "Select a Class",
           style:
               TextStyle(color: Colors.white, fontSize: 22, fontFamily: "font1"),
         ),

@@ -17,8 +17,6 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context).settings.arguments as String;
     final books = Provider.of<BookProvider>(context).findById(id);
-    // final books1 = Provider.of<Books>(context, listen: _listen);
-    // final auth = Provider.of<Auth>(context, listen: false);
 
     return Scaffold(
       body: Stack(

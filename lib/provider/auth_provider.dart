@@ -186,38 +186,54 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<https.Response> deleteUserByID(String id) async {
+    final resUrl = "http://192.168.0.20:8000/api/deleteuser/$id/";
+    var url = Uri.parse(resUrl);
+    final response = await https.delete(url);
+    return response;
+  }
+
   Future<https.Response> updateUserInfo(
       String id, _editedUserData, images) async {
-    final userId = _users.indexWhere((user) => user.userId == id);
+    ///final userId = _users.indexWhere((user) => user.userId == id);
     final resUrl = "http://192.168.0.20:8000/api/updateuser/$id/";
     var url = Uri.parse(resUrl);
-    var request = https.MultipartRequest('PATCH', url);
 
     try {
-      if (userId >= 0) {
-        request.files.add(
-            https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
+      final request = https.MultipartRequest('PUT', url);
+      /* request.files.remove(true);
+      //request
+      final a = request.files.add(
+          https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));*/
+      //request.
+      //if (images != null) request.fields['image'] = images.toString();
+      request.fields['name'] = _editedUserData.name;
+      request.fields['address'] = _editedUserData.address;
+      request.fields['gender'] = _editedUserData.gender;
+      request.fields['age'] = _editedUserData.age;
+      request.fields['mobileNo'] = _editedUserData.mobileNo;
+      request.fields['email'] = _editedUserData.email;
+      request.fields['password'] = _editedUserData.password;
+      request.fields['teacher'] = _editedUserData.isTeacher.toString();
+      request.fields['librarian'] = _editedUserData.isLibrarian.toString();
+      request.fields['student'] = _editedUserData.isStudent.toString();
+      request.fields['parent'] = _editedUserData.isParent.toString();
+      request.fields['admin'] = _editedUserData.isAdmin.toString();
 
-        request.fields['name'] = _editedUserData['name'];
-        request.fields['address'] = _editedUserData['address'];
-        request.fields['gender'] = _editedUserData['gender'];
-        request.fields['age'] = _editedUserData['age'];
-        request.fields['mobileNo'] = _editedUserData['mobileNo'];
-        request.fields['email'] = _editedUserData['email'];
-        request.fields['password'] = _editedUserData['password'];
-        request.fields['teacher'] = _editedUserData['isTeacher'].toString();
-        request.fields['librarian'] = _editedUserData['isLibrarian'].toString();
-        request.fields['student'] = _editedUserData['isStudent'].toString();
-        request.fields['parent'] = _editedUserData['isParent'].toString();
-        request.fields['admin'] = _editedUserData['isAdmin'].toString();
-
-        https.Response response = await https.Response.fromStream(
-          await request.send(),
-        );
-        return response;
-      }
+      https.Response response = await https.Response.fromStream(
+        await request.send(),
+      );
+      print(
+          "-----------------------------------------------------update user01");
+      print(response.body);
+      print("----------------------------");
+      return response;
     } catch (error) {
-      return null;
+      print("----------------------update errir");
+      print(error);
+      throw error;
+      print("-----------------------------------");
+      //return null;
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/event_provider.dart';
+import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
 class AddEventScreen extends StatefulWidget {
   static const routeName = 'AddEventScreen';
@@ -103,7 +104,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       final response = await Provider.of<EventProvider>(context, listen: false)
           .addEvent(context, _events, images);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        showDialog(
+        return showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
                   title: Text('Success'),
@@ -116,14 +117,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       },
                     )
                   ],
-                ));
+                )).then((value) => Navigator.of(context)
+            .pushReplacementNamed(PrincipalOverViewScreen.routeName));
       } else if (response.statusCode >= 300 && response.statusCode < 400 ||
           response.statusCode == 500) {
-        showDialog(
+        return showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
                   title: Text('An Error Occurred!'),
-                  content: Text("Something went wrong."),
+                  content: Text("Event addition failed."),
                   actions: <Widget>[
                     FlatButton(
                       child: Text('Okay'),
@@ -132,9 +134,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       },
                     )
                   ],
-                ));
+                )).then((value) => Navigator.of(context)
+            .pushReplacementNamed(PrincipalOverViewScreen.routeName));
       } else if (response.statusCode == 400 && response.statusCode < 500) {
-        showDialog(
+        return showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
                   title: Text('An Error Occurred'),
@@ -147,7 +150,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       },
                     )
                   ],
-                ));
+                )).then((value) => Navigator.of(context)
+            .pushReplacementNamed(PrincipalOverViewScreen.routeName));
       }
     } catch (error) {
       throw (error);

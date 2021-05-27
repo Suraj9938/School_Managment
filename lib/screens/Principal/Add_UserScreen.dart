@@ -27,6 +27,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   final _form = GlobalKey<FormState>();
   bool _isLoading = false;
   Uint8List images;
+  File _pickedImages;
   bool _isInit = true;
   String displayImage = "";
   var _userData = {};
@@ -220,11 +221,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
       _isLoading = true;
     });
     if (_editedUserData.userId != null) {
+      print("--------------------------user update ko lagi ma call vaeraxyu");
       try {
         final response = await Provider.of<AuthProvider>(context, listen: false)
-            .updateUserInfo(_editedUserData.userId, _editedUserData, images);
-        print("Response");
-        print(response.statusCode);
+            .updateUserInfo(_editedUserData.userId, _editedUserData, userImage);
+        print("---------------------------update user Response");
+        print(response);
+        //print(response.body);
+        print("------------------------------------------");
         if (response.statusCode == 200 || response.statusCode == 201) {
           await showDialog(
             context: context,
