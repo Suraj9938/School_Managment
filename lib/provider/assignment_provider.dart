@@ -52,6 +52,7 @@ class AssignmentProvider with ChangeNotifier {
   Future<https.Response> setFetchedAssignmentData() async {
     final resUrl = "http://192.168.0.20:8000/api/viewassignment/";
     var url = Uri.parse(resUrl);
+    List<Assignment> assignmentList = [];
 
     try {
       final response = await https.get(
@@ -59,22 +60,19 @@ class AssignmentProvider with ChangeNotifier {
       );
       print("Set Fetched Response");
       print(response.body);
+      List assignments = json.decode(response.body);
 
-      List<dynamic> assignment = List<dynamic>();
-      assignment = json.decode(response.body);
-      print("Assignment from Assignment Provider:");
-      print(assignment);
-      print("assignment length");
-      print(assignment.length);
-
-      for (int i = 0; i < assignment.length; i++) {
-        final assignmentInfo = Assignment(
-          assignmentId: assignment[i]['id'].toString(),
-          task: assignment[i]['assignmentTask'],
-          image: assignment[i]['image'].toString(),
-          deadline: assignment[i]['deadline'].toString(),
+      for (int i = 0; i < assignments.length; i++) {
+        var assignmentRes = assignments[i];
+        assignmentList.add(
+          new Assignment(
+            assignmentId: assignmentRes['id'].toString(),
+            task: assignmentRes['assignmentTask'],
+            deadline: assignmentRes['deadline'],
+            image: assignmentRes['image'].toString(),
+          ),
         );
-        _assignments.add(assignmentInfo);
+        _assignments = assignmentList;
         notifyListeners();
       }
     } catch (error) {

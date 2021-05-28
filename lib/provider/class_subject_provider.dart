@@ -55,7 +55,7 @@ class ClassSubjectProvider with ChangeNotifier {
         Class classs = new Class(
             classId: cs['classes']['id'].toString(),
             className: cs['classes']['className']);
-        var classId = cs['classes']['id'].toString();
+        //var classId = cs['classes']['id'].toString();
         Subject subject = new Subject(
             subjectId: cs['subject']['id'].toString(),
             subjectName: cs['subject']['subjectName']);

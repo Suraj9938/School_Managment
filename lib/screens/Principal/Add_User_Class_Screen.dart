@@ -56,7 +56,7 @@ class _AddUserClassScreenState extends State<AddUserClassScreen> {
         _users = Provider.of<AuthProvider>(context, listen: false).users;
 
         _users.forEach((element) {
-          if (element.isStudent || element.isTeacher || element.isParent) {
+          if (element.isStudent || element.isParent) {
             _user.add(element);
           }
         });

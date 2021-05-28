@@ -19,7 +19,7 @@ class EventDetails extends StatelessWidget {
             children: [
               ClipRRect(
                 child: Image.asset(
-                  "assets/images/event.png",
+                  loadedEvents.eventImage,
                   height: 110,
                   width: 80,
                   fit: BoxFit.cover,

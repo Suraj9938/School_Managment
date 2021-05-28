@@ -25,6 +25,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
   var _schoolEndTime;
   Uint8List images;
   bool _isInit = true;
+  String displayImage = "";
   final _startTimeController = TextEditingController();
   final _endTimeController = TextEditingController();
   final _imageController = TextEditingController();
@@ -189,6 +190,7 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
         'startTime': _editedSchoolData.startTime,
         'endTime': _editedSchoolData.endTime,
       };
+      displayImage = _editedSchoolData.schoolImage.toString();
     }
     _schoolStartTime = _editedSchoolData.startTime;
     _schoolEndTime = _editedSchoolData.endTime;
@@ -337,37 +339,41 @@ class _EditSchoolScreenState extends State<EditSchoolScreen> {
                                     MediaQuery.of(context).size.width / 2 - 40,
                                 color: Colors.blueGrey[200],
                                 child: RaisedButton(
-                                  child: images == null
-                                      ? Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.camera,
-                                              color: Colors.orange,
-                                              size: 24,
-                                            ),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            Text(
-                                              "Choose an Image",
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: "font2",
-                                                color: Colors.orange,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
+                                  child: _editedSchoolData.schoolId != null
+                                      ? Image.network(
+                                          displayImage,
                                         )
-                                      : Image.file(
-                                          schoolImage,
-                                          fit: BoxFit.contain,
-                                          width: double.infinity,
-                                        ),
+                                      : images == null && schoolImage == null
+                                          ? Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.camera,
+                                                  color: Colors.orange,
+                                                  size: 24,
+                                                ),
+                                                SizedBox(
+                                                  height: 3,
+                                                ),
+                                                Text(
+                                                  "Choose an Image",
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontFamily: "font2",
+                                                    color: Colors.orange,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ],
+                                            )
+                                          : Image.file(
+                                              schoolImage,
+                                              fit: BoxFit.contain,
+                                              width: double.infinity,
+                                            ),
                                   onPressed: () {
                                     _getImage(ImageSource.gallery);
                                   },

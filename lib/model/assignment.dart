@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:school_management/model/auth.dart';
+import 'package:school_management/model/class.dart';
+import 'package:school_management/model/subject.dart';
 
-class Assignment with ChangeNotifier{
-  final String assignmentId;
-  final String task;
-  final String image;
-  final String deadline;
+class Assignment with ChangeNotifier {
+  String assignmentId, task, image, deadline;
 
   Assignment({
     this.assignmentId,
@@ -12,4 +12,13 @@ class Assignment with ChangeNotifier{
     this.image,
     this.deadline,
   });
+}
+
+class UserAssignment with ChangeNotifier {
+  Assignment assignment;
+  Auth user;
+  Class classs;
+  Subject subject;
+
+  UserAssignment({this.user, this.classs, this.assignment, this.subject});
 }

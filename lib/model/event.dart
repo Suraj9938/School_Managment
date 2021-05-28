@@ -8,6 +8,7 @@ class Event with ChangeNotifier {
   String eventStartTime;
   String eventEndTime;
   String eventDescription;
+  String eventImage;
 
   Event({
     this.eventId,
@@ -17,5 +18,6 @@ class Event with ChangeNotifier {
     this.eventStartTime,
     this.eventEndTime,
     this.eventDescription,
+    this.eventImage,
   });
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class Class with ChangeNotifier{
-  final String classId;
-  final String className;
+class Class with ChangeNotifier {
+  String classId, className;
 
   Class({
     this.classId,

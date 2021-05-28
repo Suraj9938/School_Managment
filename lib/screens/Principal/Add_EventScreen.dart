@@ -102,7 +102,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     });
     try {
       final response = await Provider.of<EventProvider>(context, listen: false)
-          .addEvent(context, _events, images);
+          .addEvent(_events, images);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return showDialog(
             context: context,
