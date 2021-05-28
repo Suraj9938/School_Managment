@@ -8,10 +8,6 @@ import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/user_assignment_provider.dart';
 import 'package:school_management/screens/Users/Assignment_Container.dart';
 
-enum AssignmentStatus { Assigned, Completed }
-
-AssignmentStatus _assignmentStatus = AssignmentStatus.Assigned;
-
 class AssignmentViewScreen extends StatefulWidget {
   static const routeName = "/assignment_view";
 

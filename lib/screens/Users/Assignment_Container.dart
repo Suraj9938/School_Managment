@@ -50,11 +50,28 @@ class _AssignmentContainerState extends State<AssignmentContainer> {
                       height: 20,
                     ),
                     Text(
-                      "Assignment: ${e.assignment.task}",
+                      "Task :",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w400,
                         fontFamily: "font1",
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 80,
+                      child: ReadMoreText(
+                        e.assignment.task,
+                        style: TextStyle(
+                          fontFamily: "font2",
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        textAlign: TextAlign.justify,
+                        colorClickableText: Colors.orange,
+                        trimExpandedText: "See More",
+                        trimCollapsedText: "See Less",
+                        trimLines: 1,
+                        trimMode: TrimMode.Line,
                       ),
                     ),
                     SizedBox(

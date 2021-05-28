@@ -18,7 +18,7 @@ class EventDetails extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-                child: Image.asset(
+                child: Image.network(
                   loadedEvents.eventImage,
                   height: 110,
                   width: 80,

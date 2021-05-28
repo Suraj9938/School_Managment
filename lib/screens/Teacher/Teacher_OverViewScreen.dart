@@ -9,7 +9,7 @@ class TeacherOverviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Home",
+          "Teacher Overview",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,

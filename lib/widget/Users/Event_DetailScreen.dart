@@ -12,13 +12,16 @@ class EventDetailScreen extends StatefulWidget {
 
 class _EventDetailScreenState extends State<EventDetailScreen> {
   Widget _topScreen() {
+    final id = ModalRoute.of(context).settings.arguments as String;
+    final events = Provider.of<EventProvider>(context).findById(id);
+
     return Container(
       height: MediaQuery.of(context).size.height / 2.2,
       width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(
-            "assets/images/event.png",
+          image: NetworkImage(
+            events.eventImage,
           ),
           fit: BoxFit.cover,
         ),

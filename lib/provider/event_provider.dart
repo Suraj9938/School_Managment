@@ -21,8 +21,8 @@ class EventProvider with ChangeNotifier {
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
 
-    request.files.add(
-        https.MultipartFile.fromBytes('image', images, filename: 'event.png'));
+    request.files.add(https.MultipartFile.fromBytes('eventImage', images,
+        filename: 'event.png'));
 
     request.fields['eventName'] = _events['eventName'];
     request.fields['eventDate'] = _events['eventDate'];
