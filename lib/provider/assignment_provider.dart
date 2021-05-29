@@ -49,34 +49,34 @@ class AssignmentProvider with ChangeNotifier {
     }
   }
 
-  Future<https.Response> setFetchedAssignmentData() async {
-    final resUrl = "http://192.168.0.20:8000/api/viewassignment/";
-    var url = Uri.parse(resUrl);
-    List<Assignment> assignmentList = [];
-
-    try {
-      final response = await https.get(
-        url,
-      );
-      print("Set Fetched Response");
-      print(response.body);
-      List assignments = json.decode(response.body);
-
-      for (int i = 0; i < assignments.length; i++) {
-        var assignmentRes = assignments[i];
-        assignmentList.add(
-          new Assignment(
-            assignmentId: assignmentRes['id'].toString(),
-            task: assignmentRes['assignmentTask'],
-            deadline: assignmentRes['deadline'],
-            image: assignmentRes['image'].toString(),
-          ),
-        );
-        _assignments = assignmentList;
-        notifyListeners();
-      }
-    } catch (error) {
-      throw (error);
-    }
-  }
+  // Future<https.Response> setFetchedAssignmentData() async {
+  //   final resUrl = "http://192.168.0.20:8000/api/viewassignment/";
+  //   var url = Uri.parse(resUrl);
+  //   List<Assignment> assignmentList = [];
+  //
+  //   try {
+  //     final response = await https.get(
+  //       url,
+  //     );
+  //     print("Set Fetched Response");
+  //     print(response.body);
+  //     List assignments = json.decode(response.body);
+  //
+  //     for (int i = 0; i < assignments.length; i++) {
+  //       var assignmentRes = assignments[i];
+  //       assignmentList.add(
+  //         new Assignment(
+  //           assignmentId: assignmentRes['id'].toString(),
+  //           task: assignmentRes['assignmentTask'],
+  //           deadline: assignmentRes['deadline'],
+  //           image: assignmentRes['image'].toString(),
+  //         ),
+  //       );
+  //       _assignments = assignmentList;
+  //       notifyListeners();
+  //     }
+  //   } catch (error) {
+  //     throw (error);
+  //   }
+  // }
 }

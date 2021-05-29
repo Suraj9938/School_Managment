@@ -46,6 +46,8 @@ import 'package:school_management/screens/Users/Calendar_Screen.dart';
 import 'package:school_management/screens/Users/NotificationView_Screen.dart';
 import 'package:school_management/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
+import 'package:school_management/screens/Users/View_School_Info_Screen.dart';
+import 'package:school_management/screens/Users/Work_In_Progress.dart';
 import 'package:school_management/widget/Student/Book_Info_Screen.dart';
 import 'package:school_management/widget/Users/Event_DetailScreen.dart';
 import 'package:school_management/widget/Users/SchoolOverViewScreen.dart';
@@ -128,6 +130,8 @@ class MyApp extends StatelessWidget {
           AddAssignmentScreen.routeName: (ctx) => AddAssignmentScreen(),
           ClassDetails.routeName: (ctx) => ClassDetails(),
           AddNewAssignment.routeName: (ctx) => AddNewAssignment(),
+          ViewSchoolInfoScreen.routeName: (ctx) => ViewSchoolInfoScreen(),
+          WorkInProgressScreen.routeName: (ctx) => WorkInProgressScreen(),
         },
       ),
     );

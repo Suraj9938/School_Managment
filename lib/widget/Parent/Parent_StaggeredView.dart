@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:school_management/screens/Parent/ManageBills_Screen.dart';
 import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
+import 'package:school_management/screens/Users/View_School_Info_Screen.dart';
 
 class ParentStaggeredView extends StatefulWidget {
   @override
@@ -88,7 +89,9 @@ class _ParentStaggeredViewState extends State<ParentStaggeredView> {
             () {
           Navigator.of(context).pushNamed(ManageBillsScreen.routeName);
         }),
-        data(Icons.calendar_today, "View Routine", Colors.red, () {}),
+        data(Icons.school, "View School Info", Colors.red, () {
+          Navigator.of(context).pushNamed(ViewSchoolInfoScreen.routeName);
+        }),
       ],
       staggeredTiles: [
         StaggeredTile.extent(2, 160),

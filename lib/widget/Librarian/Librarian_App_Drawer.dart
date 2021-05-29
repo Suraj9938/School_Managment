@@ -6,6 +6,7 @@ import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.da
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_Profile_Screen.dart';
 import 'package:school_management/screens/Librarian/ManageBook_Screen.dart';
+import 'package:school_management/screens/Users/View_School_Info_Screen.dart';
 
 class LibrarianAppDrawer extends StatelessWidget {
   @override
@@ -109,6 +110,30 @@ class LibrarianAppDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pushNamed(context, ManageBookScreen.routeName);
+            },
+          ),
+          Divider(
+            thickness: 5,
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(
+              Icons.school,
+              size: 24,
+              color: Colors.black54,
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text(
+                "School Info",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, ViewSchoolInfoScreen.routeName);
             },
           ),
           Divider(

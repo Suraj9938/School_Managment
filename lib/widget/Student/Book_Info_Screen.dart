@@ -1,22 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management/model/auth.dart';
+import 'package:school_management/model/book.dart';
+import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/book_provider.dart';
 import 'package:school_management/screens/Student/Library_Books_Screen.dart';
 
 class BookInfoScreen extends StatefulWidget {
   static const routeName = "/book_info";
 
+  Auth _currentUser;
+  Book _selectedBook;
+
   @override
   _BookInfoScreenState createState() => _BookInfoScreenState();
 }
 
 class _BookInfoScreenState extends State<BookInfoScreen> {
-  bool _listen = false;
+  Auth _user;
+  String bookId;
+  bool _isInit = false;
+  bool _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (!_isInit) {
+      setState(() {
+        _isLoading = false;
+      });
+      Provider.of<AuthProvider>(context, listen: false)
+          .setFetchedUsersData()
+          .then((value) {
+        _user = Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+        widget._currentUser = _user;
+        print("User Id");
+        print(widget._currentUser.userId);
+        setState(() {
+          _isLoading = false;
+        });
+      });
+      Provider.of<BookProvider>(context, listen: false)
+          .setFetchedBooksData()
+          .then((value) {
+        print("bookId");
+        print(bookId);
+        //widget._selectedBook = bookId as Book;
+        //print("Book Id");
+        //print(widget._selectedBook.bookId);
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final id = ModalRoute.of(context).settings.arguments as String;
+    final id = ModalRoute.of(context).settings.arguments;
     final books = Provider.of<BookProvider>(context).findById(id);
+    bookId = id;
+    print("bookId");
+    print(bookId);
 
     return Scaffold(
       body: Stack(

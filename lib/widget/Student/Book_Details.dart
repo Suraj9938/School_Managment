@@ -3,7 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:school_management/model/book.dart';
 import 'package:school_management/widget/Student/Book_Info_Screen.dart';
 
-class BookDetails extends StatelessWidget {
+class BookDetails extends StatefulWidget {
+  @override
+  _BookDetailsState createState() => _BookDetailsState();
+}
+
+class _BookDetailsState extends State<BookDetails> {
   @override
   Widget build(BuildContext context) {
     final loadedBooks = Provider.of<Book>(context, listen: false);

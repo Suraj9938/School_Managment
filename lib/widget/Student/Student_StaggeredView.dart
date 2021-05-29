@@ -4,6 +4,7 @@ import 'package:school_management/screens/Student/Library_Books_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
+import 'package:school_management/screens/Users/View_School_Info_Screen.dart';
 
 class StudentStaggeredView extends StatefulWidget {
   @override
@@ -85,8 +86,9 @@ class _StudentStaggeredViewState extends State<StudentStaggeredView> {
         data(Icons.book_online, "Library Books", Colors.purpleAccent, () {
           Navigator.of(context).pushNamed(LibraryBooksScreen.routeName);
         }),
-        data(Icons.calendar_today_outlined, "View Calendar", Colors.red,
-                () {}),
+        data(Icons.school, "View School Info", Colors.red, () {
+          Navigator.of(context).pushNamed(ViewSchoolInfoScreen.routeName);
+        }),
       ],
       staggeredTiles: [
         StaggeredTile.extent(2, 160),

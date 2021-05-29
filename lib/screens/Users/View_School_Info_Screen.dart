@@ -1,25 +1,19 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/school_provider.dart';
-import 'package:school_management/screens/Principal/Edit_School_Screen.dart';
 
 enum SchoolTabs { AboutSchool, Description }
 
 SchoolTabs _schoolTabs = SchoolTabs.AboutSchool;
 
-class ManageSchoolScreen extends StatefulWidget {
-  static const routeName = 'ManageSchoolScreen';
+class ViewSchoolInfoScreen extends StatefulWidget {
+  static const routeName = "/view_school_info";
 
   @override
-  _ManageSchoolScreenState createState() => _ManageSchoolScreenState();
+  _ViewSchoolInfoScreenState createState() => _ViewSchoolInfoScreenState();
 }
 
-class _ManageSchoolScreenState extends State<ManageSchoolScreen> {
-  @override
+class _ViewSchoolInfoScreenState extends State<ViewSchoolInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,17 +26,6 @@ class _ManageSchoolScreenState extends State<ManageSchoolScreen> {
             color: Colors.white,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, EditSchoolScreen.routeName);
-            },
-          ),
-        ],
         iconTheme: IconThemeData(
           color: Colors.white,
         ),

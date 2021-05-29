@@ -5,6 +5,7 @@ import 'package:school_management/screens/Teacher/Add_Assignment_Screen.dart';
 import 'package:school_management/screens/Teacher/Teacher_Profile_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
+import 'package:school_management/screens/Users/Work_In_Progress.dart';
 
 class TeacherAppDrawer extends StatelessWidget {
   @override
@@ -79,7 +80,7 @@ class TeacherAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, AddAssignmentScreen.routeName);
+              Navigator.pushNamed(context, WorkInProgressScreen.routeName);
             },
           ),
           ListTile(

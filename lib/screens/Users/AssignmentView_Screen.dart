@@ -63,11 +63,7 @@ class _AssignmentViewScreenState extends State<AssignmentViewScreen> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : Stack(
-              children: [
-                AssignmentContainer(),
-              ],
-            ),
+          : AssignmentContainer(),
     );
   }
 }

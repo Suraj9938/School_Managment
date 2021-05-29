@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:school_management/screens/Teacher/Add_Assignment_Screen.dart';
+import 'package:school_management/screens/Users/View_School_Info_Screen.dart';
+import 'package:school_management/screens/Users/Work_In_Progress.dart';
 
 class TeacherStaggeredView extends StatefulWidget {
   @override
@@ -25,6 +27,7 @@ class _TeacherStaggeredViewState extends State<TeacherStaggeredView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       padding: EdgeInsets.all(8),
@@ -73,14 +76,20 @@ class _TeacherStaggeredViewState extends State<TeacherStaggeredView> {
         vertical: 14,
       ),
       children: [
-        data(Icons.grading, "Add Attendance", Colors.blue, () {}),
+        data(Icons.grading, "Add Attendance", Colors.blue, () {
+          Navigator.pushNamed(context, WorkInProgressScreen.routeName);
+        }),
+        data(Icons.school, "View School Info", Colors.green, () {
+          Navigator.pushNamed(context, ViewSchoolInfoScreen.routeName);
+        }),
         data(Icons.assignment, "Add Assignment", Colors.purpleAccent, () {
           Navigator.pushNamed(context, AddAssignmentScreen.routeName);
         }),
       ],
       staggeredTiles: [
-        StaggeredTile.extent(2, 170),
-        StaggeredTile.extent(2, 170),
+        StaggeredTile.extent(1, 170),
+        StaggeredTile.extent(1, 352),
+        StaggeredTile.extent(1, 170),
       ],
     );
   }

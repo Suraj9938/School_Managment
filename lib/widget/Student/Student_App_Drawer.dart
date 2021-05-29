@@ -4,12 +4,15 @@ import 'package:school_management/provider/auth_provider.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
+import 'package:school_management/screens/Users/AssignmentView_Screen.dart';
 import 'package:school_management/screens/Users/View_Attendance_Screen.dart';
+import 'package:school_management/screens/Users/View_School_Info_Screen.dart';
 
 class StudentAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final studentInfo = Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
+    final studentInfo =
+        Provider.of<AuthProvider>(context, listen: false).LoggedInUser;
 
     return Drawer(
       child: Column(
@@ -40,28 +43,8 @@ class StudentAppDrawer extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(
-              left: 15,
-              top: 4,
-            ),
-            child: Text(
-              "Assignments",
-              style: TextStyle(
-                fontFamily: "font2",
-                fontSize: 21,
-                fontWeight: FontWeight.w600,
-                color: Colors.orange,
-              ),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          SizedBox(
-            height: 4,
-          ),
           ListTile(
             dense: true,
-            contentPadding: EdgeInsets.only(left: 24),
             leading: Icon(
               Icons.assignment,
               size: 24,
@@ -70,7 +53,7 @@ class StudentAppDrawer extends StatelessWidget {
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "Pending Assignments",
+                "Check Assignments",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
@@ -78,29 +61,7 @@ class StudentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
-            },
-          ),
-          ListTile(
-            dense: true,
-            contentPadding: EdgeInsets.only(left: 24),
-            leading: Icon(
-              Icons.rate_review,
-              size: 24,
-              color: Colors.black54,
-            ),
-            title: Transform(
-              transform: Matrix4.translationValues(-16, 0.0, 0.0),
-              child: Text(
-                "Completed Assignments",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black54,
-                ),
-              ),
-            ),
-            onTap: () {
-              //Navigator.pushNamed(context, OrderScreen.routeName);
+              Navigator.pushNamed(context, AssignmentViewScreen.routeName);
             },
           ),
           Divider(
@@ -157,14 +118,14 @@ class StudentAppDrawer extends StatelessWidget {
           ListTile(
             dense: true,
             leading: Icon(
-              Icons.date_range,
+              Icons.school,
               size: 24,
               color: Colors.black54,
             ),
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "Check Routine",
+                "School Info",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
@@ -172,7 +133,7 @@ class StudentAppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //Navigator.pushNamed(context, LibraryOverView.routeName);
+              Navigator.pushNamed(context, ViewSchoolInfoScreen.routeName);
             },
           ),
           Divider(
