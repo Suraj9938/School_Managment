@@ -12,6 +12,7 @@ import 'package:school_management/provider/event_provider.dart';
 import 'package:school_management/provider/school_provider.dart';
 import 'package:school_management/provider/subject_provider.dart';
 import 'package:school_management/provider/user_assignment_provider.dart';
+import 'package:school_management/provider/user_book_provider.dart';
 import 'package:school_management/provider/user_class_provider.dart';
 import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 import 'package:school_management/screens/Librarian/Librarian_OverView_Screen.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ClassSubjectProvider()),
         ChangeNotifierProvider(create: (_) => UserClassProvider()),
         ChangeNotifierProvider(create: (_) => UserAssignmentProvider()),
+        ChangeNotifierProvider(create: (_) => UserBookProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

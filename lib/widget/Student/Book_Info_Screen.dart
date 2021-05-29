@@ -46,9 +46,9 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
           .then((value) {
         print("bookId");
         print(bookId);
-        //widget._selectedBook = bookId as Book;
-        //print("Book Id");
-        //print(widget._selectedBook.bookId);
+        widget._selectedBook = bookId as Book;
+        print("Book Id");
+        print(widget._selectedBook.bookId);
         setState(() {
           _isLoading = false;
         });

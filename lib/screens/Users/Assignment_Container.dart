@@ -35,6 +35,7 @@ class _AssignmentContainerState extends State<AssignmentContainer> {
       child: SingleChildScrollView(
         child: Column(
           children: _userAssignment.map((e) {
+            print(e.subject.subjectName);
             return ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: Container(

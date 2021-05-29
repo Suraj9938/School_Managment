@@ -1,13 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as https;
 import 'package:school_management/model/auth.dart';
 import 'package:school_management/model/book.dart';
 
 class UserBookProvider with ChangeNotifier {
-  List<Book> _books = [];
+  List<UserBook> _userBooks = [];
 
-  List<Book> get books {
-    return [..._books];
+  List<UserBook> get UserBooks {
+    return [..._userBooks];
   }
 
   Future<https.Response> addUserBook(
@@ -25,5 +27,36 @@ class UserBookProvider with ChangeNotifier {
     print(userBookInfo);
 
     return userBook;
+  }
+
+  Future<void> setFetchUserBook(Auth user) async {
+    String url = "http://192.168.0.20:8000/api/viewuserbook/";
+    Book books = new Book();
+
+    List<UserBook> userBooking = [];
+
+    try {
+      final response = await https.get(url);
+
+      List userBook = json.decode(response.body);
+      userBook.forEach((element) {
+        if (element['user']['id'].toString() == user.userId) {
+          books.bookId = element['books']['id'].toString();
+          books.bookName = element['books']['bookName'];
+          books.ratingNo = element['books']['ratingNo'];
+
+          userBooking.add(
+            new UserBook(
+              user: user,
+              books: books,
+            ),
+          );
+        }
+        _userBooks = userBooking;
+        notifyListeners();
+      });
+    } catch (error) {
+      throw (error);
+    }
   }
 }

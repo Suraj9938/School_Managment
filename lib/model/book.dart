@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:school_management/model/auth.dart';
 
 class Book with ChangeNotifier {
-  final String bookId;
-  final String bookName;
-  final String bookType;
-  final String bookImage;
-  final String publisher;
-  final String publishYear;
-  final String ratingNo;
-  final String userRating;
-  final String bookDescription;
+  String bookId,
+      bookName,
+      bookType,
+      bookImage,
+      publisher,
+      publishYear,
+      ratingNo,
+      userRating,
+      bookDescription;
 
   Book({
     this.bookId,
@@ -22,4 +23,11 @@ class Book with ChangeNotifier {
     this.userRating,
     this.bookDescription,
   });
+}
+
+class UserBook with ChangeNotifier {
+  Auth user;
+  Book books;
+
+  UserBook({this.user, this.books});
 }
