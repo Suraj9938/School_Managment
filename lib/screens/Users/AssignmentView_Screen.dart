@@ -63,7 +63,20 @@ class _AssignmentViewScreenState extends State<AssignmentViewScreen> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : AssignmentContainer(),
+          : Consumer<UserAssignmentProvider>(
+              builder: (ctx, userAssignment, _) {
+                return ListView.builder(
+                  itemBuilder: (ctx, index) => AssignmentContainer(
+                    userAssignment.userAssignments[index].subject.subjectName,
+                    userAssignment.userAssignments[index].classs.className,
+                    userAssignment.userAssignments[index].assignment.task,
+                    userAssignment.userAssignments[index].assignment.image,
+                    userAssignment.userAssignments[index].assignment.deadline,
+                  ),
+                  itemCount: userAssignment.userAssignments.length,
+                );
+              },
+            ),
     );
   }
 }

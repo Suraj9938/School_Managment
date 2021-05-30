@@ -10,7 +10,7 @@ import 'package:school_management/model/subject.dart';
 class UserAssignmentProvider with ChangeNotifier {
   List<UserAssignment> _userAssignments = [];
 
-  List<UserAssignment> get UserAssignments {
+  List<UserAssignment> get userAssignments {
     return [..._userAssignments];
   }
 
@@ -19,8 +19,7 @@ class UserAssignmentProvider with ChangeNotifier {
     final classURL = Uri.parse(baseUrl + "viewuserclass/");
     final assignmentURL = Uri.parse(baseUrl + "viewclasssubjectassignment/");
     Class classs = new Class();
-    Assignment assignment = new Assignment();
-    Subject subject = new Subject();
+
     List<UserAssignment> uAssign = [];
     try {
       final classResponse = await https.get(classURL);
@@ -36,7 +35,10 @@ class UserAssignmentProvider with ChangeNotifier {
 
       List assignments = json.decode(assignmentResponse.body);
       assignments.forEach((a) {
+        Assignment assignment = new Assignment();
+        Subject subject = new Subject();
         if (a['classes']['id'].toString() == classs.classId) {
+          print(a['assignments']['assignmentTask'].toString());
           assignment.assignmentId = a['assignments']['id'].toString();
           assignment.task = a['assignments']['assignmentTask'].toString();
           assignment.image = a['assignments']['image'];
@@ -45,6 +47,10 @@ class UserAssignmentProvider with ChangeNotifier {
           subject.subjectId = a['subjects']['id'].toString();
           subject.subjectName = a['subjects']['subjectName'];
 
+          // print("subject.subjectId");
+          // print(classs.classId);
+          // print(subject.subjectId);
+          // print(assignment.assignmentId);
           uAssign.add(
             new UserAssignment(
               user: user,
@@ -54,9 +60,15 @@ class UserAssignmentProvider with ChangeNotifier {
             ),
           );
         }
-        _userAssignments = uAssign;
-        notifyListeners();
       });
+      _userAssignments = uAssign;
+      // for (int i = 0; i < uAssign.length; i++) {
+      //   print("U Assign Info");
+      //   print(uAssign[i].classs.className);
+      //   print(uAssign[i].subject.subjectName);
+      //   print(uAssign[i].assignment.task);
+      // }
+      notifyListeners();
     } catch (e) {
       return null;
     }
