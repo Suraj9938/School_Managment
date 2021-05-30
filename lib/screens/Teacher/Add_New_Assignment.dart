@@ -14,7 +14,6 @@ import 'package:school_management/screens/Teacher/Class_Details_Screen.dart';
 
 class AddNewAssignment extends StatefulWidget {
   static const routeName = "/add_new_assignment";
-  String _currentClassId;
 
   @override
   _AddNewAssignmentState createState() => _AddNewAssignmentState();

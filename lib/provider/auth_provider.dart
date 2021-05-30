@@ -63,17 +63,6 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<String> checkUserExist({@required String email}) async {
-    await setFetchedUsersData();
-    final val = _users.where(
-      (user) => user.email.toLowerCase() == email.toLowerCase(),
-    );
-    if (val != null) {
-      return "User Already Exists";
-    }
-    return "User Does Not Exist";
-  }
-
   Future<https.Response> signup(
       BuildContext context, _userData, Uint8List images) async {
     final baseUrl = "http://192.168.0.20:8000/api/";
@@ -186,13 +175,6 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<https.Response> deleteUserByID(String id) async {
-    final resUrl = "http://192.168.0.20:8000/api/deleteuser/$id/";
-    var url = Uri.parse(resUrl);
-    final response = await https.delete(url);
-    return response;
-  }
-
   Future<https.Response> updateUserInfo(
       String id, _editedUserData, images) async {
     ///final userId = _users.indexWhere((user) => user.userId == id);
@@ -237,6 +219,13 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<https.Response> deleteUserByID(String userId) async {
+    final resUrl = "http://192.168.0.20:8000/api/deleteuser/$userId/";
+    var url = Uri.parse(resUrl);
+    https.Response response = await https.delete(url);
+
+    return response;
+  }
 //   try {
 //     if (userId >= 0) {
 //       print("----------------i was called here");

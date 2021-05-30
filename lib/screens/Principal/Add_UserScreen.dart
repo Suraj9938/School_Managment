@@ -221,14 +221,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
       _isLoading = true;
     });
     if (_editedUserData.userId != null) {
-      print("--------------------------user update ko lagi ma call vaeraxyu");
       try {
         final response = await Provider.of<AuthProvider>(context, listen: false)
             .updateUserInfo(_editedUserData.userId, _editedUserData, userImage);
-        print("---------------------------update user Response");
         print(response);
         //print(response.body);
-        print("------------------------------------------");
         if (response.statusCode == 200 || response.statusCode == 201) {
           await showDialog(
             context: context,
@@ -281,15 +278,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
       }
     } else {
       try {
-        final checkUser =
-            await Provider.of<AuthProvider>(context, listen: false)
-                .checkUserExist(email: _userData['email']);
-        if (checkUser == "User Already Exists") {
+        final response = await Provider.of<AuthProvider>(context, listen: false)
+            .signup(context, _userData, images);
+        if (response.statusCode == 200 || response.statusCode == 201) {
           return showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
-                    title: Text('Failure'),
-                    content: Text("User with this email already exists"),
+                    title: Text('Success'),
+                    content: Text("User was registered successfully"),
                     actions: <Widget>[
                       FlatButton(
                         child: Text('Okay'),
@@ -302,61 +298,38 @@ class _AddUserScreenState extends State<AddUserScreen> {
             (value) => Navigator.of(context)
                 .pushReplacementNamed(PrincipalOverViewScreen.routeName),
           );
-        } else if (checkUser == "User Does Not Exist") {
-          final response =
-              await Provider.of<AuthProvider>(context, listen: false)
-                  .signup(context, _userData, images);
-          if (response.statusCode == 200 || response.statusCode == 201) {
-            return showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                      title: Text('Success'),
-                      content: Text("User was registered successfully"),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Okay'),
-                          onPressed: () {
-                            Navigator.of(ctx).pop();
-                          },
-                        )
-                      ],
-                    )).then(
-              (value) => Navigator.of(context)
-                  .pushReplacementNamed(PrincipalOverViewScreen.routeName),
-            );
-          } else if (response.statusCode >= 300 && response.statusCode < 400 ||
-              response.statusCode == 500) {
-            showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                      title: Text('An error Occured'),
-                      content: Text("User registration failed!"),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Okay'),
-                          onPressed: () {
-                            Navigator.of(ctx).pop();
-                          },
-                        )
-                      ],
-                    ));
-          } else if (response.statusCode >= 400 && response.statusCode < 500) {
-            showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                      title: Text('An Error Occurred!'),
-                      content:
-                          Text("Provide Valid User Credentials and try again!"),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Okay'),
-                          onPressed: () {
-                            Navigator.of(ctx).pop();
-                          },
-                        )
-                      ],
-                    ));
-          }
+        } else if (response.statusCode >= 300 && response.statusCode < 400 ||
+            response.statusCode == 500) {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text('An error Occured'),
+                    content: Text("User registration failed!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  ));
+        } else if (response.statusCode >= 400 && response.statusCode < 500) {
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text('An Error Occurred!'),
+                    content:
+                        Text("Provide Valid User Credentials and try again!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      )
+                    ],
+                  ));
         }
       } catch (error) {
         print(error);

@@ -12,8 +12,7 @@ class UserBookProvider with ChangeNotifier {
     return [..._userBooks];
   }
 
-  Future<https.Response> addUserBook(
-      Auth _currentUser, Book _selectedBook) async {
+  Future<https.Response> addUserBook(_currentUser, _selectedBook) async {
     final resUrl = "http://192.168.0.20:8000/api/userbook";
     var url = Uri.parse(resUrl);
     https.Response userBook;

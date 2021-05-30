@@ -73,6 +73,14 @@ class BookProvider with ChangeNotifier {
     }
   }
 
+  Future<https.Response> deleteBookByID(String bookId) async {
+    final resUrl = "http://192.168.0.20:8000/api/deletebook/$bookId/";
+    var url = Uri.parse(resUrl);
+    https.Response response = await https.delete(url);
+
+    return response;
+  }
+
   //get search book list
   List<Book> getSearchBook(String query) {
     if (query.isNotEmpty && query != null) {

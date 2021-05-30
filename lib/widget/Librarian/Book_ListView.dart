@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/provider/book_provider.dart';
+import 'package:school_management/screens/Librarian/ManageBook_Screen.dart';
 
 class BookListView extends StatelessWidget {
   final String bookId;
@@ -13,6 +16,8 @@ class BookListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = Scaffold.of(context);
+
     return Card(
       elevation: 3,
       child: Container(
@@ -44,6 +49,61 @@ class BookListView extends StatelessWidget {
                     Icons.delete,
                     color: Colors.orange,
                   ),
+                  onPressed: () async {
+                    try {
+                      final response = await Provider.of<BookProvider>(context,
+                              listen: false)
+                          .deleteBookByID(bookId);
+                      print("response.statusCode");
+                      print(response.statusCode);
+                      if (response.statusCode == 200 ||
+                          response.statusCode == 201 ||
+                          response.statusCode == 204) {
+                        return showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                                  title: Text('Success'),
+                                  content:
+                                      Text("Book was deleted successfully"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.of(ctx).pop();
+                                      },
+                                    )
+                                  ],
+                                )).then(
+                          (value) => Navigator.of(context)
+                              .pushReplacementNamed(ManageBookScreen.routeName),
+                        );
+                      } else {
+                        return showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                                  title: Text('Failure'),
+                                  content: Text("Book could not be removed!"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.of(ctx).pop();
+                                      },
+                                    )
+                                  ],
+                                )).then(
+                          (value) => Navigator.of(context)
+                              .pushReplacementNamed(ManageBookScreen.routeName),
+                        );
+                      }
+                    } catch (error) {
+                      scaffold.showSnackBar(
+                        SnackBar(
+                          content: Text(error.message),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),

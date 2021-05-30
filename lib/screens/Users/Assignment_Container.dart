@@ -90,7 +90,7 @@ class AssignmentContainer extends StatelessWidget {
                 height: 12,
               ),
               Container(
-                height: 160,
+                height: 250,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   border: Border.all(
