@@ -4,13 +4,14 @@ import 'package:school_management/model/auth.dart';
 import 'package:school_management/model/book.dart';
 import 'package:school_management/provider/auth_provider.dart';
 import 'package:school_management/provider/book_provider.dart';
+import 'package:school_management/provider/user_book_provider.dart';
 import 'package:school_management/screens/Student/Library_Books_Screen.dart';
 
 class BookInfoScreen extends StatefulWidget {
   static const routeName = "/book_info";
 
   Auth _currentUser;
-  Book _selectedBook;
+  String _selectedBook;
 
   @override
   _BookInfoScreenState createState() => _BookInfoScreenState();
@@ -19,8 +20,6 @@ class BookInfoScreen extends StatefulWidget {
 class _BookInfoScreenState extends State<BookInfoScreen> {
   Auth _user;
   String bookId;
-  List<Book> _books;
-  List<Book> _book = [];
   bool _isInit = false;
   bool _isLoading = false;
 
@@ -46,13 +45,9 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
       Provider.of<BookProvider>(context, listen: false)
           .setFetchedBooksData()
           .then((value) {
-        print("bookId");
-        print(bookId);
-        //_books = Provider.of<BookProvider>(context, listen: false).books;
-        //print("_books");
-        //print(_books);
-        //widget._selectedBook = _book[bookId];
-        widget._selectedBook = bookId as Book;
+        widget._selectedBook = bookId;
+        print("widget._selectedBook");
+        print(widget._selectedBook);
         setState(() {
           _isLoading = false;
         });
@@ -66,8 +61,6 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
     final id = ModalRoute.of(context).settings.arguments;
     final books = Provider.of<BookProvider>(context).findById(id);
     bookId = id;
-    print("bookId");
-    print(bookId);
 
     return Scaffold(
       body: _isLoading
@@ -368,34 +361,64 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                                         vertical: 16.0,
                                         horizontal: 32.0,
                                       ),
-                                      onPressed: () {
-                                        // String dateTime = DateTime.now().toString();
-                                        // print(dateTime);
-                                        // books1.addToBook(
-                                        //   dateTime,
-                                        //   books.bookName,
-                                        //   books.publisher,
-                                        //   books.bookImage,
-                                        //   books.userRating,
-                                        // );
-                                        // Scaffold.of(context).removeCurrentSnackBar();
-                                        // Scaffold.of(context).showSnackBar(
-                                        //   SnackBar(
-                                        //     backgroundColor:
-                                        //         Theme.of(context).primaryColor,
-                                        //     content: Text(
-                                        //       "Added to Ordered Books",
-                                        //     ),
-                                        //     duration: Duration(seconds: 3),
-                                        //     action: SnackBarAction(
-                                        //       label: "UNDO",
-                                        //       textColor: Colors.white,
-                                        //       onPressed: () {},
-                                        //     ),
-                                        //   ),
-                                        // );
+                                      onPressed: () async {
+                                        try {
+                                          final response = await Provider.of<
+                                                      UserBookProvider>(context,
+                                                  listen: false)
+                                              .addUserBook(widget._currentUser,
+                                                  widget._selectedBook);
+                                          if (response.statusCode == 200 ||
+                                              response.statusCode == 201) {
+                                            return showDialog(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                      title: Text('Success'),
+                                                      content: Text(
+                                                          "Book was ordered successfully"),
+                                                      actions: <Widget>[
+                                                        FlatButton(
+                                                          child: Text('Okay'),
+                                                          onPressed: () {
+                                                            Navigator.of(ctx)
+                                                                .pop();
+                                                          },
+                                                        )
+                                                      ],
+                                                    )).then(
+                                              (value) => Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                      LibraryBooksScreen
+                                                          .routeName),
+                                            );
+                                          } else {
+                                            return showDialog(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                      title: Text(
+                                                          'An Error Occurred!'),
+                                                      content: Text(
+                                                          "Book could not be ordered!"),
+                                                      actions: <Widget>[
+                                                        FlatButton(
+                                                          child: Text('Okay'),
+                                                          onPressed: () {
+                                                            Navigator.of(ctx)
+                                                                .pop();
+                                                          },
+                                                        )
+                                                      ],
+                                                    )).then(
+                                              (value) => Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                      LibraryBooksScreen
+                                                          .routeName),
+                                            );
+                                          }
+                                        } catch (error) {
+                                          throw (error);
+                                        }
                                       },
-                                      splashColor: Colors.lime,
                                     ),
                                   ),
                                 ],

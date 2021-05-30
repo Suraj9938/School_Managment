@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/book_provider.dart';
+import 'package:school_management/screens/Librarian/AddBook_Screen.dart';
 import 'package:school_management/screens/Librarian/ManageBook_Screen.dart';
 
 class BookListView extends StatelessWidget {
@@ -43,6 +44,10 @@ class BookListView extends StatelessWidget {
                     Icons.edit,
                     color: Colors.orange,
                   ),
+                  onPressed: () async {
+                    Navigator.pushNamed(context, AddBookScreen.routeName,
+                        arguments: bookId);
+                  },
                 ),
                 IconButton(
                   icon: Icon(

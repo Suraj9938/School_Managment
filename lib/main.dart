@@ -33,6 +33,7 @@ import 'package:school_management/screens/Principal/Manage_User_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 import 'package:school_management/screens/Principal/Principal_Profile_Screen.dart';
 import 'package:school_management/screens/Student/Library_Books_Screen.dart';
+import 'package:school_management/screens/Student/Order_Book_Screen.dart';
 import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
 import 'package:school_management/screens/Student/Student_OverViewScreen.dart';
 import 'package:school_management/screens/Teacher/Add_Assignment_Screen.dart';
@@ -134,6 +135,7 @@ class MyApp extends StatelessWidget {
           AddNewAssignment.routeName: (ctx) => AddNewAssignment(),
           ViewSchoolInfoScreen.routeName: (ctx) => ViewSchoolInfoScreen(),
           WorkInProgressScreen.routeName: (ctx) => WorkInProgressScreen(),
+          OrderBookScreen.routeName: (ctx) => OrderBookScreen(),
         },
       ),
     );

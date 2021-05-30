@@ -15,7 +15,7 @@ class BookProvider with ChangeNotifier {
     return _books.firstWhere((book) => book.bookId == id);
   }
 
-  Future<https.Response> addBook(_bookData, images) async {
+  Future<https.Response> addBook(initValues, images) async {
     final resUrl = "http://192.168.0.20:8000/api/addbook/";
     var url = Uri.parse(resUrl);
     var request = https.MultipartRequest('POST', url);
@@ -23,13 +23,13 @@ class BookProvider with ChangeNotifier {
     request.files.add(
         https.MultipartFile.fromBytes('image', images, filename: "book.png"));
 
-    request.fields['bookName'] = _bookData['bookName'];
-    request.fields['bookType'] = _bookData['bookType'];
-    request.fields['publisher'] = _bookData['publisher'];
-    request.fields['publishYear'] = _bookData['publishYear'];
-    request.fields['ratingNo'] = _bookData['ratingNo'];
-    request.fields['userRating'] = _bookData['userRating'];
-    request.fields['bookDescription'] = _bookData['bookDescription'];
+    request.fields['bookName'] = initValues['bookName'];
+    request.fields['bookType'] = initValues['bookType'];
+    request.fields['publisher'] = initValues['publisher'];
+    request.fields['publishYear'] = initValues['publishYear'];
+    request.fields['ratingNo'] = initValues['ratingNo'];
+    request.fields['userRating'] = initValues['userRating'];
+    request.fields['bookDescription'] = initValues['bookDescription'];
 
     https.Response response = await https.Response.fromStream(
       await request.send(),
@@ -69,6 +69,38 @@ class BookProvider with ChangeNotifier {
       _books = bookList;
       notifyListeners();
     } catch (error) {
+      return null;
+    }
+  }
+
+  Future<https.Response> updateBookInfo(
+      String bookId, initValues, images) async {
+    final resUrl = "http://192.168.0.20:8000/api/updatebook/$bookId/";
+    var url = Uri.parse(resUrl);
+
+    try {
+      final request = https.MultipartRequest('PATCH', url);
+      //request.
+      //if (images != null) request.fields['image'] = images.toString();
+
+      // request.files.add(
+      //     https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
+
+      request.fields['bookName'] = initValues['bookName'];
+      request.fields['bookType'] = initValues['bookType'];
+      request.fields['publisher'] = initValues['publisher'];
+      request.fields['publishYear'] = initValues['publishYear'];
+      request.fields['ratingNo'] = initValues['ratingNo'];
+      request.fields['userRating'] = initValues['userRating'];
+      request.fields['bookDescription'] = initValues['bookDescription'];
+
+      https.Response response = await https.Response.fromStream(
+        await request.send(),
+      );
+      print(response.body);
+      return response;
+    } catch (error) {
+      print(error);
       return null;
     }
   }

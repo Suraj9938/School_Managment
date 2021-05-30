@@ -64,7 +64,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> signup(
-      BuildContext context, _userData, Uint8List images) async {
+      BuildContext context, initValues, Uint8List images) async {
     final baseUrl = "http://192.168.0.20:8000/api/";
     final resUrl = baseUrl + "create/";
     var url = Uri.parse(resUrl);
@@ -82,31 +82,18 @@ class AuthProvider with ChangeNotifier {
     request.files
         .add(https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
 
-    request.fields['name'] = _userData['name'];
-    request.fields['address'] = _userData['address'];
-    request.fields['gender'] = _userData['gender'];
-    request.fields['age'] = _userData['age'];
-    request.fields['mobileNo'] = _userData['mobileNo'];
-    request.fields['email'] = _userData['email'];
-    request.fields['password'] = _userData['password'];
-    request.fields['teacher'] = _userData['isTeacher'].toString();
-    request.fields['librarian'] = _userData['isLibrarian'].toString();
-    request.fields['student'] = _userData['isStudent'].toString();
-    request.fields['parent'] = _userData['isParent'].toString();
-    request.fields['admin'] = _userData['isAdmin'].toString();
-
-    print(request.fields['name']);
-    print(request.fields['address']);
-    print(request.fields['gender']);
-    print(request.fields['age']);
-    print(request.fields['mobileNo']);
-    print(request.fields['email']);
-    print(request.fields['password']);
-    print(request.fields['teacher']);
-    print(request.fields['librarian']);
-    print(request.fields['student']);
-    print(request.fields['parent']);
-    print(request.fields['admin']);
+    request.fields['name'] = initValues['name'];
+    request.fields['address'] = initValues['address'];
+    request.fields['gender'] = initValues['gender'];
+    request.fields['age'] = initValues['age'];
+    request.fields['mobileNo'] = initValues['mobileNo'];
+    request.fields['email'] = initValues['email'];
+    request.fields['password'] = initValues['password'];
+    request.fields['teacher'] = initValues['isTeacher'].toString();
+    request.fields['librarian'] = initValues['isLibrarian'].toString();
+    request.fields['student'] = initValues['isStudent'].toString();
+    request.fields['parent'] = initValues['isParent'].toString();
+    request.fields['admin'] = initValues['isAdmin'].toString();
 
     https.Response response = await https.Response.fromStream(
       await request.send(),
@@ -176,31 +163,40 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<https.Response> updateUserInfo(
-      String id, _editedUserData, images) async {
+      String userId, initValues, images) async {
     ///final userId = _users.indexWhere((user) => user.userId == id);
-    final resUrl = "http://192.168.0.20:8000/api/updateuser/$id/";
+    final resUrl = "http://192.168.0.20:8000/api/updateuser/$userId/";
     var url = Uri.parse(resUrl);
 
     try {
-      final request = https.MultipartRequest('PUT', url);
-      /* request.files.remove(true);
-      //request
-      final a = request.files.add(
-          https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));*/
+      final request = https.MultipartRequest('PATCH', url);
       //request.
       //if (images != null) request.fields['image'] = images.toString();
-      request.fields['name'] = _editedUserData.name;
-      request.fields['address'] = _editedUserData.address;
-      request.fields['gender'] = _editedUserData.gender;
-      request.fields['age'] = _editedUserData.age;
-      request.fields['mobileNo'] = _editedUserData.mobileNo;
-      request.fields['email'] = _editedUserData.email;
-      request.fields['password'] = _editedUserData.password;
-      request.fields['teacher'] = _editedUserData.isTeacher.toString();
-      request.fields['librarian'] = _editedUserData.isLibrarian.toString();
-      request.fields['student'] = _editedUserData.isStudent.toString();
-      request.fields['parent'] = _editedUserData.isParent.toString();
-      request.fields['admin'] = _editedUserData.isAdmin.toString();
+
+      // request.files.add(
+      //     https.MultipartFile.fromBytes('image', images, filename: 'a.jpg'));
+
+      print("From Auth Provider");
+      print(initValues['name']);
+      print(initValues['address']);
+      print(initValues['gender']);
+      print(initValues['age']);
+      print(initValues['mobileNo']);
+      print(initValues['email']);
+      print(initValues['password']);
+      print(initValues['isTeacher']);
+      request.fields['name'] = initValues['name'];
+      request.fields['address'] = initValues['address'];
+      request.fields['gender'] = initValues['gender'];
+      request.fields['age'] = initValues['age'];
+      request.fields['mobileNo'] = initValues['mobileNo'];
+      request.fields['email'] = initValues['email'];
+      request.fields['password'] = initValues['password'];
+      request.fields['teacher'] = initValues['isTeacher'].toString();
+      request.fields['librarian'] = initValues['isLibrarian'].toString();
+      request.fields['student'] = initValues['isStudent'].toString();
+      request.fields['parent'] = initValues['isParent'].toString();
+      request.fields['admin'] = initValues['isAdmin'].toString();
 
       https.Response response = await https.Response.fromStream(
         await request.send(),
@@ -213,7 +209,7 @@ class AuthProvider with ChangeNotifier {
     } catch (error) {
       print("----------------------update errir");
       print(error);
-      throw error;
+      return null;
       print("-----------------------------------");
       //return null;
     }

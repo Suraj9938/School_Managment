@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/screens/Student/Order_Book_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/Auth_Screen.dart';
 import 'file:///D:/FYP/school_management/lib/screens/Users/School_Event_Screen.dart';
 import 'package:school_management/screens/Student/Student_Profile_Screen.dart';
@@ -125,7 +126,7 @@ class StudentAppDrawer extends StatelessWidget {
             title: Transform(
               transform: Matrix4.translationValues(-16, 0.0, 0.0),
               child: Text(
-                "School Info",
+                "View School Info",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
@@ -134,6 +135,30 @@ class StudentAppDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pushNamed(context, ViewSchoolInfoScreen.routeName);
+            },
+          ),
+          Divider(
+            thickness: 5,
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(
+              Icons.book,
+              size: 24,
+              color: Colors.black54,
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text(
+                "Ordered Books",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, OrderBookScreen.routeName);
             },
           ),
           Divider(

@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/model/auth.dart';
 import 'package:school_management/provider/auth_provider.dart';
+import 'package:school_management/screens/Principal/Manage_User_Screen.dart';
 import 'package:school_management/screens/Principal/Principal_OverViewScreen.dart';
 
 enum Gender { Male, Female, Others }
@@ -55,13 +56,13 @@ class _AddUserScreenState extends State<AddUserScreen> {
     'mobileNo': "",
     'age': "",
     'gender': "",
-    "address": "",
-    "image": "",
-    "isParent": "",
-    "isAdmin": "",
-    "isTeacher": "",
-    "isStudent": "",
-    "isLibrarian": "",
+    'address': "",
+    'image': "",
+    'isParent': false,
+    'isAdmin': false,
+    'isTeacher': false,
+    'isStudent': false,
+    'isLibrarian': false,
   };
 
   Gender _gender = Gender.Male;
@@ -92,7 +93,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     setState(() {
       _gender = value;
       var gender = _gender;
-      _userData['gender'] = gender == Gender.Male
+      initValues['gender'] = gender == Gender.Male
           ? "Male"
           : gender == Gender.Female
               ? "Female"
@@ -137,43 +138,43 @@ class _AddUserScreenState extends State<AddUserScreen> {
 
       if (user == UserType.Librarian) {
         setState(() {
-          _userData['isLibrarian'] = true;
-          _userData['isTeacher'] = false;
-          _userData['isStudent'] = false;
-          _userData['isParent'] = false;
-          _userData['isAdmin'] = false;
+          initValues['isLibrarian'] = true;
+          initValues['isTeacher'] = false;
+          initValues['isStudent'] = false;
+          initValues['isParent'] = false;
+          initValues['isAdmin'] = false;
         });
       } else if (user == UserType.Teacher) {
         setState(() {
-          _userData['isTeacher'] = true;
-          _userData['isLibrarian'] = false;
-          _userData['isStudent'] = false;
-          _userData['isParent'] = false;
-          _userData['isAdmin'] = false;
+          initValues['isTeacher'] = true;
+          initValues['isLibrarian'] = false;
+          initValues['isStudent'] = false;
+          initValues['isParent'] = false;
+          initValues['isAdmin'] = false;
         });
       } else if (user == UserType.Student) {
         setState(() {
-          _userData['isStudent'] = true;
-          _userData['isTeacher'] = false;
-          _userData['isLibrarian'] = false;
-          _userData['isParent'] = false;
-          _userData['isAdmin'] = false;
+          initValues['isStudent'] = true;
+          initValues['isTeacher'] = false;
+          initValues['isLibrarian'] = false;
+          initValues['isParent'] = false;
+          initValues['isAdmin'] = false;
         });
       } else if (user == UserType.Parent) {
         setState(() {
-          _userData['isParent'] = true;
-          _userData['isStudent'] = false;
-          _userData['isTeacher'] = false;
-          _userData['isLibrarian'] = false;
-          _userData['isAdmin'] = false;
+          initValues['isParent'] = true;
+          initValues['isStudent'] = false;
+          initValues['isTeacher'] = false;
+          initValues['isLibrarian'] = false;
+          initValues['isAdmin'] = false;
         });
       } else if (user == UserType.Admin) {
         setState(() {
-          _userData['isParent'] = false;
-          _userData['isStudent'] = false;
-          _userData['isTeacher'] = false;
-          _userData['isLibrarian'] = false;
-          _userData['isAdmin'] = true;
+          initValues['isParent'] = false;
+          initValues['isStudent'] = false;
+          initValues['isTeacher'] = false;
+          initValues['isLibrarian'] = false;
+          initValues['isAdmin'] = true;
         });
       }
     });
@@ -223,11 +224,12 @@ class _AddUserScreenState extends State<AddUserScreen> {
     if (_editedUserData.userId != null) {
       try {
         final response = await Provider.of<AuthProvider>(context, listen: false)
-            .updateUserInfo(_editedUserData.userId, _editedUserData, userImage);
-        print(response);
+            .updateUserInfo(_editedUserData.userId, initValues, userImage);
+        print("response.statusCode from add user");
+        print(response.statusCode);
         //print(response.body);
         if (response.statusCode == 200 || response.statusCode == 201) {
-          await showDialog(
+          return showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
               title: Text("Success"),
@@ -241,9 +243,12 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 ),
               ],
             ),
+          ).then(
+            (value) =>
+                Navigator.of(context).pushNamed(ManageUserScreen.routeName),
           );
         } else {
-          await showDialog(
+          return showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
               title: Text("Failure"),
@@ -257,10 +262,13 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 ),
               ],
             ),
+          ).then(
+            (value) =>
+                Navigator.of(context).pushNamed(ManageUserScreen.routeName),
           );
         }
       } catch (error) {
-        await showDialog(
+        return showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
                   title: Text('Error Occurred'),
@@ -274,7 +282,10 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       },
                     )
                   ],
-                ));
+                )).then(
+          (value) =>
+              Navigator.of(context).pushNamed(ManageUserScreen.routeName),
+        );
       }
     } else {
       try {
@@ -300,7 +311,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
           );
         } else if (response.statusCode >= 300 && response.statusCode < 400 ||
             response.statusCode == 500) {
-          showDialog(
+          return showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
                     title: Text('An error Occured'),
@@ -313,9 +324,12 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                       )
                     ],
-                  ));
+                  )).then(
+            (value) => Navigator.of(context)
+                .pushNamed(PrincipalOverViewScreen.routeName),
+          );
         } else if (response.statusCode >= 400 && response.statusCode < 500) {
-          showDialog(
+          return showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
                     title: Text('An Error Occurred!'),
@@ -329,7 +343,10 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                       )
                     ],
-                  ));
+                  )).then(
+            (value) => Navigator.of(context)
+                .pushNamed(PrincipalOverViewScreen.routeName),
+          );
         }
       } catch (error) {
         print(error);
@@ -470,7 +487,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                     return null;
                                   },
                                   onChanged: (value) =>
-                                      _userData['name'] = value,
+                                      initValues['name'] = value,
                                 ),
                               ),
                               SizedBox(
@@ -509,7 +526,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                     return null;
                                   },
                                   onChanged: (value) =>
-                                      _userData['address'] = value,
+                                      initValues['address'] = value,
                                 ),
                               ),
                             ],
@@ -746,7 +763,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                 }
                                 return null;
                               },
-                              onChanged: (value) => _userData['age'] = value,
+                              onChanged: (value) => initValues['age'] = value,
                             ),
                           ),
                           Container(
@@ -784,7 +801,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                 return null;
                               },
                               onChanged: (value) =>
-                                  _userData['mobileNo'] = value,
+                                  initValues['mobileNo'] = value,
                             ),
                           ),
                         ],
@@ -850,7 +867,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               }
                               return null;
                             },
-                            onChanged: (value) => _userData['email'] = value,
+                            onChanged: (value) => initValues['email'] = value,
                           ),
                         ),
                         SizedBox(
@@ -887,7 +904,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               }
                               return null;
                             },
-                            onChanged: (value) => _userData['password'] = value,
+                            onChanged: (value) =>
+                                initValues['password'] = value,
                           ),
                         ),
                         SizedBox(
